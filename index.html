@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Näöntutkimus – Urheilijanäkö</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F6F5F3;
+      --surface: #FFFFFF;
+      --text: #1A1A1A;
+      --text-dim: #8A8A86;
+      --accent: #1B4D8F;
+      --accent-hover: #143A6D;
+      --correct: #22A867;
+      --wrong: #E03C3C;
+      --border: #E0DED9;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+      --bar-red: #e20000;
+      --bar-green: #009d00;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      position: fixed; inset: 0;
+      display: grid; place-items: center;
+      padding: 24px;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow-y: auto;
+    }
+    .screen.hidden {
+      opacity: 0; pointer-events: none; transform: scale(0.97);
+    }
+
+    /* ─── Cards ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px 48px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: var(--shadow);
+    }
+    .card h1 {
+      font-family: 'DM Mono', monospace;
+      font-size: 21px; font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .card .subtitle {
+      font-size: 13.5px; color: var(--text-dim);
+      line-height: 1.65; margin-bottom: 28px;
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.01em; margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%; padding: 11px 14px;
+      font-family: 'DM Mono', monospace; font-size: 15px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      background: var(--bg); color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8A86' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    .field input:focus, .field select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(27,77,143,0.1);
+    }
+    .field .hint { font-size: 11.5px; color: var(--text-dim); margin-top: 5px; }
+
+    .btn-primary {
+      display: block; width: 100%;
+      padding: 13px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 600;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 12px;
+      cursor: pointer; margin-top: 10px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:active { transform: scale(0.985); }
+
+    .btn-secondary {
+      display: inline-block; padding: 12px 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      cursor: pointer; transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-secondary:hover { background: var(--bg); border-color: var(--accent); }
+
+    .cal-error { color: var(--wrong); font-size: 12.5px; margin-top: 10px; min-height: 18px; }
+
+    /* ─── Progress bar ─── */
+    .progress-wrap {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 4px; background: var(--border); z-index: 100;
+    }
+    .progress-fill {
+      height: 100%; background: var(--accent);
+      transition: width 0.4s ease; width: 0%;
+    }
+
+    /* ─── Step indicator ─── */
+    .step-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--accent); background: rgba(27,77,143,0.08);
+      padding: 4px 10px; border-radius: 6px;
+      margin-bottom: 14px; letter-spacing: 0.04em;
+    }
+
+    /* ─── Test screen (Landolt) ─── */
+    #testScreen { flex-direction: column; gap: 0; background: #fff; }
+    .optotype-area {
+      flex: 1; display: grid; place-items: center;
+      width: 100%; position: relative;
+    }
+    .optotype-container {
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .optotype-container.flash-correct { filter: drop-shadow(0 0 24px rgba(34,168,103,0.45)); }
+    .optotype-container.flash-wrong { filter: drop-shadow(0 0 24px rgba(224,60,60,0.45)); }
+    .optotype-container.entering { opacity: 0; transform: scale(0.92); }
+
+    .controls-bar {
+      width: 100%; padding: 20px 24px 28px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .arrow-btn {
+      width: 64px; height: 64px; border-radius: 16px;
+      border: 1.5px solid var(--border); background: var(--surface);
+      cursor: pointer; display: grid; place-items: center;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .arrow-btn:hover { border-color: var(--accent); background: #EDF2FA; }
+    .arrow-btn:active { transform: scale(0.93); }
+    .arrow-btn svg {
+      width: 22px; height: 22px; stroke: var(--text);
+      stroke-width: 2.5; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .cant-see-btn {
+      margin-left: 20px; padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: var(--text-dim); background: transparent;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .cant-see-btn:hover { background: #FEF0F0; border-color: var(--wrong); color: var(--wrong); }
+
+    .eye-label {
+      position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
+      color: var(--accent); background: rgba(27,77,143,0.08);
+      padding: 6px 18px; border-radius: 8px; z-index: 20;
+    }
+
+    .key-hint {
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+      font-size: 11px; color: var(--text-dim);
+      letter-spacing: 0.03em; opacity: 0.6; pointer-events: none;
+    }
+
+    /* ─── Fixation disparity screen ─── */
+    .fd-stage {
+      width: 100%; min-height: 60vh;
+      display: grid; place-items: center;
+      background: #fff; border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .fd-svg { user-select: none; -webkit-user-drag: none; }
+
+    .fd-question-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 40px;
+      max-width: 600px; width: 100%;
+      box-shadow: var(--shadow);
+    }
+    .fd-question-card h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 18px; font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .fd-question-card p {
+      font-size: 14px; color: var(--text-dim);
+      line-height: 1.6; margin-bottom: 20px;
+    }
+
+    .option-btn {
+      display: block; width: 100%;
+      padding: 14px 18px; margin-bottom: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500;
+      text-align: left;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .option-btn:hover {
+      border-color: var(--accent); background: #EDF2FA;
+    }
+    .option-btn:active { transform: scale(0.985); }
+
+    /* ─── Questions screen ─── */
+    .q-btn-row { display: flex; gap: 10px; margin-top: 8px; }
+    .q-btn {
+      flex: 1; padding: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .q-btn:hover { border-color: var(--accent); background: #EDF2FA; }
+    .q-btn:active { transform: scale(0.985); }
+
+    /* ─── Result ─── */
+    .result-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 44px 48px;
+      max-width: 560px; width: 100%;
+      box-shadow: var(--shadow);
+    }
+    .result-card h1 {
+      font-family: 'DM Mono', monospace;
+      font-size: 21px; font-weight: 500;
+      margin-bottom: 20px;
+    }
+    .result-section {
+      margin-bottom: 20px; padding: 16px 20px;
+      background: var(--bg); border-radius: 12px;
+    }
+    .result-section h3 {
+      font-size: 13px; font-weight: 600;
+      color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .result-section p {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px; line-height: 1.7;
+    }
+    .recommendation {
+      padding: 18px 22px; border-radius: 14px;
+      margin-top: 24px; font-size: 14px; line-height: 1.65;
+    }
+    .recommendation.warn {
+      background: #FFF5EB; border: 1.5px solid #F0B060;
+      color: #8B5E1A;
+    }
+    .recommendation.ok {
+      background: #EEFBF3; border: 1.5px solid #6DD09A;
+      color: #1A6B3E;
+    }
+    .recommendation strong { display: block; margin-bottom: 4px; }
+
+    .saving-status {
+      font-size: 12px; color: var(--text-dim);
+      margin-top: 14px; text-align: center;
+      font-family: 'DM Mono', monospace;
+    }
+
+    @media (max-width: 600px) {
+      .card, .fd-question-card, .result-card { padding: 28px 22px; }
+      .arrow-btn { width: 54px; height: 54px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- ═══ 1. Calibration ═══ -->
+  <div class="screen" id="calScreen">
+    <div class="card">
+      <div class="step-tag">VAIHE 0 / 5</div>
+      <h1>◔ Näöntutkimus</h1>
+      <p class="subtitle">Urheilijanäön tutkimusohjelma. Syötä ensin kalibrointitiedot, sen jälkeen ohjelma ohjaa sinut testien läpi.</p>
+      <div class="field">
+        <label for="pxPerMmInput">px / mm</label>
+        <input id="pxPerMmInput" type="number" step="any" min="0.1" placeholder="esim. 3.7795" />
+        <div class="hint">Näytön mittakalibroinnin antama arvo</div>
+      </div>
+      <div class="field">
+        <label for="distanceInput">Tutkimusetäisyys (m)</label>
+        <input id="distanceInput" type="number" step="any" min="0.1" placeholder="esim. 4" />
+        <div class="hint">Tyypillisesti 4 tai 6 metriä</div>
+      </div>
+      <button class="btn-primary" id="startBtn">Jatka →</button>
+      <div class="cal-error" id="calError"></div>
+    </div>
+  </div>
+
+  <!-- ═══ 2. Basic info ═══ -->
+  <div class="screen hidden" id="infoScreen">
+    <div class="card">
+      <div class="step-tag">VAIHE 1 / 5</div>
+      <h1>Perustiedot</h1>
+      <p class="subtitle">Nämä tiedot tallennetaan tutkimustulosten yhteyteen.</p>
+      <div class="field">
+        <label for="genderSelect">Sukupuoli</label>
+        <select id="genderSelect">
+          <option value="" disabled selected>Valitse</option>
+          <option value="Nainen">Nainen</option>
+          <option value="Mies">Mies</option>
+          <option value="En halua vastata">En halua vastata</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ageInput">Ikä</label>
+        <input id="ageInput" type="number" min="5" max="120" step="1" placeholder="esim. 28" />
+      </div>
+      <button class="btn-primary" id="infoNextBtn">Jatka visustestiin →</button>
+      <div class="cal-error" id="infoError"></div>
+    </div>
+  </div>
+
+  <!-- ═══ 3. Instruction before Landolt ═══ -->
+  <div class="screen hidden" id="instructScreen">
+    <div class="card">
+      <div class="step-tag" id="eyeStepTag">VAIHE 2 / 5</div>
+      <h1 id="instructTitle">Visustesti – oikea silmä</h1>
+      <p class="subtitle" id="instructText">Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä (tai painikkeilla) mihin suuntaan renkaan aukko osoittaa. Paina välilyöntiä tai "En näe" -painiketta, jos et erota aukkoa.</p>
+      <button class="btn-primary" id="instructStartBtn">Aloita</button>
+    </div>
+  </div>
+
+  <!-- ═══ 4. Landolt test ═══ -->
+  <div class="screen hidden" id="testScreen">
+    <div class="eye-label" id="eyeLabel">Oikea silmä</div>
+    <div class="optotype-area">
+      <div class="optotype-container" id="optotypeContainer"></div>
+    </div>
+    <div class="controls-bar">
+      <button class="arrow-btn" data-dir="left" title="Vasen (←)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="arrow-btn" data-dir="up" title="Ylös (↑)">
+        <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
+      <button class="arrow-btn" data-dir="down" title="Alas (↓)">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="arrow-btn" data-dir="right" title="Oikea (→)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="cant-see-btn" id="cantSeeBtn" title="Välilyönti">En näe</button>
+    </div>
+    <div class="key-hint">Käytä nuolinäppäimiä tai välilyöntiä</div>
+  </div>
+
+  <!-- ═══ 5. Fixation disparity instruction ═══ -->
+  <div class="screen hidden" id="fdInstructScreen">
+    <div class="card">
+      <div class="step-tag">VAIHE 3 / 5</div>
+      <h1>Fiksaatiodisparaatiotesti</h1>
+      <p class="subtitle">Aseta puna-vihersuodattimet silmiesi eteen (punainen oikean silmän eteen, vihreä vasemman). Katsele testiympyrää keskeltä ja tarkkaile punaista ja vihreää palkkia. Vastaa näkemäsi mukaan.</p>
+      <button class="btn-primary" id="fdInstructStartBtn">Aloita →</button>
+    </div>
+  </div>
+
+  <!-- ═══ 6. Fixation disparity – vertical bars (horiz. disparity) ═══ -->
+  <div class="screen hidden" id="fdVertScreen">
+    <div class="fd-question-card">
+      <div class="step-tag">VAIHE 3 / 5 – Pystypalkit</div>
+      <h2>Pystypalkit</h2>
+      <p>Katso testiympyrän keskelle. Punainen ja vihreä pystypalkki — ovatko ne samalla pystylinjalla? Tarkkaile hetki ja vastaa.</p>
+      <div class="fd-stage" id="fdVertStage"></div>
+      <button class="option-btn" data-fd-v="ok">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
+      <button class="option-btn" data-fd-v="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
+      <button class="option-btn" data-fd-v="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
+      <button class="option-btn" data-fd-v="disappear">Jompikumpi palkki katoaa välillä</button>
+    </div>
+  </div>
+
+  <!-- ═══ 7. Fixation disparity – horizontal bars (vert. disparity) ═══ -->
+  <div class="screen hidden" id="fdHorizScreen">
+    <div class="fd-question-card">
+      <div class="step-tag">VAIHE 3 / 5 – Vaakapalkit</div>
+      <h2>Vaakapalkit</h2>
+      <p>Katso testiympyrän keskelle. Punainen ja vihreä vaakapalkki — pysyvätkö ne samalla korkeudella? Tarkkaile hetki ja vastaa.</p>
+      <div class="fd-stage" id="fdHorizStage"></div>
+      <button class="option-btn" data-fd-h="ok">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
+      <button class="option-btn" data-fd-h="shift">Palkit eivät ole samalla korkeudella</button>
+      <button class="option-btn" data-fd-h="move">Palkit heiluvat korkeussuunnassa</button>
+      <button class="option-btn" data-fd-h="disappear">Jompikumpi palkki katoaa välillä</button>
+    </div>
+  </div>
+
+  <!-- ═══ 8. Questionnaire ═══ -->
+  <div class="screen hidden" id="questionScreen">
+    <div class="card" id="questionCard">
+      <!-- filled dynamically -->
+    </div>
+  </div>
+
+  <!-- ═══ 9. Result ═══ -->
+  <div class="screen hidden" id="resultScreen">
+    <div class="result-card" id="resultCard">
+      <!-- filled dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════════════════
+    //  CONFIG
+    // ════════════════════════════════════════════════════════════
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+
+    const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
+    const REQUIRED_CORRECT = 3;
+    const MAX_ERRORS = 2;
+    const DIRECTIONS = ['right', 'up', 'left', 'down'];
+    const ROTATIONS = { right: 0, down: 90, left: 180, up: 270 };
+    const TAN_1_ARCMIN = Math.tan(Math.PI / 10800);
+
+    const MALLET_DIAMETER_MM = 108;
+    const REFERENCE_DISTANCE_M = 5.75;
+
+    // ════════════════════════════════════════════════════════════
+    //  STATE
+    // ════════════════════════════════════════════════════════════
+    let pxPerMm = 0, distanceM = 0;
+    let gender = '', age = 0;
+
+    // Landolt state
+    let currentLevelIdx = 0, correctCount = 0, errorCount = 0;
+    let currentDirection = '', lastDirection = '';
+    let uidCounter = 0, inputLocked = false, levelLog = [];
+    let currentEye = 'right'; // 'right' first, then 'left'
+    let visusRight = null, visusLeft = null;
+
+    // FD state
+    let fdVertResult = '', fdHorizResult = '';
+
+    // Questions
+    const questions = [
+      { id: 'headache', text: 'Särkeekö sinulla päätä vähintään kerran viikossa?' },
+      { id: 'eyeFatigue', text: 'Väsyvätkö silmäsi helposti?' },
+      { id: 'sportError', text: 'Tapahtuuko urheilusuorituksessa joskus niin, että muistellessasi virheellistä suoritusta teit mielestäsi kaikki oikein ja silti suoritus epäonnistui?' }
+    ];
+    let questionAnswers = {};
+    let currentQuestionIdx = 0;
+
+    // ════════════════════════════════════════════════════════════
+    //  DOM
+    // ════════════════════════════════════════════════════════════
+    const $ = id => document.getElementById(id);
+    const screens = ['calScreen','infoScreen','instructScreen','testScreen',
+                     'fdInstructScreen','fdVertScreen','fdHorizScreen',
+                     'questionScreen','resultScreen'];
+
+    function showScreen(id) {
+      screens.forEach(s => $(s).classList.add('hidden'));
+      $(id).classList.remove('hidden');
+      $(id).scrollTop = 0;
+      window.scrollTo(0, 0);
+    }
+
+    function setProgress(pct) {
+      $('progressFill').style.width = pct + '%';
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  CALIBRATION
+    // ════════════════════════════════════════════════════════════
+    $('startBtn').addEventListener('click', () => {
+      const px = parseFloat($('pxPerMmInput').value);
+      const dist = parseFloat($('distanceInput').value);
+      if (!px || px <= 0) { $('calError').textContent = 'Syötä kelvollinen px/mm-arvo.'; return; }
+      if (!dist || dist <= 0) { $('calError').textContent = 'Syötä kelvollinen etäisyys.'; return; }
+      $('calError').textContent = '';
+      pxPerMm = px; distanceM = dist;
+      setProgress(5);
+      showScreen('infoScreen');
+    });
+
+    // ════════════════════════════════════════════════════════════
+    //  BASIC INFO
+    // ════════════════════════════════════════════════════════════
+    $('infoNextBtn').addEventListener('click', () => {
+      gender = $('genderSelect').value;
+      const a = parseInt($('ageInput').value);
+      if (!gender) { $('infoError').textContent = 'Valitse sukupuoli.'; return; }
+      if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä kelvollinen ikä.'; return; }
+      $('infoError').textContent = '';
+      age = a;
+      setProgress(10);
+      prepareEyeTest('right');
+    });
+
+    // ════════════════════════════════════════════════════════════
+    //  LANDOLT C  HELPERS
+    // ════════════════════════════════════════════════════════════
+    function optotypeDiameterMm(visus, distanceMm) {
+      return 5 * TAN_1_ARCMIN * distanceMm / visus;
+    }
+
+    function createLandoltSVG(direction, sizePx, uid) {
+      const rot = ROTATIONS[direction];
+      const clipId = `c${uid}`;
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', sizePx);
+      svg.setAttribute('height', sizePx);
+      svg.setAttribute('viewBox', '0 0 120 120');
+      svg.innerHTML = `
+        <defs><clipPath id="${clipId}">
+          <path d="M0,0 H120 V50 H60 V70 H120 V120 H0 Z"/>
+        </clipPath></defs>
+        <g transform="rotate(${rot} 60 60)">
+          <circle cx="60" cy="60" r="40" fill="none" stroke="#1A1A1A" stroke-width="20" clip-path="url(#${clipId})"/>
+        </g>`;
+      return svg;
+    }
+
+    function randomDirection() {
+      const pool = DIRECTIONS.filter(d => d !== lastDirection);
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      lastDirection = pick;
+      return pick;
+    }
+
+    function showOptotype() {
+      const visus = VISUS_LEVELS[currentLevelIdx];
+      const distanceMm = distanceM * 1000;
+      const diamMm = optotypeDiameterMm(visus, distanceMm);
+      const diamPx = diamMm * pxPerMm;
+      currentDirection = randomDirection();
+      const svg = createLandoltSVG(currentDirection, diamPx, uidCounter++);
+      const oc = $('optotypeContainer');
+      oc.innerHTML = '';
+      oc.classList.add('entering');
+      oc.appendChild(svg);
+      requestAnimationFrame(() => requestAnimationFrame(() => oc.classList.remove('entering')));
+    }
+
+    function processAnswer(answer) {
+      if (inputLocked) return;
+      inputLocked = true;
+      const isCorrect = answer === currentDirection;
+      const flashClass = isCorrect ? 'flash-correct' : 'flash-wrong';
+      const oc = $('optotypeContainer');
+      oc.classList.add(flashClass);
+      if (isCorrect) correctCount++; else errorCount++;
+
+      setTimeout(() => {
+        oc.classList.remove(flashClass);
+        if (correctCount >= REQUIRED_CORRECT) {
+          levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: true, correct: correctCount, errors: errorCount });
+          if (currentLevelIdx >= VISUS_LEVELS.length - 1) { finishEyeTest(VISUS_LEVELS[currentLevelIdx]); return; }
+          currentLevelIdx++; correctCount = 0; errorCount = 0;
+          showOptotype(); inputLocked = false; return;
+        }
+        if (errorCount >= MAX_ERRORS) {
+          levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: false, correct: correctCount, errors: errorCount });
+          finishEyeTest(currentLevelIdx === 0 ? null : VISUS_LEVELS[currentLevelIdx - 1]);
+          return;
+        }
+        showOptotype(); inputLocked = false;
+      }, 350);
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  EYE TEST FLOW
+    // ════════════════════════════════════════════════════════════
+    function prepareEyeTest(eye) {
+      currentEye = eye;
+      if (eye === 'right') {
+        $('eyeStepTag').textContent = 'VAIHE 2 / 5';
+        $('instructTitle').textContent = 'Visustesti – oikea silmä';
+        $('instructText').textContent = 'Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä mihin suuntaan renkaan aukko osoittaa.';
+      } else {
+        $('eyeStepTag').textContent = 'VAIHE 2 / 5';
+        $('instructTitle').textContent = 'Visustesti – vasen silmä';
+        $('instructText').textContent = 'Peitä nyt oikea silmäsi. Katsele renkaita vasemmalla silmällä ja vastaa samalla tavalla.';
+      }
+      showScreen('instructScreen');
+    }
+
+    $('instructStartBtn').addEventListener('click', () => {
+      currentLevelIdx = 0; correctCount = 0; errorCount = 0;
+      uidCounter = 0; inputLocked = false; levelLog = []; lastDirection = '';
+      $('eyeLabel').textContent = currentEye === 'right' ? 'Oikea silmä' : 'Vasen silmä';
+      showScreen('testScreen');
+      showOptotype();
+    });
+
+    function finishEyeTest(visus) {
+      if (currentEye === 'right') {
+        visusRight = visus;
+        setProgress(30);
+        prepareEyeTest('left');
+      } else {
+        visusLeft = visus;
+        setProgress(50);
+        showScreen('fdInstructScreen');
+      }
+    }
+
+    // Landolt controls
+    document.querySelectorAll('.arrow-btn').forEach(btn => {
+      btn.addEventListener('click', () => processAnswer(btn.dataset.dir));
+    });
+    $('cantSeeBtn').addEventListener('click', () => processAnswer('__cant_see__'));
+
+    document.addEventListener('keydown', e => {
+      if ($('testScreen').classList.contains('hidden')) return;
+      const map = { ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down' };
+      if (map[e.key]) { e.preventDefault(); processAnswer(map[e.key]); }
+      else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); processAnswer('__cant_see__'); }
+    });
+
+    // ════════════════════════════════════════════════════════════
+    //  FIXATION DISPARITY SVGs
+    // ════════════════════════════════════════════════════════════
+    function malletDiameterMm(dist) {
+      return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M);
+    }
+
+    function buildMalletSVG(rotation) {
+      const malletPhysMm = malletDiameterMm(distanceM);
+      const malletPhysPx = malletPhysMm * pxPerMm;
+      const svgSizePx = malletPhysPx * (512 / 480);
+
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', svgSizePx);
+      svg.setAttribute('height', svgSizePx);
+      svg.setAttribute('viewBox', '0 0 512 512');
+      svg.classList.add('fd-svg');
+      svg.innerHTML = `
+        <g transform="rotate(${rotation}, 256, 256)">
+          <circle cx="256" cy="256" r="240" fill="#000000"/>
+          <rect x="210" y="33" width="92" height="446" fill="#ffffff"/>
+          <rect x="250.5" y="224" width="11" height="64" fill="#000000"/>
+          <rect x="224" y="250.5" width="64" height="11" fill="#000000"/>
+          <rect x="228" y="100.5" width="56" height="56" fill="#000000"/>
+          <rect x="239" y="111.5" width="34" height="34" fill="#ffffff"/>
+          <rect x="228" y="355.5" width="56" height="56" fill="#000000"/>
+          <rect x="239" y="366.5" width="34" height="34" fill="#ffffff"/>
+          <g><rect x="42" y="237" width="152" height="38" fill="${getComputedStyle(document.documentElement).getPropertyValue('--bar-green').trim() || '#009d00'}"/></g>
+          <g><rect x="318" y="237" width="152" height="38" fill="${getComputedStyle(document.documentElement).getPropertyValue('--bar-red').trim() || '#e20000'}"/></g>
+        </g>`;
+      return svg;
+    }
+
+    $('fdInstructStartBtn').addEventListener('click', () => {
+      // Build vertical bars view (rotation -90 → bars appear vertical)
+      $('fdVertStage').innerHTML = '';
+      $('fdVertStage').appendChild(buildMalletSVG(-90));
+      setProgress(55);
+      showScreen('fdVertScreen');
+    });
+
+    // FD vertical bar answers
+    document.querySelectorAll('[data-fd-v]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        fdVertResult = btn.dataset.fdV;
+        // Build horizontal bars view (rotation 0 → bars appear horizontal)
+        $('fdHorizStage').innerHTML = '';
+        $('fdHorizStage').appendChild(buildMalletSVG(0));
+        setProgress(65);
+        showScreen('fdHorizScreen');
+      });
+    });
+
+    // FD horizontal bar answers
+    document.querySelectorAll('[data-fd-h]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        fdHorizResult = btn.dataset.fdH;
+        setProgress(75);
+        startQuestions();
+      });
+    });
+
+    // ════════════════════════════════════════════════════════════
+    //  QUESTIONNAIRE
+    // ════════════════════════════════════════════════════════════
+    function startQuestions() {
+      currentQuestionIdx = 0;
+      questionAnswers = {};
+      renderQuestion();
+      showScreen('questionScreen');
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIdx];
+      const num = currentQuestionIdx + 1;
+      $('questionCard').innerHTML = `
+        <div class="step-tag">VAIHE 4 / 5 – Kysymys ${num}/${questions.length}</div>
+        <h1>Kysely</h1>
+        <p class="subtitle" style="margin-bottom:24px;">${q.text}</p>
+        <div class="q-btn-row">
+          <button class="q-btn" id="qYes">Kyllä</button>
+          <button class="q-btn" id="qNo">Ei</button>
+        </div>
+      `;
+      $('qYes').addEventListener('click', () => answerQuestion('Kyllä'));
+      $('qNo').addEventListener('click', () => answerQuestion('Ei'));
+    }
+
+    function answerQuestion(answer) {
+      questionAnswers[questions[currentQuestionIdx].id] = answer;
+      currentQuestionIdx++;
+      if (currentQuestionIdx < questions.length) {
+        setProgress(75 + (currentQuestionIdx / questions.length) * 15);
+        renderQuestion();
+      } else {
+        setProgress(92);
+        finishAll();
+      }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  FINISH & RESULT
+    // ════════════════════════════════════════════════════════════
+    function fdLabel(code) {
+      const map = {
+        ok: 'OK – palkit linjassa, ei liikettä eikä katoamista',
+        shift: 'Palkit eivät olleet samassa linjassa',
+        move: 'Palkit heiluivat / liikkuivat',
+        disappear: 'Palkki katosi välillä näkyvistä'
+      };
+      return map[code] || code;
+    }
+
+    function visusLabel(v) {
+      return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, '');
+    }
+
+    function shouldRecommend() {
+      // Visus ≤ 0.8 in either eye
+      if (visusRight !== null && visusRight <= 0.8) return true;
+      if (visusRight === null) return true;
+      if (visusLeft !== null && visusLeft <= 0.8) return true;
+      if (visusLeft === null) return true;
+      // FD issues
+      if (fdVertResult !== 'ok') return true;
+      if (fdHorizResult !== 'ok') return true;
+      // Any yes answer
+      if (Object.values(questionAnswers).some(a => a === 'Kyllä')) return true;
+      return false;
+    }
+
+    function finishAll() {
+      const recommend = shouldRecommend();
+
+      let html = `
+        <h1>Tulokset</h1>
+        <div class="result-section">
+          <h3>Perustiedot</h3>
+          <p>${gender}, ${age} v.</p>
+        </div>
+        <div class="result-section">
+          <h3>Näöntarkkuus</h3>
+          <p>Oikea silmä: ${visusLabel(visusRight)}<br>Vasen silmä: ${visusLabel(visusLeft)}</p>
+        </div>
+        <div class="result-section">
+          <h3>Fiksaatiodisparaatio – pystypalkit</h3>
+          <p>${fdLabel(fdVertResult)}</p>
+        </div>
+        <div class="result-section">
+          <h3>Fiksaatiodisparaatio – vaakapalkit</h3>
+          <p>${fdLabel(fdHorizResult)}</p>
+        </div>
+        <div class="result-section">
+          <h3>Kysely</h3>
+          <p>Päänsärky viikoittain: ${questionAnswers.headache}<br>
+             Silmien väsyminen: ${questionAnswers.eyeFatigue}<br>
+             Urheilusuorituksen ongelma: ${questionAnswers.sportError}</p>
+        </div>
+      `;
+
+      if (recommend) {
+        html += `
+          <div class="recommendation warn">
+            <strong>Suositus</strong>
+            Tulosten perusteella suosittelemme varaamaan ajan Silmäasemalle urheilijan näöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.
+          </div>`;
+      } else {
+        html += `
+          <div class="recommendation ok">
+            <strong>Hyvä tulos!</strong>
+            Testien perusteella näkemisessäsi ei havaittu poikkeamia. Säännöllinen näöntarkastus on silti suositeltavaa.
+          </div>`;
+      }
+
+      html += `<div class="saving-status" id="savingStatus">Tallennetaan tuloksia…</div>`;
+
+      $('resultCard').innerHTML = html;
+      setProgress(100);
+      showScreen('resultScreen');
+
+      saveToGoogleSheets();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  GOOGLE SHEETS SAVE
+    // ════════════════════════════════════════════════════════════
+    function saveToGoogleSheets() {
+      const today = new Date();
+      const dateStr = today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear();
+
+      const payload = {
+        pvm: dateStr,
+        sukupuoli: gender,
+        ika: age,
+        visus_oikea: visusLabel(visusRight),
+        visus_vasen: visusLabel(visusLeft),
+        fd_pysty: fdLabel(fdVertResult),
+        fd_vaaka: fdLabel(fdHorizResult),
+        paansarky: questionAnswers.headache,
+        silmien_vasyminen: questionAnswers.eyeFatigue,
+        urheilusuoritus: questionAnswers.sportError,
+        suositus: shouldRecommend() ? 'Kyllä' : 'Ei'
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        const el = $('savingStatus');
+        if (el) el.textContent = 'Tulokset tallennettu ✓';
+      })
+      .catch(err => {
+        const el = $('savingStatus');
+        if (el) el.textContent = 'Tallennusvirhe – tarkista yhteys.';
+        console.error(err);
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  INIT
+    // ════════════════════════════════════════════════════════════
+    showScreen('calScreen');
+    setProgress(0);
+  </script>
+</body>
+</html>
