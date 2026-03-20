@@ -253,6 +253,9 @@
     .option-btn.selected {
       border-color: var(--accent); background: #D9E4F5; font-weight: 600;
     }
+    .option-btn.disabled-opt {
+      opacity: 0.35; cursor: not-allowed; pointer-events: none;
+    }
 
     .fd-multi-hint {
       margin-top: 4px; margin-bottom: 6px;
@@ -540,8 +543,9 @@
     let uidCounter = 0, inputLocked = false, levelLog = [];
     let currentEye = 'right';
     let visusRight = null, visusLeft = null;
-    let fdVertResult = '', fdHorizResult = '';
-    let fdVertSelections = new Set(), fdHorizSelections = new Set();
+    // FD results are now objects tracking each option
+    let fdVertResult = { ok: false, shift: false, move: false, disappear: false };
+    let fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
     const questions = [
       { id: 'headache', text: 'Särkeekö sinulla päätä vähintään kerran viikossa?' },
       { id: 'eyeFatigue', text: 'Väsyvätkö silmäsi helposti?' },
@@ -794,50 +798,78 @@
     $('fdInstructStartBtn').addEventListener('click', () => {
       $('fdVertStage').innerHTML = '';
       $('fdVertStage').appendChild(buildMalletSVG(-90));
-      fdVertSelections.clear();
-      document.querySelectorAll('.fd-v-multi').forEach(b => b.classList.remove('selected'));
+      // Reset vert state
+      fdVertResult = { ok: false, shift: false, move: false, disappear: false };
+      $('fdVertOk').classList.remove('selected','disabled-opt');
+      $('fdVertOk').disabled = false;
+      document.querySelectorAll('.fd-v-multi').forEach(b => { b.classList.remove('selected'); });
       $('fdVertConfirm').classList.remove('visible');
       setProgress(55);
       showScreen('fdVertScreen');
     });
 
-    // FD Vert – OK instant
-    $('fdVertOk').addEventListener('click', () => { fdVertResult = 'ok'; goToFdHoriz(); });
+    // FD Vert – OK = instant, also clears any multi selections
+    $('fdVertOk').addEventListener('click', () => {
+      if ($('fdVertOk').disabled) return;
+      fdVertResult = { ok: true, shift: false, move: false, disappear: false };
+      goToFdHoriz();
+    });
 
-    // FD Vert – multi-select toggles
+    // FD Vert – multi-select toggles (selecting any disables OK)
     document.querySelectorAll('.fd-v-multi').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = btn.dataset.val;
-        if (fdVertSelections.has(val)) { fdVertSelections.delete(val); btn.classList.remove('selected'); }
-        else { fdVertSelections.add(val); btn.classList.add('selected'); }
-        $('fdVertConfirm').classList.toggle('visible', fdVertSelections.size > 0);
+        fdVertResult[val] = !fdVertResult[val];
+        btn.classList.toggle('selected', fdVertResult[val]);
+        const anySelected = fdVertResult.shift || fdVertResult.move || fdVertResult.disappear;
+        $('fdVertOk').disabled = anySelected;
+        $('fdVertOk').classList.toggle('disabled-opt', anySelected);
+        $('fdVertConfirm').classList.toggle('visible', anySelected);
       });
     });
-    $('fdVertConfirm').addEventListener('click', () => { fdVertResult = Array.from(fdVertSelections).join(','); goToFdHoriz(); });
+    $('fdVertConfirm').addEventListener('click', () => {
+      fdVertResult.ok = false;
+      goToFdHoriz();
+    });
 
     function goToFdHoriz() {
       $('fdHorizStage').innerHTML = '';
       $('fdHorizStage').appendChild(buildMalletSVG(0));
-      fdHorizSelections.clear();
-      document.querySelectorAll('.fd-h-multi').forEach(b => b.classList.remove('selected'));
+      // Reset horiz state
+      fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
+      $('fdHorizOk').classList.remove('selected','disabled-opt');
+      $('fdHorizOk').disabled = false;
+      document.querySelectorAll('.fd-h-multi').forEach(b => { b.classList.remove('selected'); });
       $('fdHorizConfirm').classList.remove('visible');
       setProgress(65);
       showScreen('fdHorizScreen');
     }
 
-    // FD Horiz – OK instant
-    $('fdHorizOk').addEventListener('click', () => { fdHorizResult = 'ok'; setProgress(75); startQuestions(); });
+    // FD Horiz – OK = instant
+    $('fdHorizOk').addEventListener('click', () => {
+      if ($('fdHorizOk').disabled) return;
+      fdHorizResult = { ok: true, shift: false, move: false, disappear: false };
+      setProgress(75);
+      startQuestions();
+    });
 
     // FD Horiz – multi-select toggles
     document.querySelectorAll('.fd-h-multi').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = btn.dataset.val;
-        if (fdHorizSelections.has(val)) { fdHorizSelections.delete(val); btn.classList.remove('selected'); }
-        else { fdHorizSelections.add(val); btn.classList.add('selected'); }
-        $('fdHorizConfirm').classList.toggle('visible', fdHorizSelections.size > 0);
+        fdHorizResult[val] = !fdHorizResult[val];
+        btn.classList.toggle('selected', fdHorizResult[val]);
+        const anySelected = fdHorizResult.shift || fdHorizResult.move || fdHorizResult.disappear;
+        $('fdHorizOk').disabled = anySelected;
+        $('fdHorizOk').classList.toggle('disabled-opt', anySelected);
+        $('fdHorizConfirm').classList.toggle('visible', anySelected);
       });
     });
-    $('fdHorizConfirm').addEventListener('click', () => { fdHorizResult = Array.from(fdHorizSelections).join(','); setProgress(75); startQuestions(); });
+    $('fdHorizConfirm').addEventListener('click', () => {
+      fdHorizResult.ok = false;
+      setProgress(75);
+      startQuestions();
+    });
 
     // ── Questionnaire ──
     function startQuestions() { currentQuestionIdx = 0; questionAnswers = {}; renderQuestion(); showScreen('questionScreen'); }
@@ -864,19 +896,23 @@
     }
 
     // ── Result ──
-    function fdLabelMulti(code) {
-      if (code === 'ok') return 'OK – palkit linjassa, ei liikettä eikä katoamista';
-      const map = { shift: 'Ei samassa linjassa', move: 'Heiluivat / liikkuivat', disappear: 'Palkki katosi välillä' };
-      return code.split(',').map(c => map[c] || c).join('; ');
+    function fdLabel(res) {
+      if (res.ok) return 'OK';
+      const parts = [];
+      if (res.shift) parts.push('Ei samassa linjassa');
+      if (res.move) parts.push('Heiluivat / liikkuivat');
+      if (res.disappear) parts.push('Palkki katosi välillä');
+      return parts.join('; ') || '-';
     }
+    function yn(v) { return v ? 'Kyllä' : 'Ei'; }
 
     function visusLabel(v) { return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, ''); }
 
     function shouldRecommend() {
       if (visusRight === null || visusRight <= 0.8) return true;
       if (visusLeft === null || visusLeft <= 0.8) return true;
-      if (fdVertResult !== 'ok') return true;
-      if (fdHorizResult !== 'ok') return true;
+      if (!fdVertResult.ok) return true;
+      if (!fdHorizResult.ok) return true;
       if (Object.values(questionAnswers).some(a => a === 'Kyllä')) return true;
       return false;
     }
@@ -886,14 +922,15 @@
       let h = `<h1>Tulokset</h1>
         <div class="result-section"><h3>Perustiedot</h3><p>${gender}, ${age} v.</p></div>
         <div class="result-section"><h3>Näöntarkkuus</h3><p>Oikea silmä: ${visusLabel(visusRight)}<br>Vasen silmä: ${visusLabel(visusLeft)}</p></div>
-        <div class="result-section"><h3>Fiksaatiodisparaatio – pystypalkit</h3><p>${fdLabelMulti(fdVertResult)}</p></div>
-        <div class="result-section"><h3>Fiksaatiodisparaatio – vaakapalkit</h3><p>${fdLabelMulti(fdHorizResult)}</p></div>
+        <div class="result-section"><h3>Fiksaatiodisparaatio – pystypalkit</h3><p>${fdLabel(fdVertResult)}</p></div>
+        <div class="result-section"><h3>Fiksaatiodisparaatio – vaakapalkit</h3><p>${fdLabel(fdHorizResult)}</p></div>
         <div class="result-section"><h3>Kysely</h3><p>Päänsärky viikoittain: ${questionAnswers.headache}<br>Silmien väsyminen: ${questionAnswers.eyeFatigue}<br>Urheilusuorituksen ongelma: ${questionAnswers.sportError}</p></div>`;
 
       h += rec
         ? `<div class="recommendation warn"><strong>Suositus</strong>Tulosten perusteella suosittelemme varaamaan ajan Silmäasemalle urheilijan näöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.</div>`
         : `<div class="recommendation ok"><strong>Hyvä tulos!</strong>Testien perusteella näkemisessäsi ei havaittu poikkeamia. Säännöllinen näöntarkastus on silti suositeltavaa.</div>`;
 
+      h += `<div style="text-align:center;margin-top:28px;"><img src="/mnt/user-data/uploads/Silmäasema_RGB.png" alt="Silmäasema" style="max-width:260px;width:100%;"></div>`;
       h += `<div class="saving-status" id="savingStatus">Tallennetaan tuloksia…</div>`;
       h += `<div class="new-test-wrap"><button class="btn-primary" id="newTestBtn" style="margin-top:18px;">Aloita uusi mittaus</button></div>`;
 
@@ -907,9 +944,9 @@
     function resetAll() {
       gender = ''; age = 0;
       visusRight = null; visusLeft = null;
-      fdVertResult = ''; fdHorizResult = '';
+      fdVertResult = { ok: false, shift: false, move: false, disappear: false };
+      fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
       questionAnswers = {}; currentQuestionIdx = 0;
-      fdVertSelections.clear(); fdHorizSelections.clear();
       document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
       $('ageInput').value = '';
       $('infoError').textContent = '';
@@ -924,7 +961,14 @@
         pvm: t.getDate() + '.' + (t.getMonth()+1) + '.' + t.getFullYear(),
         sukupuoli: gender, ika: age,
         visus_oikea: visusLabel(visusRight), visus_vasen: visusLabel(visusLeft),
-        fd_pysty: fdLabelMulti(fdVertResult), fd_vaaka: fdLabelMulti(fdHorizResult),
+        fd_pysty_ok: yn(fdVertResult.ok),
+        fd_pysty_siirtyma: yn(fdVertResult.shift),
+        fd_pysty_liike: yn(fdVertResult.move),
+        fd_pysty_katoaa: yn(fdVertResult.disappear),
+        fd_vaaka_ok: yn(fdHorizResult.ok),
+        fd_vaaka_siirtyma: yn(fdHorizResult.shift),
+        fd_vaaka_liike: yn(fdHorizResult.move),
+        fd_vaaka_katoaa: yn(fdHorizResult.disappear),
         paansarky: questionAnswers.headache, silmien_vasyminen: questionAnswers.eyeFatigue,
         urheilusuoritus: questionAnswers.sportError,
         suositus: shouldRecommend() ? 'Kyllä' : 'Ei'
