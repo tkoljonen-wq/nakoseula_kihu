@@ -942,6 +942,170 @@
       .option-btn { font-size: 18px; }
       .fd-confirm-btn { font-size: 22px; padding: 16px 18px; }
     }
+
+    /* PRINT – LÄHETE OPTIKOLLE */
+    @media print {
+      body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .screen, .progress-wrap, .top-bar { all: unset !important; display: none !important; }
+      #printReferral { display: block !important; }
+    }
+
+    #printReferral {
+      display: none;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #111;
+      background: #fff;
+      width: 210mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      padding: 14mm 18mm 12mm;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .ref-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6mm;
+      border-bottom: 2px solid #174A8B;
+      padding-bottom: 5mm;
+    }
+
+    .ref-header h1 {
+      font-size: 22pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #174A8B;
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .ref-header .ref-date {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #333;
+      margin-top: 2mm;
+    }
+
+    .ref-logo-area img {
+      height: 14mm;
+      width: auto;
+    }
+
+    .ref-body {
+      display: flex;
+      gap: 8mm;
+    }
+
+    .ref-left {
+      flex: 1;
+    }
+
+    .ref-right {
+      width: 50mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4mm;
+      padding-top: 2mm;
+    }
+
+    .ref-right img {
+      width: 44mm;
+      height: 44mm;
+    }
+
+    .ref-right .ref-qr-text {
+      font-size: 8pt;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.3;
+      color: #333;
+    }
+
+    .ref-section {
+      margin-bottom: 4mm;
+      padding: 3mm 4mm;
+      background: #F5F4F1;
+      border-radius: 2mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .ref-section h3 {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #555;
+      letter-spacing: 0.04em;
+      margin: 0 0 1.5mm 0;
+    }
+
+    .ref-section p {
+      font-size: 12pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .ref-recommendation {
+      padding: 4mm 5mm;
+      border-radius: 2mm;
+      margin-top: 4mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .ref-recommendation.warn {
+      background: #FFF4E8;
+      border: 1.5pt solid #E7AD57;
+      color: #7A4C09;
+    }
+
+    .ref-recommendation.ok {
+      background: #ECFBF2;
+      border: 1.5pt solid #61C78B;
+      color: #155B35;
+    }
+
+    .ref-recommendation strong {
+      display: block;
+      font-size: 12pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 1.5mm;
+    }
+
+    .ref-recommendation span {
+      font-size: 10pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    .ref-footer {
+      margin-top: 6mm;
+      padding-top: 4mm;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ref-footer .ref-note {
+      font-size: 8pt;
+      color: #777;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .ref-footer img {
+      height: 10mm;
+      width: auto;
+    }
   </style>
 </head>
 <body>
@@ -1746,7 +1910,9 @@
         </div>
 
         <div class="result-bottom">
-          <div></div>
+          <div>
+            <button class="btn-secondary" id="printBtn" style="font-size:24px; padding:16px 28px;">TULOSTA LÄHETE OPTIKOLLE</button>
+          </div>
           <div class="new-test-wrap">
             <button class="btn-primary" id="newTestBtn" style="margin-top:0; min-width:340px;">ALOITA UUSI MITTAUS</button>
           </div>
@@ -1757,7 +1923,78 @@
       setProgress(100);
       showScreen('resultScreen');
       $('newTestBtn').addEventListener('click', resetAll);
+      $('printBtn').addEventListener('click', printReferral);
       saveToGoogleSheets();
+    }
+
+
+    function printReferral() {
+      const t = new Date();
+      const dateStr = t.getDate() + '.' + (t.getMonth() + 1) + '.' + t.getFullYear();
+      const rec = shouldRecommend();
+
+      // Get logo src from the silmaasema-wrap img in resultCard
+      const logoImg = document.querySelector('#resultCard .silmaasema-wrap img');
+      const logoSrc = logoImg ? logoImg.src : '';
+
+      const referralHTML = `
+        <div class="ref-header">
+          <div>
+            <h1>LÄHETE OPTIKON<br>URHEILUNÄÖNTUTKIMUKSEEN</h1>
+            <div class="ref-date">PVM: ${dateStr}</div>
+          </div>
+          <div class="ref-logo-area">
+            <img src="${logoSrc}" alt="Silmäasema" />
+          </div>
+        </div>
+
+        <div class="ref-body">
+          <div class="ref-left">
+            <div class="ref-section">
+              <h3>PERUSTIEDOT</h3>
+              <p>${gender}, ${age} V.</p>
+            </div>
+
+            <div class="ref-section">
+              <h3>NÄÖNTARKKUUS</h3>
+              <p>OIKEA SILMÄ: ${visusLabel(visusRight)}<br>VASEN SILMÄ: ${visusLabel(visusLeft)}</p>
+            </div>
+
+            <div class="ref-section">
+              <h3>FIKSAATIODISPARAATIO — PYSTYPALKIT</h3>
+              <p>${fdLabel(fdVertResult)}</p>
+            </div>
+
+            <div class="ref-section">
+              <h3>FIKSAATIODISPARAATIO — VAAKAPALKIT</h3>
+              <p>${fdLabel(fdHorizResult)}</p>
+            </div>
+
+            <div class="ref-section">
+              <h3>KYSELY</h3>
+              <p>PÄÄNSÄRKY VIIKOITTAIN: ${questionAnswers.headache}<br>SILMIEN VÄSYMINEN: ${questionAnswers.eyeFatigue}<br>URHEILUSUORITUKSEN ONGELMA: ${questionAnswers.sportError}</p>
+            </div>
+
+            ${rec
+              ? '<div class="ref-recommendation warn"><strong>SUOSITUS</strong><span>TULOSTEN PERUSTEELLA SUOSITTELEMME VARAAMAAN AJAN SILMÄASEMALLE URHEILIJAN NÄÖNTUTKIMUKSEEN. TUTKIMUKSESSA SELVITETÄÄN TARKEMMIN NÄKEMISEN LAATUA JA MAHDOLLISIA HÄIRIÖTEKIJÖITÄ, JOTKA VOIVAT VAIKUTTAA URHEILUSUORITUKSEEN.</span></div>'
+              : '<div class="ref-recommendation ok"><strong>HYVÄ TULOS!</strong><span>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</span></div>'
+            }
+          </div>
+
+          <div class="ref-right">
+            <img src="${QR_CODE_DATA_URL}" alt="QR" />
+            <div class="ref-qr-text">VARAA TÄSTÄ AIKA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</div>
+          </div>
+        </div>
+
+        <div class="ref-footer">
+          <div class="ref-note">URHEILIJANÄÖN TUTKIMUSOHJELMA — SEULONTATUTKIMUS</div>
+          <img src="${logoSrc}" alt="Silmäasema" />
+        </div>
+      `;
+
+      $('printReferral').innerHTML = referralHTML;
+      setTimeout(() => { window.print(); }, 200);
     }
 
     function resetAll() {
@@ -1825,5 +2062,8 @@
     showScreen('genderScreen');
     setProgress(0);
   </script>
+
+  <!-- TULOSTETTAVA LÄHETE -->
+  <div id="printReferral"></div>
 </body>
 </html>
