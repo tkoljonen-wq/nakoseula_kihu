@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Näöntutkimus – Urheilijanäkö</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,7 +25,7 @@
     }
 
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -37,7 +37,7 @@
     .screen {
       position: fixed; inset: 0;
       display: grid; place-items: center;
-      padding: 28px;
+      padding: 20px;
       transition: opacity 0.35s ease, transform 0.35s ease;
       overflow-y: auto;
     }
@@ -49,18 +49,19 @@
       background: var(--surface);
       border: 1.5px solid var(--border);
       border-radius: 24px;
-      padding: 52px 56px;
+      padding: 46px 50px;
       max-width: 860px;
       width: 100%;
       box-shadow: var(--shadow);
     }
     .card h1 {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 46px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.08;
       margin-bottom: 14px;
+      text-transform: capitalize;
     }
     .card .subtitle {
       font-size: 31px;
@@ -68,6 +69,7 @@
       line-height: 1.45;
       margin-bottom: 34px;
       font-weight: 500;
+      text-transform: capitalize;
     }
 
     .field { margin-bottom: 28px; }
@@ -78,11 +80,12 @@
       letter-spacing: 0.01em;
       margin-bottom: 10px;
       color: var(--text);
+      text-transform: capitalize;
     }
     .field input, .field select {
       width: 100%;
       padding: 18px 20px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 29px;
       font-weight: 600;
       border: 2px solid var(--border);
@@ -108,15 +111,16 @@
       color: #3A3A3A;
       margin-top: 8px;
       line-height: 1.35;
+      text-transform: capitalize;
     }
 
     .btn-primary {
       display: block;
       width: 100%;
       padding: 24px 30px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 34px;
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.2;
       background: var(--accent);
       color: #fff;
@@ -126,6 +130,7 @@
       margin-top: 12px;
       transition: background 0.2s, transform 0.1s;
       box-shadow: 0 4px 14px rgba(23,74,139,0.16);
+      text-transform: capitalize;
     }
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-primary:active { transform: scale(0.985); }
@@ -133,15 +138,16 @@
     .btn-secondary {
       display: inline-block;
       padding: 18px 38px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 800;
       border: 2px solid var(--border);
       border-radius: 14px;
       background: var(--surface);
       color: var(--text);
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
+      text-transform: capitalize;
     }
     .btn-secondary:hover { background: var(--bg); border-color: var(--accent); }
 
@@ -152,6 +158,7 @@
       margin-top: 12px;
       min-height: 30px;
       line-height: 1.3;
+      text-transform: capitalize;
     }
 
     .progress-wrap {
@@ -165,7 +172,7 @@
 
     .step-tag {
       display: inline-block;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 22px;
       font-weight: 800;
       color: var(--accent);
@@ -174,6 +181,7 @@
       border-radius: 10px;
       margin-bottom: 18px;
       letter-spacing: 0.04em;
+      text-transform: capitalize;
     }
 
     .cal-line-200 {
@@ -187,9 +195,9 @@
       position: fixed; top: 12px; right: 16px; z-index: 60;
     }
     .top-bar-btn {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text);
       background: rgba(255,255,255,0.92);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -199,10 +207,10 @@
       cursor: pointer;
       transition: color 0.15s, border-color 0.15s, background 0.15s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-transform: capitalize;
     }
     .top-bar-btn:hover { color: var(--text); border-color: var(--accent); background: #fff; }
 
-    /* Landolt test */
     #testScreen { display: flex; flex-direction: column; gap: 0; background: #fff; padding-top: 0; }
     #testScreen .cal-line-200 {
       position: relative; left: auto; transform: none;
@@ -219,7 +227,7 @@
 
     .controls-bar {
       width: 100%;
-      padding: 18px 24px 34px;
+      padding: 18px 24px 30px;
       display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
       gap: 18px; background: #F4F3F0;
       border-top: 1.5px solid var(--border);
@@ -241,9 +249,9 @@
     .cant-see-btn {
       margin-left: 24px;
       padding: 22px 34px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 30px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text);
       background: var(--surface);
       border: 2px solid var(--border);
@@ -252,12 +260,13 @@
       transition: background 0.15s, color 0.15s, border-color 0.15s;
       white-space: nowrap;
       min-height: 88px;
+      text-transform: capitalize;
     }
     .cant-see-btn:hover { background: #FEF0F0; border-color: var(--wrong); color: var(--wrong); }
 
     .eye-label {
       position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 28px;
       font-weight: 800;
       color: var(--accent);
@@ -266,18 +275,19 @@
       border-radius: 12px;
       z-index: 20;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      text-transform: capitalize;
     }
 
     .key-hint {
       width: 100%; text-align: center;
       font-size: 24px; color: #2F2F2F;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.02em;
       opacity: 0.88; pointer-events: none;
       padding: 8px 0 2px;
+      text-transform: capitalize;
     }
 
-    /* FD screens */
     #fdVertScreen, #fdHorizScreen {
       display: flex; flex-direction: column; align-items: stretch;
       justify-content: flex-start; padding: 0 18px 18px;
@@ -302,11 +312,12 @@
       justify-content: center; min-width: 0;
     }
     .fd-layout-right h2 {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 42px;
       font-weight: 800;
       margin-bottom: 12px;
       line-height: 1.1;
+      text-transform: capitalize;
     }
     .fd-layout-right p {
       font-size: 31px;
@@ -314,6 +325,7 @@
       line-height: 1.45;
       margin-bottom: 22px;
       font-weight: 500;
+      text-transform: capitalize;
     }
 
     .fd-stage {
@@ -340,25 +352,28 @@
       box-shadow: var(--shadow);
     }
     .fd-question-card h2 {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 38px; font-weight: 800;
       margin-bottom: 12px;
+      text-transform: capitalize;
     }
     .fd-question-card p {
       font-size: 29px; color: var(--text-dim);
       line-height: 1.45; margin-bottom: 22px;
+      text-transform: capitalize;
     }
 
     .option-btn {
       display: block; width: 100%;
       padding: 22px 24px; margin-bottom: 14px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 28px; font-weight: 700;
       line-height: 1.3;
       text-align: left;
       border: 2px solid var(--border); border-radius: 16px;
       background: var(--surface); color: var(--text);
       cursor: pointer; transition: all 0.15s;
+      text-transform: capitalize;
     }
     .option-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .option-btn:active { transform: scale(0.985); }
@@ -374,67 +389,116 @@
       font-size: 25px; color: var(--text-dim);
       line-height: 1.35;
       font-weight: 600;
+      text-transform: capitalize;
     }
 
     .fd-confirm-btn {
       display: none; width: 100%;
       padding: 24px 30px; margin-top: 10px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 32px; font-weight: 800;
       background: var(--accent); color: #fff;
       border: none; border-radius: 16px;
       cursor: pointer; transition: background 0.2s, transform 0.1s;
+      text-transform: capitalize;
     }
     .fd-confirm-btn:hover { background: var(--accent-hover); }
     .fd-confirm-btn:active { transform: scale(0.985); }
     .fd-confirm-btn.visible { display: block; }
 
-    /* Questions */
     .q-btn-row { display: flex; gap: 18px; margin-top: 16px; }
     .q-btn {
       flex: 1; padding: 24px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 34px; font-weight: 800;
       border: 2px solid var(--border); border-radius: 16px;
       background: var(--surface); color: var(--text);
       cursor: pointer; transition: all 0.15s;
       min-height: 96px;
+      text-transform: capitalize;
     }
     .q-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .q-btn:active { transform: scale(0.985); }
 
-    /* Result */
+    /* Result screen */
+    #resultScreen {
+      place-items: stretch;
+      padding: 16px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
     .result-card {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 24px; padding: 52px 56px;
-      max-width: 900px; width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 22px 24px;
+      width: 100%;
+      height: calc(100vh - 40px);
+      max-width: none;
       box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+      overflow: hidden;
     }
     .result-card h1 {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      font-size: 48px; font-weight: 800;
-      margin-bottom: 24px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 0;
       line-height: 1.08;
+      text-transform: capitalize;
     }
+
+    .result-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
+      gap: 18px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .result-left {
+      min-width: 0;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .result-right {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+      min-width: 0;
+      align-content: start;
+    }
+
     .result-section {
-      margin-bottom: 22px; padding: 22px 24px;
-      background: #F7F6F3; border-radius: 16px;
+      margin-bottom: 14px;
+      padding: 16px 18px;
+      background: #F7F6F3;
+      border-radius: 16px;
     }
     .result-section h3 {
-      font-size: 22px; font-weight: 800;
-      color: #3A3A3A; text-transform: uppercase;
-      letter-spacing: 0.06em; margin-bottom: 10px;
+      font-size: 18px; font-weight: 800;
+      color: #3A3A3A; text-transform: capitalize;
+      letter-spacing: 0.04em; margin-bottom: 8px;
     }
     .result-section p {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      font-size: 31px; line-height: 1.5;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 26px; line-height: 1.42;
       font-weight: 600;
       color: var(--text);
+      text-transform: capitalize;
     }
+
     .recommendation {
-      padding: 26px 28px; border-radius: 18px;
-      margin-top: 28px; font-size: 29px; line-height: 1.5;
+      padding: 20px 22px;
+      border-radius: 18px;
+      font-size: 24px;
+      line-height: 1.45;
       font-weight: 600;
+      text-transform: capitalize;
     }
     .recommendation.warn {
       background: #FFF4E8; border: 2px solid #E7AD57; color: #7A4C09;
@@ -443,34 +507,81 @@
       background: #ECFBF2; border: 2px solid #61C78B; color: #155B35;
     }
     .recommendation strong {
-      display: block; margin-bottom: 8px; font-size: 34px; font-weight: 800;
+      display: block; margin-bottom: 8px; font-size: 29px; font-weight: 800;
+      text-transform: capitalize;
+    }
+
+    .qr-card {
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      background: #F8F8F6;
+      padding: 18px;
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .qr-card img {
+      width: min(100%, 280px);
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .qr-title {
+      font-size: 26px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: var(--text);
+      text-transform: capitalize;
+    }
+
+    .silmaasema-wrap {
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      background: #fff;
     }
 
     .saving-status {
-      font-size: 21px; color: #3A3A3A;
-      margin-top: 16px; text-align: center;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 18px; color: #3A3A3A;
+      text-align: center;
+      font-family: 'Inter', system-ui, sans-serif;
       font-weight: 700;
+      text-transform: capitalize;
     }
-    .new-test-wrap { text-align: center; margin-top: 24px; }
 
-    /* Gender buttons */
+    .result-bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .new-test-wrap { text-align: right; }
+
     .gender-btn-row { display: flex; gap: 14px; margin-bottom: 24px; }
     .gender-btn {
       flex: 1; padding: 22px 18px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 30px; font-weight: 800;
       border: 2px solid var(--border); border-radius: 16px;
       background: var(--surface); color: var(--text);
       cursor: pointer; transition: all 0.15s;
       text-align: center;
       min-height: 88px;
+      text-transform: capitalize;
     }
     .gender-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .gender-btn:active { transform: scale(0.985); }
     .gender-btn.selected { border-color: var(--accent); background: #D9E4F5; }
 
-    /* Color preview in calibration */
     .color-preview {
       display: inline-block; width: 28px; height: 28px;
       border-radius: 6px; border: 1px solid var(--border);
@@ -482,12 +593,12 @@
       font-size: 13px; font-weight: 700;
       margin-bottom: 8px; margin-top: 16px;
       display: flex; align-items: center; gap: 8px;
+      text-transform: capitalize;
     }
 
-    /* Numpad for age input */
     .numpad-display {
       width: 100%; padding: 18px 16px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 52px;
       font-weight: 800; text-align: center;
       border: 2px solid var(--border); border-radius: 14px;
@@ -497,9 +608,10 @@
       margin-bottom: 16px;
     }
     .numpad-display:empty::before {
-      content: 'Syötä ikä';
+      content: 'Syötä Ikä';
       color: #666666; font-size: 31px;
       font-weight: 500; letter-spacing: 0;
+      text-transform: capitalize;
     }
     .numpad-grid {
       display: grid;
@@ -508,7 +620,7 @@
     }
     .numpad-btn {
       padding: 22px 10px;
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 40px; font-weight: 800;
       border: 2px solid var(--border); border-radius: 16px;
       background: var(--surface); color: var(--text);
@@ -530,31 +642,46 @@
     }
     .numpad-clearall:hover { background: #FDE0E0; border-color: var(--wrong); }
 
-    /* Calibration screen keeps smaller text and lighter colors — only examiner uses it */
     #calScreen { --text-dim: #666666; }
     #calScreen .card {
       max-width: 660px;
       padding: 40px 42px;
     }
-    #calScreen .card h1 { font-size: 28px; font-family: 'DM Sans', system-ui, sans-serif; }
+    #calScreen .card h1 { font-size: 28px; }
     #calScreen .card .subtitle { font-size: 18px; margin-bottom: 22px; }
     #calScreen .field { margin-bottom: 18px; }
     #calScreen .field label { font-size: 16px; }
-    #calScreen .field input { font-size: 18px; padding: 12px 14px; font-family: 'DM Sans', system-ui, sans-serif; }
+    #calScreen .field input { font-size: 18px; padding: 12px 14px; }
     #calScreen .field .hint { font-size: 13px; }
     #calScreen .btn-primary { font-size: 18px; padding: 14px 24px; margin-top: 8px; }
     #calScreen .cal-error { font-size: 14px; min-height: 18px; }
     #calScreen .color-section-label { font-size: 14px; }
     #calScreen .color-preview { width: 22px; height: 22px; }
-    #calScreen .card .field input,
-    #calScreen .card .field select {
-      background: #FAFAF8;
+
+    @media (max-width: 1200px) {
+      .result-main {
+        grid-template-columns: 1fr;
+      }
+      .result-card {
+        height: auto;
+        min-height: calc(100vh - 40px);
+        overflow: auto;
+      }
+      .result-left {
+        overflow: visible;
+      }
+      .result-bottom {
+        grid-template-columns: 1fr;
+      }
+      .new-test-wrap {
+        text-align: center;
+      }
     }
 
     @media (max-width: 900px) {
-      .card, .fd-question-card, .result-card { padding: 34px 24px; }
-      .card h1, .result-card h1 { font-size: 36px; }
-      .card .subtitle, .fd-layout-right p, .result-section p { font-size: 24px; }
+      .card, .fd-question-card { padding: 34px 24px; }
+      .card h1 { font-size: 36px; }
+      .card .subtitle, .fd-layout-right p { font-size: 24px; }
       .field label { font-size: 24px; }
       .field input, .field select { font-size: 24px; }
       .btn-primary { font-size: 28px; padding: 20px 24px; }
@@ -568,13 +695,15 @@
       .cant-see-btn { font-size: 24px; min-height: 76px; }
       .eye-label { font-size: 24px; }
       .key-hint { font-size: 20px; }
+      .result-section p { font-size: 22px; }
+      .qr-title { font-size: 22px; }
     }
 
     @media (max-width: 600px) {
       .screen { padding: 18px; }
-      .card, .fd-question-card, .result-card { padding: 26px 18px; }
-      .card h1, .result-card h1 { font-size: 30px; }
-      .card .subtitle, .fd-layout-right p, .result-section p { font-size: 21px; }
+      .card, .fd-question-card { padding: 26px 18px; }
+      .card h1 { font-size: 30px; }
+      .card .subtitle, .fd-layout-right p { font-size: 21px; }
       .field label { font-size: 21px; }
       .field input, .field select { font-size: 21px; }
       .btn-primary { font-size: 24px; padding: 18px 20px; }
@@ -596,8 +725,6 @@
       .fd-layout-right h2 { font-size: 30px; }
       .option-btn { font-size: 20px; }
       .fd-confirm-btn { font-size: 24px; padding: 18px 20px; }
-      .recommendation { font-size: 21px; }
-      .recommendation strong { font-size: 26px; }
     }
   </style>
 </head>
@@ -608,20 +735,19 @@
     <button class="top-bar-btn" id="calBtn">Kalibroi</button>
   </div>
 
-  <!-- ═══ Calibration (password-protected) ═══ -->
   <div class="screen hidden" id="calScreen">
     <div class="card">
       <h1>Kalibrointi</h1>
-      <p class="subtitle">Syötä kalibrointitiedot. Nämä asetukset säilyvät selaimen muistissa.</p>
+      <p class="subtitle">Syötä Kalibrointitiedot. Nämä Asetukset Säilyvät Selaimen Muistissa.</p>
       <div class="field">
-        <label for="pxPerMmInput">px / mm</label>
+        <label for="pxPerMmInput">Px / Mm</label>
         <input id="pxPerMmInput" type="number" step="any" min="0.1" placeholder="esim. 3.7795" />
-        <div class="hint">Näytön mittakalibroinnin antama arvo</div>
+        <div class="hint">Näytön Mittakalibroinnin Antama Arvo</div>
       </div>
       <div class="field">
-        <label for="distanceInput">Tutkimusetäisyys (m)</label>
+        <label for="distanceInput">Tutkimusetäisyys (M)</label>
         <input id="distanceInput" type="number" step="any" min="0.1" placeholder="esim. 4" />
-        <div class="hint">Tyypillisesti 4 tai 6 metriä</div>
+        <div class="hint">Tyypillisesti 4 Tai 6 Metriä</div>
       </div>
 
       <div class="color-section-label">Punainen <span class="color-preview" id="redPreview" style="background:#e20000;"></span></div>
@@ -638,23 +764,22 @@
         <div class="field"><label for="calGreenB">B</label><input id="calGreenB" type="number" min="0" max="255" step="1" placeholder="0" /></div>
       </div>
 
-      <button class="btn-primary" id="saveCalBtn">Tallenna ja palaa</button>
+      <button class="btn-primary" id="saveCalBtn">Tallenna Ja Palaa</button>
       <div class="cal-error" id="calError"></div>
     </div>
   </div>
 
-  <!-- ═══ Start / Info ═══ -->
   <div class="screen" id="infoScreen">
     <div class="card">
-      <div class="step-tag">VAIHE 1 / 5</div>
+      <div class="step-tag">Vaihe 1 / 5</div>
       <h1>◔ Näöntutkimus</h1>
-      <p class="subtitle">Urheilijanäön tutkimusohjelma. Syötä perustietosi ja seuraa ohjeita.</p>
+      <p class="subtitle">Urheilijanäön Tutkimusohjelma. Syötä Perustietosi Ja Seuraa Ohjeita.</p>
       <div class="field">
         <label>Sukupuoli</label>
         <div class="gender-btn-row">
           <button class="gender-btn" data-gender="Nainen">Nainen</button>
           <button class="gender-btn" data-gender="Mies">Mies</button>
-          <button class="gender-btn" data-gender="En halua vastata">Muu</button>
+          <button class="gender-btn" data-gender="En Halua Vastata">Muu</button>
         </div>
       </div>
       <div class="field">
@@ -676,30 +801,28 @@
           <button class="numpad-btn numpad-clearall" data-num="clearall">C</button>
         </div>
       </div>
-      <button class="btn-primary" id="infoNextBtn">Jatka visustestiin →</button>
+      <button class="btn-primary" id="infoNextBtn">Jatka Visustestiin →</button>
       <div class="cal-error" id="infoError"></div>
     </div>
   </div>
 
-  <!-- ═══ Instruction before Landolt ═══ -->
   <div class="screen hidden" id="instructScreen">
     <div class="card">
-      <div class="step-tag" id="eyeStepTag">VAIHE 2 / 5</div>
-      <h1 id="instructTitle">Visustesti – oikea silmä</h1>
+      <div class="step-tag" id="eyeStepTag">Vaihe 2 / 5</div>
+      <h1 id="instructTitle">Visustesti – Oikea Silmä</h1>
       <p class="subtitle" id="instructText"></p>
       <button class="btn-primary" id="instructStartBtn">Aloita</button>
     </div>
   </div>
 
-  <!-- ═══ Landolt test ═══ -->
   <div class="screen hidden" id="testScreen">
     <div class="cal-line-200 cal-line-test" style="display:none;"></div>
-    <div class="eye-label" id="eyeLabel">Oikea silmä</div>
+    <div class="eye-label" id="eyeLabel">Oikea Silmä</div>
     <div class="optotype-area">
       <div class="optotype-container" id="optotypeContainer"></div>
     </div>
     <div class="controls-bar">
-      <div class="key-hint">Käytä nuolinäppäimiä tai välilyöntiä</div>
+      <div class="key-hint">Käytä Nuolinäppäimiä Tai Välilyöntiä</div>
       <button class="arrow-btn" data-dir="left" title="Vasen (←)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
@@ -712,21 +835,19 @@
       <button class="arrow-btn" data-dir="right" title="Oikea (→)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      <button class="cant-see-btn" id="cantSeeBtn" title="Välilyönti">En näe</button>
+      <button class="cant-see-btn" id="cantSeeBtn" title="Välilyönti">En Näe</button>
     </div>
   </div>
 
-  <!-- ═══ FD instruction ═══ -->
   <div class="screen hidden" id="fdInstructScreen">
     <div class="card">
-      <div class="step-tag">VAIHE 3 / 5</div>
+      <div class="step-tag">Vaihe 3 / 5</div>
       <h1>Fiksaatiodisparaatiotesti</h1>
-      <p class="subtitle">Aseta puna-vihersuodattimet silmiesi eteen (punainen oikean silmän eteen, vihreä vasemman). Katsele testiympyrää keskeltä ja tarkkaile punaista ja vihreää palkkia. Vastaa näkemäsi mukaan.</p>
+      <p class="subtitle">Aseta Puna-Vihersuodattimet Silmiesi Eteen (Punainen Oikean Silmän Eteen, Vihreä Vasemman). Katsele Testiympyrää Keskeltä Ja Tarkkaile Punaista Ja Vihreää Palkkia. Vastaa Näkemäsi Mukaan.</p>
       <button class="btn-primary" id="fdInstructStartBtn">Aloita →</button>
     </div>
   </div>
 
-  <!-- ═══ FD vertical bars ═══ -->
   <div class="screen hidden" id="fdVertScreen">
     <div class="cal-line-200 cal-line-fdv" style="display:none;"></div>
     <div class="fd-layout">
@@ -734,20 +855,19 @@
         <div class="fd-stage" id="fdVertStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">VAIHE 3 / 5 – Pystypalkit</div>
+        <div class="step-tag">Vaihe 3 / 5 – Pystypalkit</div>
         <h2>Pystypalkit</h2>
-        <p>Katso testiympyrän keskelle. Punainen ja vihreä pystypalkki — ovatko ne samalla pystylinjalla?</p>
-        <button class="option-btn" id="fdVertOk">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
-        <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
-        <button class="option-btn fd-v-multi" data-val="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
-        <button class="option-btn fd-v-multi" data-val="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
-        <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
-        <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista valinnat →</button>
+        <p>Katso Testiympyrän Keskelle. Punainen Ja Vihreä Pystypalkki — Ovatko Ne Samalla Pystylinjalla?</p>
+        <button class="option-btn" id="fdVertOk">Palkit Ovat Samassa Linjassa, Eivät Liiku Tai Katoa</button>
+        <div class="fd-multi-hint">Jos Yllä Oleva Ei Pidä Paikkaansa, Valitse Yksi Tai Useampi Syy:</div>
+        <button class="option-btn fd-v-multi" data-val="shift">Palkit Eivät Ole Täysin Samalla Pystylinjalla</button>
+        <button class="option-btn fd-v-multi" data-val="move">Palkit Heiluvat / Liikkuvat Sivusuunnassa</button>
+        <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi Palkki Katoaa Välillä</button>
+        <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista Valinnat →</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══ FD horizontal bars ═══ -->
   <div class="screen hidden" id="fdHorizScreen">
     <div class="cal-line-200 cal-line-fdh" style="display:none;"></div>
     <div class="fd-layout">
@@ -755,25 +875,23 @@
         <div class="fd-stage" id="fdHorizStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">VAIHE 3 / 5 – Vaakapalkit</div>
+        <div class="step-tag">Vaihe 3 / 5 – Vaakapalkit</div>
         <h2>Vaakapalkit</h2>
-        <p>Katso testiympyrän keskelle. Punainen ja vihreä vaakapalkki — pysyvätkö ne samalla korkeudella?</p>
-        <button class="option-btn" id="fdHorizOk">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
-        <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
-        <button class="option-btn fd-h-multi" data-val="shift">Palkit eivät ole samalla korkeudella</button>
-        <button class="option-btn fd-h-multi" data-val="move">Palkit heiluvat korkeussuunnassa</button>
-        <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
-        <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista valinnat →</button>
+        <p>Katso Testiympyrän Keskelle. Punainen Ja Vihreä Vaakapalkki — Pysyvätkö Ne Samalla Korkeudella?</p>
+        <button class="option-btn" id="fdHorizOk">Palkit Ovat Samalla Korkeudella, Eivät Liiku Tai Katoa</button>
+        <div class="fd-multi-hint">Jos Yllä Oleva Ei Pidä Paikkaansa, Valitse Yksi Tai Useampi Syy:</div>
+        <button class="option-btn fd-h-multi" data-val="shift">Palkit Eivät Ole Samalla Korkeudella</button>
+        <button class="option-btn fd-h-multi" data-val="move">Palkit Heiluvat Korkeussuunnassa</button>
+        <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi Palkki Katoaa Välillä</button>
+        <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista Valinnat →</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══ Questionnaire ═══ -->
   <div class="screen hidden" id="questionScreen">
     <div class="card" id="questionCard"></div>
   </div>
 
-  <!-- ═══ Result ═══ -->
   <div class="screen hidden" id="resultScreen">
     <div class="result-card" id="resultCard"></div>
   </div>
@@ -782,6 +900,7 @@
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFOvhwDR8hh2Plx9NTjDlaRDpFDBKzdhgurgkqTodrLuZAKCjJOG5baDkxTD8IUT9C/exec';
     const CAL_PASSWORD = 'Silmä';
     const STORAGE_KEY = 'naontutkimus_cal_v1';
+    const QR_CODE_DATA_URL = 'data:image/png;base64,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';
 
     const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
     const REQUIRED_CORRECT = 3;
@@ -792,7 +911,6 @@
     const MALLET_DIAMETER_MM = 108;
     const REFERENCE_DISTANCE_M = 5.75;
 
-    // ── State ──
     let pxPerMm = 0, distanceM = 0;
     let redColor = { r: 226, g: 0, b: 0 };
     let greenColor = { r: 0, g: 157, b: 0 };
@@ -805,13 +923,12 @@
     let fdVertResult = { ok: false, shift: false, move: false, disappear: false };
     let fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
     const questions = [
-      { id: 'headache', text: 'Särkeekö sinulla päätä vähintään kerran viikossa?' },
-      { id: 'eyeFatigue', text: 'Väsyvätkö silmäsi helposti?' },
-      { id: 'sportError', text: 'Tapahtuuko urheilusuorituksessa joskus niin, että muistellessasi virheellistä suoritusta teit mielestäsi kaikki oikein ja silti suoritus epäonnistui?' }
+      { id: 'headache', text: 'Särkeekö Sinulla Päätä Vähintään Kerran Viikossa?' },
+      { id: 'eyeFatigue', text: 'Väsyvätkö Silmäsi Helposti?' },
+      { id: 'sportError', text: 'Tapahtuuko Urheilusuorituksessa Joskus Niin, Että Muistellessasi Virheellistä Suoritusta Teit Mielestäsi Kaikki Oikein Ja Silti Suoritus Epäonnistui?' }
     ];
     let questionAnswers = {}, currentQuestionIdx = 0;
 
-    // ── DOM helpers ──
     const $ = id => document.getElementById(id);
     const screenIds = ['calScreen','infoScreen','instructScreen','testScreen',
       'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'];
@@ -843,7 +960,6 @@
 
     function setProgress(pct) { $('progressFill').style.width = pct + '%'; }
 
-    // ── Calibration persistence ──
     function clampByte(v) { return Math.max(0, Math.min(255, Math.round(v))); }
     function rgbHex(c) { return '#' + [c.r, c.g, c.b].map(n => n.toString(16).padStart(2,'0')).join(''); }
 
@@ -880,7 +996,7 @@
     });
 
     $('calBtn').addEventListener('click', () => {
-      const pw = prompt('Syötä salasana:');
+      const pw = prompt('Syötä Salasana:');
       if (pw === CAL_PASSWORD) {
         $('pxPerMmInput').value = pxPerMm || '';
         $('distanceInput').value = distanceM || '';
@@ -895,8 +1011,8 @@
     $('saveCalBtn').addEventListener('click', () => {
       const px = parseFloat($('pxPerMmInput').value);
       const dist = parseFloat($('distanceInput').value);
-      if (!px || px <= 0) { $('calError').textContent = 'Syötä kelvollinen px/mm-arvo.'; return; }
-      if (!dist || dist <= 0) { $('calError').textContent = 'Syötä kelvollinen etäisyys.'; return; }
+      if (!px || px <= 0) { $('calError').textContent = 'Syötä Kelvollinen Px/Mm-Arvo.'; return; }
+      if (!dist || dist <= 0) { $('calError').textContent = 'Syötä Kelvollinen Etäisyys.'; return; }
       $('calError').textContent = '';
       pxPerMm = px; distanceM = dist;
 
@@ -914,7 +1030,6 @@
       showScreen('infoScreen');
     });
 
-    // ── Numpad for age input ──
     let ageString = '';
     function updateAgeDisplay() {
       $('ageDisplay').textContent = ageString;
@@ -936,7 +1051,6 @@
       });
     });
 
-    // ── Info → Visus ──
     document.querySelectorAll('.gender-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
@@ -944,7 +1058,7 @@
         gender = btn.dataset.gender;
         const a = parseInt($('ageInput').value);
         if (a && a >= 5 && a <= 120) {
-          if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia ei ole tehty. Pyydä tutkijaa kalibroimaan laite ensin (Kalibroi-nappi oikeasta yläkulmasta).'; return; }
+          if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia Ei Ole Tehty. Pyydä Tutkijaa Kalibroimaan Laite Ensin (Kalibroi-Nappi Oikeasta Yläkulmasta).'; return; }
           $('infoError').textContent = '';
           age = a;
           setProgress(10);
@@ -954,17 +1068,16 @@
     });
 
     $('infoNextBtn').addEventListener('click', () => {
-      if (!gender) { $('infoError').textContent = 'Valitse sukupuoli.'; return; }
+      if (!gender) { $('infoError').textContent = 'Valitse Sukupuoli.'; return; }
       const a = parseInt($('ageInput').value);
-      if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä kelvollinen ikä.'; return; }
-      if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia ei ole tehty. Pyydä tutkijaa kalibroimaan laite ensin (Kalibroi-nappi oikeasta yläkulmasta).'; return; }
+      if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä Kelvollinen Ikä.'; return; }
+      if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia Ei Ole Tehty. Pyydä Tutkijaa Kalibroimaan Laite Ensin (Kalibroi-Nappi Oikeasta Yläkulmasta).'; return; }
       $('infoError').textContent = '';
       age = a;
       setProgress(10);
       prepareEyeTest('right');
     });
 
-    // ── Landolt C ──
     function optotypeDiameterMm(visus, distanceMm) { return 5 * TAN_1_ARCMIN * distanceMm / visus; }
 
     function createLandoltSVG(direction, sizePx, uid) {
@@ -1019,13 +1132,13 @@
 
     function prepareEyeTest(eye) {
       currentEye = eye;
-      $('eyeStepTag').textContent = 'VAIHE 2 / 5';
+      $('eyeStepTag').textContent = 'Vaihe 2 / 5';
       if (eye === 'right') {
-        $('instructTitle').textContent = 'Visustesti – oikea silmä';
-        $('instructText').textContent = 'Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä mihin suuntaan renkaan aukko osoittaa. Paina välilyöntiä tai "En näe", jos et erota aukkoa.';
+        $('instructTitle').textContent = 'Visustesti – Oikea Silmä';
+        $('instructText').textContent = 'Peitä Vasen Silmäsi Kädellä Tai Peittolapulla. Katsele Ruudulla Näkyviä Landolt C -Renkaita Oikealla Silmällä Ja Vastaa Nuolinäppäimillä Mihin Suuntaan Renkaan Aukko Osoittaa. Paina Välilyöntiä Tai "En Näe", Jos Et Erota Aukkoa.';
       } else {
-        $('instructTitle').textContent = 'Visustesti – vasen silmä';
-        $('instructText').textContent = 'Peitä nyt oikea silmäsi. Katsele renkaita vasemmalla silmällä ja vastaa samalla tavalla.';
+        $('instructTitle').textContent = 'Visustesti – Vasen Silmä';
+        $('instructText').textContent = 'Peitä Nyt Oikea Silmäsi. Katsele Renkaita Vasemmalla Silmällä Ja Vastaa Samalla Tavalla.';
       }
       showScreen('instructScreen');
     }
@@ -1033,7 +1146,7 @@
     $('instructStartBtn').addEventListener('click', () => {
       currentLevelIdx = 0; correctCount = 0; errorCount = 0;
       uidCounter = 0; inputLocked = false; levelLog = []; lastDirection = '';
-      $('eyeLabel').textContent = currentEye === 'right' ? 'Oikea silmä' : 'Vasen silmä';
+      $('eyeLabel').textContent = currentEye === 'right' ? 'Oikea Silmä' : 'Vasen Silmä';
       showScreen('testScreen');
       showOptotype();
     });
@@ -1054,7 +1167,6 @@
       else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); processAnswer('__cant_see__'); }
     });
 
-    // ── Fixation Disparity ──
     function malletDiameterMm(dist) { return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M); }
 
     function buildMalletSVG(rotation) {
@@ -1150,13 +1262,12 @@
       startQuestions();
     });
 
-    // ── Questionnaire ──
     function startQuestions() { currentQuestionIdx = 0; questionAnswers = {}; renderQuestion(); showScreen('questionScreen'); }
 
     function renderQuestion() {
       const q = questions[currentQuestionIdx];
       $('questionCard').innerHTML = `
-        <div class="step-tag">VAIHE 4 / 5 – Kysymys ${currentQuestionIdx+1}/${questions.length}</div>
+        <div class="step-tag">Vaihe 4 / 5 – Kysymys ${currentQuestionIdx+1}/${questions.length}</div>
         <h1>Kysely</h1>
         <p class="subtitle" style="margin-bottom:24px;">${q.text}</p>
         <div class="q-btn-row">
@@ -1174,17 +1285,15 @@
       else { setProgress(92); finishAll(); }
     }
 
-    // ── Result ──
     function fdLabel(res) {
-      if (res.ok) return 'OK';
+      if (res.ok) return 'Ok';
       const parts = [];
-      if (res.shift) parts.push('Ei samassa linjassa');
-      if (res.move) parts.push('Heiluivat / liikkuivat');
-      if (res.disappear) parts.push('Palkki katosi välillä');
+      if (res.shift) parts.push('Ei Samassa Linjassa');
+      if (res.move) parts.push('Heiluivat / Liikkuivat');
+      if (res.disappear) parts.push('Palkki Katosi Välillä');
       return parts.join('; ') || '-';
     }
     function yn(v) { return v ? 'Kyllä' : 'Ei'; }
-
     function visusLabel(v) { return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, ''); }
 
     function shouldRecommend() {
@@ -1198,20 +1307,45 @@
 
     function finishAll() {
       const rec = shouldRecommend();
-      let h = `<h1>Tulokset</h1>
-        <div class="result-section"><h3>Perustiedot</h3><p>${gender}, ${age} v.</p></div>
-        <div class="result-section"><h3>Näöntarkkuus</h3><p>Oikea silmä: ${visusLabel(visusRight)}<br>Vasen silmä: ${visusLabel(visusLeft)}</p></div>
-        <div class="result-section"><h3>Fiksaatiodisparaatio – pystypalkit</h3><p>${fdLabel(fdVertResult)}</p></div>
-        <div class="result-section"><h3>Fiksaatiodisparaatio – vaakapalkit</h3><p>${fdLabel(fdHorizResult)}</p></div>
-        <div class="result-section"><h3>Kysely</h3><p>Päänsärky viikoittain: ${questionAnswers.headache}<br>Silmien väsyminen: ${questionAnswers.eyeFatigue}<br>Urheilusuorituksen ongelma: ${questionAnswers.sportError}</p></div>`;
+      let h = `
+        <h1>Tulokset</h1>
+        <div class="result-main">
+          <div class="result-left">
+            <div class="result-section"><h3>Perustiedot</h3><p>${gender}, ${age} V.</p></div>
+            <div class="result-section"><h3>Näöntarkkuus</h3><p>Oikea Silmä: ${visusLabel(visusRight)}<br>Vasen Silmä: ${visusLabel(visusLeft)}</p></div>
+            <div class="result-section"><h3>Fiksaatiodisparaatio – Pystypalkit</h3><p>${fdLabel(fdVertResult)}</p></div>
+            <div class="result-section"><h3>Fiksaatiodisparaatio – Vaakapalkit</h3><p>${fdLabel(fdHorizResult)}</p></div>
+            <div class="result-section"><h3>Kysely</h3><p>Päänsärky Viikoittain: ${questionAnswers.headache}<br>Silmien Väsyminen: ${questionAnswers.eyeFatigue}<br>Urheilusuorituksen Ongelma: ${questionAnswers.sportError}</p></div>
+            ${
+              rec
+                ? `<div class="recommendation warn"><strong>Suositus</strong>Tulosten Perusteella Suosittelemme Varaamaan Ajan Silmäasemalle Urheilijan Näöntutkimukseen. Tutkimuksessa Selvitetään Tarkemmin Näkemisen Laatua Ja Mahdollisia Häiriötekijöitä, Jotka Voivat Vaikuttaa Urheilusuoritukseen.</div>`
+                : `<div class="recommendation ok"><strong>Hyvä Tulos!</strong>Testien Perusteella Näkemisessäsi Ei Havaittu Poikkeamia. Säännöllinen Näöntarkastus On Silti Suositeltavaa.</div>`
+            }
+          </div>
 
-      h += rec
-        ? `<div class="recommendation warn"><strong>Suositus</strong>Tulosten perusteella suosittelemme varaamaan ajan Silmäasemalle urheilijan näöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.</div>`
-        : `<div class="recommendation ok"><strong>Hyvä tulos!</strong>Testien perusteella näkemisessäsi ei havaittu poikkeamia. Säännöllinen näöntarkastus on silti suositeltavaa.</div>`;
+          <div class="result-right">
+            <div class="qr-card">
+              <img src="${QR_CODE_DATA_URL}" alt="Qr Koodi Ajanvaraukseen" />
+              <div class="qr-title">Varaa Tästä Aika Silmäaseman Optikon Urheilunäöntutkimukseen</div>
+            </div>
 
-      h += `<div style="text-align:center;margin-top:28px;"><svg width="280" height="50" viewBox="0 0 280 50" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="46" height="46" rx="8" fill="#1B4D8F"/><text x="25" y="33" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="22" font-weight="700" fill="#fff">S</text><text x="60" y="36" font-family="DM Sans,sans-serif" font-size="28" font-weight="600" fill="#1A1A1A">Silmäasema</text></svg></div>`;
-      h += `<div class="saving-status" id="savingStatus">Tallennetaan tuloksia…</div>`;
-      h += `<div class="new-test-wrap"><button class="btn-primary" id="newTestBtn" style="margin-top:18px;">Aloita uusi mittaus</button></div>`;
+            <div class="silmaasema-wrap">
+              <svg width="280" height="50" viewBox="0 0 280 50" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="46" height="46" rx="8" fill="#1B4D8F"/>
+                <text x="25" y="33" text-anchor="middle" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#fff">S</text>
+                <text x="60" y="36" font-family="Inter,sans-serif" font-size="28" font-weight="700" fill="#1A1A1A">Silmäasema</text>
+              </svg>
+            </div>
+
+            <div class="saving-status" id="savingStatus">Tallennetaan Tuloksia…</div>
+          </div>
+        </div>
+
+        <div class="result-bottom">
+          <div></div>
+          <div class="new-test-wrap"><button class="btn-primary" id="newTestBtn" style="margin-top:0; min-width:340px;">Aloita Uusi Mittaus</button></div>
+        </div>
+      `;
 
       $('resultCard').innerHTML = h;
       setProgress(100);
@@ -1235,7 +1369,6 @@
       showScreen('infoScreen');
     }
 
-    // ── Google Sheets ──
     function saveToGoogleSheets() {
       const t = new Date();
       const payload = {
@@ -1266,11 +1399,10 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formBody
       })
-        .then(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tulokset tallennettu ✓'; })
-        .catch(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tallennusvirhe – tarkista yhteys.'; });
+        .then(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tulokset Tallennettu ✓'; })
+        .catch(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tallennusvirhe – Tarkista Yhteys.'; });
     }
 
-    // ── Init ──
     loadCal();
     showScreen('infoScreen');
     setProgress(0);
