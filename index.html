@@ -964,21 +964,31 @@
     }
 
     .ref-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
       margin-bottom: 6mm;
       border-bottom: 2px solid #174A8B;
       padding-bottom: 5mm;
     }
 
+    .ref-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3mm;
+    }
+
+    .ref-logo-area img {
+      height: 10mm;
+      width: auto;
+      display: block;
+    }
+
     .ref-header h1 {
-      font-size: 22pt;
+      font-size: 20pt;
       font-weight: 800;
       text-transform: uppercase;
       color: #174A8B;
       margin: 0;
-      line-height: 1.1;
+      line-height: 1.15;
     }
 
     .ref-header .ref-date {
@@ -986,11 +996,6 @@
       font-weight: 700;
       color: #333;
       margin-top: 2mm;
-    }
-
-    .ref-logo-area img {
-      height: 14mm;
-      width: auto;
     }
 
     .ref-body {
@@ -1939,13 +1944,13 @@
 
       const referralHTML = `
         <div class="ref-header">
-          <div>
-            <h1>LÄHETE OPTIKON<br>URHEILUNÄÖNTUTKIMUKSEEN</h1>
-            <div class="ref-date">PVM: ${dateStr}</div>
+          <div class="ref-header-top">
+            <h1>LÄHETE OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</h1>
+            <div class="ref-logo-area">
+              <img src="${logoSrc}" alt="Silmäasema" />
+            </div>
           </div>
-          <div class="ref-logo-area">
-            <img src="${logoSrc}" alt="Silmäasema" />
-          </div>
+          <div class="ref-date">PVM: ${dateStr}</div>
         </div>
 
         <div class="ref-body">
