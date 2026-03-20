@@ -520,7 +520,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJxk2HyXk81PQJ-ZsHzU8mgtFU-h460d_eiwTx-XEhwhj8vbVdc8_b7A-Ahu39YXE6/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4PpZYiRdJd2_-DfKYby80xgifTeGO3r2BogmoLdMiKUmOo-Yw1Zh2007rwVUwCVX_/exec';
     const CAL_PASSWORD = 'Silmä';
     const STORAGE_KEY = 'naontutkimus_cal_v1';
 
@@ -959,8 +959,10 @@
       const t = new Date();
       const payload = {
         pvm: t.getDate() + '.' + (t.getMonth()+1) + '.' + t.getFullYear(),
-        sukupuoli: gender, ika: age,
-        visus_oikea: visusLabel(visusRight), visus_vasen: visusLabel(visusLeft),
+        sukupuoli: gender,
+        ika: String(age),
+        visus_oikea: visusLabel(visusRight),
+        visus_vasen: visusLabel(visusLeft),
         fd_pysty_ok: yn(fdVertResult.ok),
         fd_pysty_siirtyma: yn(fdVertResult.shift),
         fd_pysty_liike: yn(fdVertResult.move),
@@ -969,11 +971,21 @@
         fd_vaaka_siirtyma: yn(fdHorizResult.shift),
         fd_vaaka_liike: yn(fdHorizResult.move),
         fd_vaaka_katoaa: yn(fdHorizResult.disappear),
-        paansarky: questionAnswers.headache, silmien_vasyminen: questionAnswers.eyeFatigue,
-        urheilusuoritus: questionAnswers.sportError,
+        paansarky: questionAnswers.headache || '',
+        silmien_vasyminen: questionAnswers.eyeFatigue || '',
+        urheilusuoritus: questionAnswers.sportError || '',
         suositus: shouldRecommend() ? 'Kyllä' : 'Ei'
       };
-      fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+
+      // Use form data — reliable with no-cors (JSON Content-Type gets stripped)
+      const formBody = new URLSearchParams(payload).toString();
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formBody
+      })
         .then(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tulokset tallennettu ✓'; })
         .catch(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tallennusvirhe – tarkista yhteys.'; });
     }
