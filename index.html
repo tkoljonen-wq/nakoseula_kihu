@@ -171,9 +171,9 @@
     .optotype-container.entering { opacity: 0; transform: scale(0.92); }
 
     .controls-bar {
-      width: 100%; padding: 20px 24px 28px;
-      display: flex; align-items: center; justify-content: center;
-      gap: 12px; background: var(--bg);
+      width: 100%; padding: 12px 24px 28px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 10px; background: var(--bg);
       border-top: 1px solid var(--border);
     }
     .arrow-btn {
@@ -209,15 +209,16 @@
     }
 
     .key-hint {
-      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+      width: 100%; text-align: center;
       font-size: 11px; color: var(--text-dim);
       letter-spacing: 0.03em; opacity: 0.6; pointer-events: none;
+      padding: 6px 0 0;
     }
 
-    /* FD screens — content near top, not centered vertically */
+    /* FD screens — side-by-side: image left, questions right */
     #fdVertScreen, #fdHorizScreen {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: flex-start; padding-top: 0;
+      display: flex; flex-direction: column; align-items: stretch;
+      justify-content: flex-start; padding: 0 16px 16px;
     }
     #fdVertScreen .cal-line-200,
     #fdHorizScreen .cal-line-200 {
@@ -225,12 +226,39 @@
       margin: 0 auto; flex-shrink: 0;
     }
 
+    .fd-layout {
+      display: flex; gap: 20px; width: 100%; max-width: 1200px;
+      margin: 0 auto; flex: 1; min-height: 0;
+    }
+    .fd-layout-left {
+      flex: 1 1 50%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-width: 0;
+    }
+    .fd-layout-right {
+      flex: 1 1 50%; display: flex; flex-direction: column;
+      justify-content: center; min-width: 0;
+    }
+    .fd-layout-right h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 17px; font-weight: 500; margin-bottom: 6px;
+    }
+    .fd-layout-right p {
+      font-size: 13px; color: var(--text-dim);
+      line-height: 1.55; margin-bottom: 14px;
+    }
+
     .fd-stage {
-      width: 100%; min-height: 60vh;
+      width: 100%;
       display: grid; place-items: center;
       background: #fff; border-radius: 14px;
       border: 1px solid var(--border);
-      margin-bottom: 16px;
+    }
+
+    @media (max-width: 860px) {
+      .fd-layout { flex-direction: column; }
+      .fd-layout-left { flex: none; }
+      .fd-layout-right { flex: none; }
     }
     .fd-svg { user-select: none; -webkit-user-drag: none; }
 
@@ -464,6 +492,7 @@
       <div class="optotype-container" id="optotypeContainer"></div>
     </div>
     <div class="controls-bar">
+      <div class="key-hint">Käytä nuolinäppäimiä tai välilyöntiä</div>
       <button class="arrow-btn" data-dir="left" title="Vasen (←)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
@@ -478,7 +507,6 @@
       </button>
       <button class="cant-see-btn" id="cantSeeBtn" title="Välilyönti">En näe</button>
     </div>
-    <div class="key-hint">Käytä nuolinäppäimiä tai välilyöntiä</div>
   </div>
 
   <!-- ═══ FD instruction ═══ -->
@@ -494,34 +522,42 @@
   <!-- ═══ FD vertical bars ═══ -->
   <div class="screen hidden" id="fdVertScreen">
     <div class="cal-line-200 cal-line-fdv" style="display:none;"></div>
-    <div class="fd-question-card">
-      <div class="step-tag">VAIHE 3 / 5 – Pystypalkit</div>
-      <h2>Pystypalkit</h2>
-      <p>Katso testiympyrän keskelle. Punainen ja vihreä pystypalkki — ovatko ne samalla pystylinjalla? Tarkkaile hetki ja vastaa.</p>
-      <div class="fd-stage" id="fdVertStage"></div>
-      <button class="option-btn" id="fdVertOk">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
-      <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
-      <button class="option-btn fd-v-multi" data-val="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
-      <button class="option-btn fd-v-multi" data-val="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
-      <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
-      <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista valinnat →</button>
+    <div class="fd-layout">
+      <div class="fd-layout-left">
+        <div class="fd-stage" id="fdVertStage"></div>
+      </div>
+      <div class="fd-layout-right">
+        <div class="step-tag">VAIHE 3 / 5 – Pystypalkit</div>
+        <h2>Pystypalkit</h2>
+        <p>Katso testiympyrän keskelle. Punainen ja vihreä pystypalkki — ovatko ne samalla pystylinjalla?</p>
+        <button class="option-btn" id="fdVertOk">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
+        <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
+        <button class="option-btn fd-v-multi" data-val="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
+        <button class="option-btn fd-v-multi" data-val="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
+        <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
+        <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista valinnat →</button>
+      </div>
     </div>
   </div>
 
   <!-- ═══ FD horizontal bars ═══ -->
   <div class="screen hidden" id="fdHorizScreen">
     <div class="cal-line-200 cal-line-fdh" style="display:none;"></div>
-    <div class="fd-question-card">
-      <div class="step-tag">VAIHE 3 / 5 – Vaakapalkit</div>
-      <h2>Vaakapalkit</h2>
-      <p>Katso testiympyrän keskelle. Punainen ja vihreä vaakapalkki — pysyvätkö ne samalla korkeudella? Tarkkaile hetki ja vastaa.</p>
-      <div class="fd-stage" id="fdHorizStage"></div>
-      <button class="option-btn" id="fdHorizOk">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
-      <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
-      <button class="option-btn fd-h-multi" data-val="shift">Palkit eivät ole samalla korkeudella</button>
-      <button class="option-btn fd-h-multi" data-val="move">Palkit heiluvat korkeussuunnassa</button>
-      <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
-      <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista valinnat →</button>
+    <div class="fd-layout">
+      <div class="fd-layout-left">
+        <div class="fd-stage" id="fdHorizStage"></div>
+      </div>
+      <div class="fd-layout-right">
+        <div class="step-tag">VAIHE 3 / 5 – Vaakapalkit</div>
+        <h2>Vaakapalkit</h2>
+        <p>Katso testiympyrän keskelle. Punainen ja vihreä vaakapalkki — pysyvätkö ne samalla korkeudella?</p>
+        <button class="option-btn" id="fdHorizOk">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
+        <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
+        <button class="option-btn fd-h-multi" data-val="shift">Palkit eivät ole samalla korkeudella</button>
+        <button class="option-btn fd-h-multi" data-val="move">Palkit heiluvat korkeussuunnassa</button>
+        <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
+        <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista valinnat →</button>
+      </div>
     </div>
   </div>
 
