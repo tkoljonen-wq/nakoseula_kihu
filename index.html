@@ -403,6 +403,50 @@
       display: flex; align-items: center; gap: 8px;
     }
 
+    /* Numpad for age input */
+    .numpad-display {
+      width: 100%; padding: 14px 16px;
+      font-family: 'DM Mono', monospace; font-size: 36px;
+      font-weight: 600; text-align: center;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      background: var(--bg); color: var(--text);
+      min-height: 64px; line-height: 1;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .numpad-display:empty::before {
+      content: 'Syötä ikä';
+      color: var(--text-dim); font-size: 22px;
+      font-weight: 400; letter-spacing: 0;
+    }
+    .numpad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .numpad-btn {
+      padding: 18px 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 28px; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      cursor: pointer; transition: all 0.12s;
+      text-align: center;
+      user-select: none; -webkit-user-select: none;
+    }
+    .numpad-btn:hover { border-color: var(--accent); background: #EDF2FA; }
+    .numpad-btn:active { transform: scale(0.93); background: #D9E4F5; }
+    .numpad-clear {
+      background: #FEF5EE; color: #C47A20;
+      border-color: #F0D8B0;
+    }
+    .numpad-clear:hover { background: #FDEBD6; border-color: #C47A20; }
+    .numpad-clearall {
+      background: #FEF0F0; color: var(--wrong);
+      border-color: #F0BFBF;
+    }
+    .numpad-clearall:hover { background: #FDE0E0; border-color: var(--wrong); }
+
     /* Calibration screen keeps smaller text — only examiner uses it */
     #calScreen .card h1 { font-size: 21px; }
     #calScreen .card .subtitle { font-size: 13.5px; }
@@ -476,8 +520,23 @@
         </div>
       </div>
       <div class="field">
-        <label for="ageInput">Ikä</label>
-        <input id="ageInput" type="number" min="5" max="120" step="1" placeholder="esim. 28" />
+        <label>Ikä</label>
+        <input id="ageInput" type="hidden" />
+        <div class="numpad-display" id="ageDisplay"></div>
+        <div class="numpad-grid">
+          <button class="numpad-btn" data-num="1">1</button>
+          <button class="numpad-btn" data-num="2">2</button>
+          <button class="numpad-btn" data-num="3">3</button>
+          <button class="numpad-btn" data-num="4">4</button>
+          <button class="numpad-btn" data-num="5">5</button>
+          <button class="numpad-btn" data-num="6">6</button>
+          <button class="numpad-btn" data-num="7">7</button>
+          <button class="numpad-btn" data-num="8">8</button>
+          <button class="numpad-btn" data-num="9">9</button>
+          <button class="numpad-btn numpad-clear" data-num="clear">⌫</button>
+          <button class="numpad-btn" data-num="0">0</button>
+          <button class="numpad-btn numpad-clearall" data-num="clearall">C</button>
+        </div>
       </div>
       <button class="btn-primary" id="infoNextBtn">Jatka visustestiin →</button>
       <div class="cal-error" id="infoError"></div>
@@ -715,6 +774,28 @@
       applyColors();
       saveCal();
       showScreen('infoScreen');
+    });
+
+    // ── Numpad for age input ──
+    let ageString = '';
+    function updateAgeDisplay() {
+      $('ageDisplay').textContent = ageString;
+      $('ageInput').value = ageString;
+    }
+    document.querySelectorAll('.numpad-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.num;
+        if (val === 'clear') {
+          ageString = ageString.slice(0, -1);
+        } else if (val === 'clearall') {
+          ageString = '';
+        } else {
+          if (ageString.length < 3) {
+            ageString += val;
+          }
+        }
+        updateAgeDisplay();
+      });
     });
 
     // ── Info → Visus ──
@@ -1009,6 +1090,8 @@
       questionAnswers = {}; currentQuestionIdx = 0;
       document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
       $('ageInput').value = '';
+      ageString = '';
+      updateAgeDisplay();
       $('infoError').textContent = '';
       setProgress(0);
       showScreen('infoScreen');
