@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Näöntutkimus – Urheilijanäkö</title>
+  <title>NÄÖNTUTKIMUS – URHEILIJANÄKÖ</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,7 +18,6 @@
       --correct: #188A52;
       --wrong: #C93333;
       --border: #D8D4CD;
-      --radius: 16px;
       --shadow: 0 2px 8px rgba(0,0,0,0.06), 0 10px 28px rgba(0,0,0,0.06);
       --bar-red: #e20000;
       --bar-green: #009d00;
@@ -35,14 +34,18 @@
     }
 
     .screen {
-      position: fixed; inset: 0;
-      display: grid; place-items: center;
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
       padding: 20px;
       transition: opacity 0.35s ease, transform 0.35s ease;
       overflow-y: auto;
     }
     .screen.hidden {
-      opacity: 0; pointer-events: none; transform: scale(0.97);
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97);
     }
 
     .card {
@@ -50,29 +53,31 @@
       border: 1.5px solid var(--border);
       border-radius: 24px;
       padding: 46px 50px;
-      max-width: 860px;
+      max-width: 900px;
       width: 100%;
       box-shadow: var(--shadow);
     }
+
     .card h1 {
-      font-family: 'Inter', system-ui, sans-serif;
       font-size: 46px;
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.08;
       margin-bottom: 14px;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
+
     .card .subtitle {
       font-size: 31px;
       color: var(--text-dim);
       line-height: 1.45;
       margin-bottom: 34px;
       font-weight: 500;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .field { margin-bottom: 28px; }
+
     .field label {
       display: block;
       font-size: 28px;
@@ -80,38 +85,44 @@
       letter-spacing: 0.01em;
       margin-bottom: 10px;
       color: var(--text);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
+
     .field input, .field select {
       width: 100%;
       padding: 18px 20px;
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 29px;
-      font-weight: 600;
+      font-weight: 700;
       border: 2px solid var(--border);
       border-radius: 14px;
       background: #FAFAF8;
       color: var(--text);
       transition: border-color 0.2s, box-shadow 0.2s;
-      appearance: none; -webkit-appearance: none;
+      appearance: none;
+      -webkit-appearance: none;
     }
+
     .field select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M1 1l7 7 7-7' stroke='%23555555' stroke-width='2' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 18px center;
       padding-right: 46px;
+      text-transform: uppercase;
     }
+
     .field input:focus, .field select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 4px rgba(23,74,139,0.12);
     }
+
     .field .hint {
       font-size: 22px;
       color: #3A3A3A;
       margin-top: 8px;
       line-height: 1.35;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .btn-primary {
@@ -130,7 +141,7 @@
       margin-top: 12px;
       transition: background 0.2s, transform 0.1s;
       box-shadow: 0 4px 14px rgba(23,74,139,0.16);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-primary:active { transform: scale(0.985); }
@@ -147,7 +158,7 @@
       color: var(--text);
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
     .btn-secondary:hover { background: var(--bg); border-color: var(--accent); }
 
@@ -158,21 +169,25 @@
       margin-top: 12px;
       min-height: 30px;
       line-height: 1.3;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .progress-wrap {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 8px; background: #DAD6D0; z-index: 100;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 8px;
+      background: #DAD6D0;
+      z-index: 100;
     }
     .progress-fill {
-      height: 100%; background: var(--accent);
-      transition: width 0.4s ease; width: 0%;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s ease;
+      width: 0%;
     }
 
     .step-tag {
       display: inline-block;
-      font-family: 'Inter', system-ui, sans-serif;
       font-size: 22px;
       font-weight: 800;
       color: var(--accent);
@@ -181,45 +196,73 @@
       border-radius: 10px;
       margin-bottom: 18px;
       letter-spacing: 0.04em;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .cal-line-200 {
-      position: absolute; z-index: 50;
-      left: 50%; transform: translateX(-50%);
-      height: 3px; background: #1A1A1A;
-      border-radius: 2px; pointer-events: none;
+      position: absolute;
+      z-index: 50;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 3px;
+      background: #1A1A1A;
+      border-radius: 2px;
+      pointer-events: none;
     }
 
     .top-bar {
-      position: fixed; top: 12px; right: 16px; z-index: 60;
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      z-index: 60;
     }
+
     .top-bar-btn {
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 18px;
       font-weight: 800;
       color: var(--text);
       background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 2px solid var(--border);
       border-radius: 10px;
       padding: 10px 18px;
       cursor: pointer;
       transition: color 0.15s, border-color 0.15s, background 0.15s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
-    .top-bar-btn:hover { color: var(--text); border-color: var(--accent); background: #fff; }
+    .top-bar-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: #fff;
+    }
 
-    #testScreen { display: flex; flex-direction: column; gap: 0; background: #fff; padding-top: 0; }
+    /* LANDOLT TEST */
+    #testScreen {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: #fff;
+      padding-top: 0;
+    }
     #testScreen .cal-line-200 {
-      position: relative; left: auto; transform: none;
-      margin: 0 auto; flex-shrink: 0;
+      position: relative;
+      left: auto;
+      transform: none;
+      margin: 0 auto;
+      flex-shrink: 0;
     }
+
     .optotype-area {
-      flex: 1; display: grid; place-items: center;
-      width: 100%; position: relative;
+      flex: 1;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      position: relative;
     }
+
     .optotype-container { transition: opacity 0.15s ease, transform 0.15s ease; }
     .optotype-container.flash-correct { filter: drop-shadow(0 0 28px rgba(24,138,82,0.42)); }
     .optotype-container.flash-wrong { filter: drop-shadow(0 0 28px rgba(201,51,51,0.42)); }
@@ -228,24 +271,39 @@
     .controls-bar {
       width: 100%;
       padding: 18px 24px 30px;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-      gap: 18px; background: #F4F3F0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background: #F4F3F0;
       border-top: 1.5px solid var(--border);
     }
+
     .arrow-btn {
-      width: 120px; height: 120px; border-radius: 24px;
-      border: 2px solid var(--border); background: var(--surface);
-      cursor: pointer; display: grid; place-items: center;
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
       transition: border-color 0.15s, background 0.15s, transform 0.1s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .arrow-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .arrow-btn:active { transform: scale(0.93); }
     .arrow-btn svg {
-      width: 48px; height: 48px; stroke: var(--text);
-      stroke-width: 3; fill: none;
-      stroke-linecap: round; stroke-linejoin: round;
+      width: 48px;
+      height: 48px;
+      stroke: var(--text);
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
+
     .cant-see-btn {
       margin-left: 24px;
       padding: 22px 34px;
@@ -260,13 +318,19 @@
       transition: background 0.15s, color 0.15s, border-color 0.15s;
       white-space: nowrap;
       min-height: 88px;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
-    .cant-see-btn:hover { background: #FEF0F0; border-color: var(--wrong); color: var(--wrong); }
+    .cant-see-btn:hover {
+      background: #FEF0F0;
+      border-color: var(--wrong);
+      color: var(--wrong);
+    }
 
     .eye-label {
-      position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-      font-family: 'Inter', system-ui, sans-serif;
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
       font-size: 28px;
       font-weight: 800;
       color: var(--accent);
@@ -275,152 +339,185 @@
       border-radius: 12px;
       z-index: 20;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .key-hint {
-      width: 100%; text-align: center;
-      font-size: 24px; color: #2F2F2F;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+      color: #2F2F2F;
       font-weight: 700;
       letter-spacing: 0.02em;
-      opacity: 0.88; pointer-events: none;
+      opacity: 0.88;
+      pointer-events: none;
       padding: 8px 0 2px;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
+    /* FD SCREENS */
     #fdVertScreen, #fdHorizScreen {
-      display: flex; flex-direction: column; align-items: stretch;
-      justify-content: flex-start; padding: 0 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: 0 18px 18px;
     }
     #fdVertScreen .cal-line-200,
     #fdHorizScreen .cal-line-200 {
-      position: relative; left: auto; transform: none;
-      margin: 0 auto; flex-shrink: 0;
+      position: relative;
+      left: auto;
+      transform: none;
+      margin: 0 auto;
+      flex-shrink: 0;
     }
 
     .fd-layout {
-      display: flex; gap: 24px; width: 100%; max-width: 1480px;
-      margin: 0 auto; flex: 1; min-height: 0;
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      max-width: 1480px;
+      margin: 0 auto;
+      flex: 1;
+      min-height: 0;
     }
+
     .fd-layout-left {
-      flex: 1 1 50%; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-width: 0;
     }
+
     .fd-layout-right {
-      flex: 1 1 50%; display: flex; flex-direction: column;
-      justify-content: center; min-width: 0;
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
     }
+
     .fd-layout-right h2 {
-      font-family: 'Inter', system-ui, sans-serif;
       font-size: 42px;
       font-weight: 800;
       margin-bottom: 12px;
       line-height: 1.1;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
+
     .fd-layout-right p {
       font-size: 31px;
       color: var(--text-dim);
       line-height: 1.45;
       margin-bottom: 22px;
       font-weight: 500;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .fd-stage {
       width: 100%;
-      display: grid; place-items: center;
-      background: #fff; border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border-radius: 18px;
       border: 1.5px solid var(--border);
       min-height: 420px;
     }
 
-    @media (max-width: 860px) {
-      .fd-layout { flex-direction: column; }
-      .fd-layout-left { flex: none; }
-      .fd-layout-right { flex: none; }
-    }
-    .fd-svg { user-select: none; -webkit-user-drag: none; }
-
-    .fd-question-card {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 22px;
-      padding: 38px 42px;
-      max-width: 780px; width: 100%;
-      box-shadow: var(--shadow);
-    }
-    .fd-question-card h2 {
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: 38px; font-weight: 800;
-      margin-bottom: 12px;
-      text-transform: capitalize;
-    }
-    .fd-question-card p {
-      font-size: 29px; color: var(--text-dim);
-      line-height: 1.45; margin-bottom: 22px;
-      text-transform: capitalize;
+    .fd-svg {
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
     .option-btn {
-      display: block; width: 100%;
-      padding: 22px 24px; margin-bottom: 14px;
+      display: block;
+      width: 100%;
+      padding: 22px 24px;
+      margin-bottom: 14px;
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 28px; font-weight: 700;
+      font-size: 28px;
+      font-weight: 700;
       line-height: 1.3;
       text-align: left;
-      border: 2px solid var(--border); border-radius: 16px;
-      background: var(--surface); color: var(--text);
-      cursor: pointer; transition: all 0.15s;
-      text-transform: capitalize;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-transform: uppercase;
     }
     .option-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .option-btn:active { transform: scale(0.985); }
     .option-btn.selected {
-      border-color: var(--accent); background: #D9E4F5; font-weight: 800;
+      border-color: var(--accent);
+      background: #D9E4F5;
+      font-weight: 800;
     }
     .option-btn.disabled-opt {
-      opacity: 0.4; cursor: not-allowed; pointer-events: none;
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .fd-multi-hint {
-      margin-top: 8px; margin-bottom: 12px;
-      font-size: 25px; color: var(--text-dim);
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: 25px;
+      color: var(--text-dim);
       line-height: 1.35;
       font-weight: 600;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .fd-confirm-btn {
-      display: none; width: 100%;
-      padding: 24px 30px; margin-top: 10px;
+      display: none;
+      width: 100%;
+      padding: 24px 30px;
+      margin-top: 10px;
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 32px; font-weight: 800;
-      background: var(--accent); color: #fff;
-      border: none; border-radius: 16px;
-      cursor: pointer; transition: background 0.2s, transform 0.1s;
-      text-transform: capitalize;
+      font-size: 32px;
+      font-weight: 800;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-transform: uppercase;
     }
     .fd-confirm-btn:hover { background: var(--accent-hover); }
     .fd-confirm-btn:active { transform: scale(0.985); }
     .fd-confirm-btn.visible { display: block; }
 
-    .q-btn-row { display: flex; gap: 18px; margin-top: 16px; }
+    /* QUESTIONS */
+    .q-btn-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
     .q-btn {
-      flex: 1; padding: 24px;
+      flex: 1;
+      padding: 24px;
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 34px; font-weight: 800;
-      border: 2px solid var(--border); border-radius: 16px;
-      background: var(--surface); color: var(--text);
-      cursor: pointer; transition: all 0.15s;
+      font-size: 34px;
+      font-weight: 800;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
       min-height: 96px;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
     .q-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .q-btn:active { transform: scale(0.985); }
 
-    /* Result screen */
+    /* RESULT SCREEN */
     #resultScreen {
       place-items: stretch;
       padding: 16px;
@@ -442,18 +539,18 @@
       gap: 16px;
       overflow: hidden;
     }
+
     .result-card h1 {
-      font-family: 'Inter', system-ui, sans-serif;
       font-size: 40px;
       font-weight: 800;
       margin-bottom: 0;
       line-height: 1.08;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .result-main {
       display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
+      grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
       gap: 18px;
       min-height: 0;
       overflow: hidden;
@@ -479,17 +576,23 @@
       background: #F7F6F3;
       border-radius: 16px;
     }
+
     .result-section h3 {
-      font-size: 18px; font-weight: 800;
-      color: #3A3A3A; text-transform: capitalize;
-      letter-spacing: 0.04em; margin-bottom: 8px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #3A3A3A;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
     }
+
     .result-section p {
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 26px; line-height: 1.42;
-      font-weight: 600;
+      font-size: 26px;
+      line-height: 1.42;
+      font-weight: 700;
       color: var(--text);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .recommendation {
@@ -497,18 +600,25 @@
       border-radius: 18px;
       font-size: 24px;
       line-height: 1.45;
-      font-weight: 600;
-      text-transform: capitalize;
+      font-weight: 700;
+      text-transform: uppercase;
     }
     .recommendation.warn {
-      background: #FFF4E8; border: 2px solid #E7AD57; color: #7A4C09;
+      background: #FFF4E8;
+      border: 2px solid #E7AD57;
+      color: #7A4C09;
     }
     .recommendation.ok {
-      background: #ECFBF2; border: 2px solid #61C78B; color: #155B35;
+      background: #ECFBF2;
+      border: 2px solid #61C78B;
+      color: #155B35;
     }
     .recommendation strong {
-      display: block; margin-bottom: 8px; font-size: 29px; font-weight: 800;
-      text-transform: capitalize;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 29px;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     .qr-card {
@@ -529,6 +639,7 @@
       display: block;
       border-radius: 10px;
       background: #fff;
+      border: 1px solid #ddd;
     }
 
     .qr-title {
@@ -536,7 +647,7 @@
       line-height: 1.35;
       font-weight: 800;
       color: var(--text);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .silmaasema-wrap {
@@ -550,11 +661,12 @@
     }
 
     .saving-status {
-      font-size: 18px; color: #3A3A3A;
+      font-size: 18px;
+      color: #3A3A3A;
       text-align: center;
       font-family: 'Inter', system-ui, sans-serif;
       font-weight: 700;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
 
     .result-bottom {
@@ -566,82 +678,132 @@
 
     .new-test-wrap { text-align: right; }
 
-    .gender-btn-row { display: flex; gap: 14px; margin-bottom: 24px; }
+    /* GENDER BUTTONS */
+    .gender-btn-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
     .gender-btn {
-      flex: 1; padding: 22px 18px;
+      flex: 1;
+      padding: 22px 18px;
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 30px; font-weight: 800;
-      border: 2px solid var(--border); border-radius: 16px;
-      background: var(--surface); color: var(--text);
-      cursor: pointer; transition: all 0.15s;
+      font-size: 30px;
+      font-weight: 800;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
       text-align: center;
       min-height: 88px;
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
     .gender-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .gender-btn:active { transform: scale(0.985); }
-    .gender-btn.selected { border-color: var(--accent); background: #D9E4F5; }
+    .gender-btn.selected {
+      border-color: var(--accent);
+      background: #D9E4F5;
+    }
 
+    /* COLOR PREVIEW */
     .color-preview {
-      display: inline-block; width: 28px; height: 28px;
-      border-radius: 6px; border: 1px solid var(--border);
-      vertical-align: middle; margin-left: 10px;
-    }
-    .color-row { display: flex; gap: 8px; }
-    .color-row .field { flex: 1; }
-    .color-section-label {
-      font-size: 13px; font-weight: 700;
-      margin-bottom: 8px; margin-top: 16px;
-      display: flex; align-items: center; gap: 8px;
-      text-transform: capitalize;
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      vertical-align: middle;
+      margin-left: 10px;
     }
 
+    .color-row {
+      display: flex;
+      gap: 8px;
+    }
+    .color-row .field { flex: 1; }
+
+    .color-section-label {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+    }
+
+    /* NUMPAD */
     .numpad-display {
-      width: 100%; padding: 18px 16px;
+      width: 100%;
+      padding: 18px 16px;
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 52px;
-      font-weight: 800; text-align: center;
-      border: 2px solid var(--border); border-radius: 14px;
-      background: #FAFAF8; color: var(--text);
-      min-height: 92px; line-height: 1;
+      font-weight: 800;
+      text-align: center;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: #FAFAF8;
+      color: var(--text);
+      min-height: 92px;
+      line-height: 1;
       letter-spacing: 0.08em;
       margin-bottom: 16px;
+      text-transform: uppercase;
     }
+
     .numpad-display:empty::before {
-      content: 'Syötä Ikä';
-      color: #666666; font-size: 31px;
-      font-weight: 500; letter-spacing: 0;
-      text-transform: capitalize;
+      content: 'SYÖTÄ IKÄ';
+      color: #666666;
+      font-size: 31px;
+      font-weight: 500;
+      letter-spacing: 0;
     }
+
     .numpad-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
+
     .numpad-btn {
       padding: 22px 10px;
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 40px; font-weight: 800;
-      border: 2px solid var(--border); border-radius: 16px;
-      background: var(--surface); color: var(--text);
-      cursor: pointer; transition: all 0.12s;
+      font-size: 40px;
+      font-weight: 800;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.12s;
       text-align: center;
-      user-select: none; -webkit-user-select: none;
+      user-select: none;
+      -webkit-user-select: none;
       min-height: 88px;
+      text-transform: uppercase;
     }
     .numpad-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .numpad-btn:active { transform: scale(0.93); background: #D9E4F5; }
+
     .numpad-clear {
-      background: #FEF5EE; color: #9A5E0C;
+      background: #FEF5EE;
+      color: #9A5E0C;
       border-color: #E6C99D;
     }
     .numpad-clear:hover { background: #FDEBD6; border-color: #9A5E0C; }
+
     .numpad-clearall {
-      background: #FEF0F0; color: var(--wrong);
+      background: #FEF0F0;
+      color: var(--wrong);
       border-color: #E7B5B5;
     }
     .numpad-clearall:hover { background: #FDE0E0; border-color: var(--wrong); }
 
+    /* CALIBRATION SCREEN SMALLER */
     #calScreen { --text-dim: #666666; }
     #calScreen .card {
       max-width: 660px;
@@ -659,23 +821,15 @@
     #calScreen .color-preview { width: 22px; height: 22px; }
 
     @media (max-width: 1200px) {
-      .result-main {
-        grid-template-columns: 1fr;
-      }
+      .result-main { grid-template-columns: 1fr; }
       .result-card {
         height: auto;
         min-height: calc(100vh - 40px);
         overflow: auto;
       }
-      .result-left {
-        overflow: visible;
-      }
-      .result-bottom {
-        grid-template-columns: 1fr;
-      }
-      .new-test-wrap {
-        text-align: center;
-      }
+      .result-left { overflow: visible; }
+      .result-bottom { grid-template-columns: 1fr; }
+      .new-test-wrap { text-align: center; }
     }
 
     @media (max-width: 900px) {
@@ -697,6 +851,11 @@
       .key-hint { font-size: 20px; }
       .result-section p { font-size: 22px; }
       .qr-title { font-size: 22px; }
+    }
+
+    @media (max-width: 860px) {
+      .fd-layout { flex-direction: column; }
+      .fd-layout-left, .fd-layout-right { flex: none; }
     }
 
     @media (max-width: 600px) {
@@ -731,59 +890,66 @@
 <body>
 
   <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
   <div class="top-bar" id="topBar" style="display:none;">
-    <button class="top-bar-btn" id="calBtn">Kalibroi</button>
+    <button class="top-bar-btn" id="calBtn">KALIBROI</button>
   </div>
 
+  <!-- KALIBROINTI -->
   <div class="screen hidden" id="calScreen">
     <div class="card">
-      <h1>Kalibrointi</h1>
-      <p class="subtitle">Syötä Kalibrointitiedot. Nämä Asetukset Säilyvät Selaimen Muistissa.</p>
+      <h1>KALIBROINTI</h1>
+      <p class="subtitle">SYÖTÄ KALIBROINTITIEDOT. NÄMÄ ASETUKSET SÄILYVÄT SELAIMEN MUISTISSA.</p>
+
       <div class="field">
-        <label for="pxPerMmInput">Px / Mm</label>
-        <input id="pxPerMmInput" type="number" step="any" min="0.1" placeholder="esim. 3.7795" />
-        <div class="hint">Näytön Mittakalibroinnin Antama Arvo</div>
-      </div>
-      <div class="field">
-        <label for="distanceInput">Tutkimusetäisyys (M)</label>
-        <input id="distanceInput" type="number" step="any" min="0.1" placeholder="esim. 4" />
-        <div class="hint">Tyypillisesti 4 Tai 6 Metriä</div>
+        <label for="pxPerMmInput">PX / MM</label>
+        <input id="pxPerMmInput" type="number" step="any" min="0.1" placeholder="ESIM. 3.7795" />
+        <div class="hint">NÄYTÖN MITTAKALIBROINNIN ANTAMA ARVO</div>
       </div>
 
-      <div class="color-section-label">Punainen <span class="color-preview" id="redPreview" style="background:#e20000;"></span></div>
+      <div class="field">
+        <label for="distanceInput">TUTKIMUSETÄISYYS (M)</label>
+        <input id="distanceInput" type="number" step="any" min="0.1" placeholder="ESIM. 4" />
+        <div class="hint">TYYPILLISESTI 4 TAI 6 METRIÄ</div>
+      </div>
+
+      <div class="color-section-label">PUNAINEN <span class="color-preview" id="redPreview" style="background:#e20000;"></span></div>
       <div class="color-row">
         <div class="field"><label for="calRedR">R</label><input id="calRedR" type="number" min="0" max="255" step="1" placeholder="226" /></div>
         <div class="field"><label for="calRedG">G</label><input id="calRedG" type="number" min="0" max="255" step="1" placeholder="0" /></div>
         <div class="field"><label for="calRedB">B</label><input id="calRedB" type="number" min="0" max="255" step="1" placeholder="0" /></div>
       </div>
 
-      <div class="color-section-label">Vihreä <span class="color-preview" id="greenPreview" style="background:#009d00;"></span></div>
+      <div class="color-section-label">VIHREÄ <span class="color-preview" id="greenPreview" style="background:#009d00;"></span></div>
       <div class="color-row">
         <div class="field"><label for="calGreenR">R</label><input id="calGreenR" type="number" min="0" max="255" step="1" placeholder="0" /></div>
         <div class="field"><label for="calGreenG">G</label><input id="calGreenG" type="number" min="0" max="255" step="1" placeholder="157" /></div>
         <div class="field"><label for="calGreenB">B</label><input id="calGreenB" type="number" min="0" max="255" step="1" placeholder="0" /></div>
       </div>
 
-      <button class="btn-primary" id="saveCalBtn">Tallenna Ja Palaa</button>
+      <button class="btn-primary" id="saveCalBtn">TALLENNA JA PALAA</button>
       <div class="cal-error" id="calError"></div>
     </div>
   </div>
 
+  <!-- ALOITUS -->
   <div class="screen" id="infoScreen">
     <div class="card">
-      <div class="step-tag">Vaihe 1 / 5</div>
-      <h1>◔ Näöntutkimus</h1>
-      <p class="subtitle">Urheilijanäön Tutkimusohjelma. Syötä Perustietosi Ja Seuraa Ohjeita.</p>
+      <div class="step-tag">VAIHE 1 / 5</div>
+      <h1>◔ NÄÖNTUTKIMUS</h1>
+      <p class="subtitle">URHEILIJANÄÖN TUTKIMUSOHJELMA. SYÖTÄ PERUSTIETOSI JA SEURAA OHJEITA.</p>
+
       <div class="field">
-        <label>Sukupuoli</label>
+        <label>SUKUPUOLI</label>
         <div class="gender-btn-row">
-          <button class="gender-btn" data-gender="Nainen">Nainen</button>
-          <button class="gender-btn" data-gender="Mies">Mies</button>
-          <button class="gender-btn" data-gender="En Halua Vastata">Muu</button>
+          <button class="gender-btn" data-gender="NAINEN">NAINEN</button>
+          <button class="gender-btn" data-gender="MIES">MIES</button>
+          <button class="gender-btn" data-gender="EN HALUA VASTATA">MUU</button>
         </div>
       </div>
+
       <div class="field">
-        <label>Ikä</label>
+        <label>IKÄ</label>
         <input id="ageInput" type="hidden" />
         <div class="numpad-display" id="ageDisplay"></div>
         <div class="numpad-grid">
@@ -801,53 +967,58 @@
           <button class="numpad-btn numpad-clearall" data-num="clearall">C</button>
         </div>
       </div>
-      <button class="btn-primary" id="infoNextBtn">Jatka Visustestiin →</button>
+
+      <button class="btn-primary" id="infoNextBtn">JATKA VISUSTESTIIN →</button>
       <div class="cal-error" id="infoError"></div>
     </div>
   </div>
 
+  <!-- OHJE ENNEN VISUSTESTIÄ -->
   <div class="screen hidden" id="instructScreen">
     <div class="card">
-      <div class="step-tag" id="eyeStepTag">Vaihe 2 / 5</div>
-      <h1 id="instructTitle">Visustesti – Oikea Silmä</h1>
+      <div class="step-tag" id="eyeStepTag">VAIHE 2 / 5</div>
+      <h1 id="instructTitle">VISUSTESTI – OIKEA SILMÄ</h1>
       <p class="subtitle" id="instructText"></p>
-      <button class="btn-primary" id="instructStartBtn">Aloita</button>
+      <button class="btn-primary" id="instructStartBtn">ALOITA</button>
     </div>
   </div>
 
+  <!-- LANDOLT TEST -->
   <div class="screen hidden" id="testScreen">
     <div class="cal-line-200 cal-line-test" style="display:none;"></div>
-    <div class="eye-label" id="eyeLabel">Oikea Silmä</div>
+    <div class="eye-label" id="eyeLabel">OIKEA SILMÄ</div>
     <div class="optotype-area">
       <div class="optotype-container" id="optotypeContainer"></div>
     </div>
     <div class="controls-bar">
-      <div class="key-hint">Käytä Nuolinäppäimiä Tai Välilyöntiä</div>
-      <button class="arrow-btn" data-dir="left" title="Vasen (←)">
+      <div class="key-hint">KÄYTÄ NUOLINÄPPÄIMIÄ TAI VÄLILYÖNTIÄ</div>
+      <button class="arrow-btn" data-dir="left" title="VASEN (←)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="arrow-btn" data-dir="up" title="Ylös (↑)">
+      <button class="arrow-btn" data-dir="up" title="YLÖS (↑)">
         <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
       </button>
-      <button class="arrow-btn" data-dir="down" title="Alas (↓)">
+      <button class="arrow-btn" data-dir="down" title="ALAS (↓)">
         <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <button class="arrow-btn" data-dir="right" title="Oikea (→)">
+      <button class="arrow-btn" data-dir="right" title="OIKEA (→)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      <button class="cant-see-btn" id="cantSeeBtn" title="Välilyönti">En Näe</button>
+      <button class="cant-see-btn" id="cantSeeBtn" title="VÄLILYÖNTI">EN NÄE</button>
     </div>
   </div>
 
+  <!-- FD OHJE -->
   <div class="screen hidden" id="fdInstructScreen">
     <div class="card">
-      <div class="step-tag">Vaihe 3 / 5</div>
-      <h1>Fiksaatiodisparaatiotesti</h1>
-      <p class="subtitle">Aseta Puna-Vihersuodattimet Silmiesi Eteen (Punainen Oikean Silmän Eteen, Vihreä Vasemman). Katsele Testiympyrää Keskeltä Ja Tarkkaile Punaista Ja Vihreää Palkkia. Vastaa Näkemäsi Mukaan.</p>
-      <button class="btn-primary" id="fdInstructStartBtn">Aloita →</button>
+      <div class="step-tag">VAIHE 3 / 5</div>
+      <h1>FIKSAATIODISPARAATIOTESTI</h1>
+      <p class="subtitle">ASETA PUNA-VIHERSUODATTIMET SILMIESI ETEEN (PUNAINEN OIKEAN SILMÄN ETEEN, VIHREÄ VASEMMAN). KATSELE TESTIYMPYRÄÄ KESKELTÄ JA TARKKAILE PUNAISTA JA VIHREÄÄ PALKKIA. VASTAA NÄKEMÄSI MUKAAN.</p>
+      <button class="btn-primary" id="fdInstructStartBtn">ALOITA →</button>
     </div>
   </div>
 
+  <!-- FD PYSTY -->
   <div class="screen hidden" id="fdVertScreen">
     <div class="cal-line-200 cal-line-fdv" style="display:none;"></div>
     <div class="fd-layout">
@@ -855,19 +1026,20 @@
         <div class="fd-stage" id="fdVertStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">Vaihe 3 / 5 – Pystypalkit</div>
-        <h2>Pystypalkit</h2>
-        <p>Katso Testiympyrän Keskelle. Punainen Ja Vihreä Pystypalkki — Ovatko Ne Samalla Pystylinjalla?</p>
-        <button class="option-btn" id="fdVertOk">Palkit Ovat Samassa Linjassa, Eivät Liiku Tai Katoa</button>
-        <div class="fd-multi-hint">Jos Yllä Oleva Ei Pidä Paikkaansa, Valitse Yksi Tai Useampi Syy:</div>
-        <button class="option-btn fd-v-multi" data-val="shift">Palkit Eivät Ole Täysin Samalla Pystylinjalla</button>
-        <button class="option-btn fd-v-multi" data-val="move">Palkit Heiluvat / Liikkuvat Sivusuunnassa</button>
-        <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi Palkki Katoaa Välillä</button>
-        <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista Valinnat →</button>
+        <div class="step-tag">VAIHE 3 / 5 – PYSTYPALKIT</div>
+        <h2>PYSTYPALKIT</h2>
+        <p>KATSO TESTIYMPYRÄN KESKELLE. PUNAINEN JA VIHREÄ PYSTYPALKKI — OVATKO NE SAMALLA PYSTYLINJALLA?</p>
+        <button class="option-btn" id="fdVertOk">PALKIT OVAT SAMASSA LINJASSA, EIVÄT LIIKU TAI KATOA</button>
+        <div class="fd-multi-hint">JOS YLLÄ OLEVA EI PIDÄ PAIKKAANSA, VALITSE YKSI TAI USEAMPI SYY:</div>
+        <button class="option-btn fd-v-multi" data-val="shift">PALKIT EIVÄT OLE TÄYSIN SAMALLA PYSTYLINJALLA</button>
+        <button class="option-btn fd-v-multi" data-val="move">PALKIT HEILUVAT / LIIKKUVAT SIVUSUUNNASSA</button>
+        <button class="option-btn fd-v-multi" data-val="disappear">JOMPIKUMPI PALKKI KATOAA VÄLILLÄ</button>
+        <button class="fd-confirm-btn" id="fdVertConfirm">VAHVISTA VALINNAT →</button>
       </div>
     </div>
   </div>
 
+  <!-- FD VAAKA -->
   <div class="screen hidden" id="fdHorizScreen">
     <div class="cal-line-200 cal-line-fdh" style="display:none;"></div>
     <div class="fd-layout">
@@ -875,23 +1047,25 @@
         <div class="fd-stage" id="fdHorizStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">Vaihe 3 / 5 – Vaakapalkit</div>
-        <h2>Vaakapalkit</h2>
-        <p>Katso Testiympyrän Keskelle. Punainen Ja Vihreä Vaakapalkki — Pysyvätkö Ne Samalla Korkeudella?</p>
-        <button class="option-btn" id="fdHorizOk">Palkit Ovat Samalla Korkeudella, Eivät Liiku Tai Katoa</button>
-        <div class="fd-multi-hint">Jos Yllä Oleva Ei Pidä Paikkaansa, Valitse Yksi Tai Useampi Syy:</div>
-        <button class="option-btn fd-h-multi" data-val="shift">Palkit Eivät Ole Samalla Korkeudella</button>
-        <button class="option-btn fd-h-multi" data-val="move">Palkit Heiluvat Korkeussuunnassa</button>
-        <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi Palkki Katoaa Välillä</button>
-        <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista Valinnat →</button>
+        <div class="step-tag">VAIHE 3 / 5 – VAAKAPALKIT</div>
+        <h2>VAAKAPALKIT</h2>
+        <p>KATSO TESTIYMPYRÄN KESKELLE. PUNAINEN JA VIHREÄ VAAKAPALKKI — PYSYVÄTKÖ NE SAMALLA KORKEUDELLA?</p>
+        <button class="option-btn" id="fdHorizOk">PALKIT OVAT SAMALLA KORKEUDELLA, EIVÄT LIIKU TAI KATOA</button>
+        <div class="fd-multi-hint">JOS YLLÄ OLEVA EI PIDÄ PAIKKAANSA, VALITSE YKSI TAI USEAMPI SYY:</div>
+        <button class="option-btn fd-h-multi" data-val="shift">PALKIT EIVÄT OLE SAMALLA KORKEUDELLA</button>
+        <button class="option-btn fd-h-multi" data-val="move">PALKIT HEILUVAT KORKEUSSUUNNASSA</button>
+        <button class="option-btn fd-h-multi" data-val="disappear">JOMPIKUMPI PALKKI KATOAA VÄLILLÄ</button>
+        <button class="fd-confirm-btn" id="fdHorizConfirm">VAHVISTA VALINNAT →</button>
       </div>
     </div>
   </div>
 
+  <!-- KYSYMYKSET -->
   <div class="screen hidden" id="questionScreen">
     <div class="card" id="questionCard"></div>
   </div>
 
+  <!-- TULOKSET -->
   <div class="screen hidden" id="resultScreen">
     <div class="result-card" id="resultCard"></div>
   </div>
@@ -900,7 +1074,8 @@
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFOvhwDR8hh2Plx9NTjDlaRDpFDBKzdhgurgkqTodrLuZAKCjJOG5baDkxTD8IUT9C/exec';
     const CAL_PASSWORD = 'Silmä';
     const STORAGE_KEY = 'naontutkimus_cal_v1';
-    const QR_CODE_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhwAAAIcCAIAAAAynOArAAALr0lEQVR4nO3cQZLjyhEFQVHW979yaz+LrzJNKJkFuK/H2CCAYVhtf9fPnz9/AAB+M3kDAH4fAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELOXx+fn7P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDg/wPzTgqlXdiFzQAAAABJRU5ErkJggg==';
+
+    const QR_CODE_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhwAAAIcCAIAAAAynOArAAALr0lEQVR4nO3cQZLjyhEFQVHW979yaz+LrzJNKJkFuK/H2CCAYVhtf9fPnz9/AAB+M3kDAH4fAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELEbAQAQsRsBABGxGwEAELOXx+fn7P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDgt/Px8fE93w8AwG/n8/Pze74fAIDfzsfHx/d8PwAAPz8/P3/P9wMA8Nv5/Pz8nu8HAOC38/Hx8T3fDwDAb+fz8/N7vh8AgN/Ox8fH93w/AAA/Pz8/f8/3AwDw2/n8/Pye7wcA4Lfz8fHxPd8PAMBv5/Pz83u+HwCA387Hx8f3fD8AAD8/Pz9/z/cDAPDb+fz8/J7vBwDg/wPzTgqlXdiFzQAAAABJRU5ErkJggg==';
 
     const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
     const REQUIRED_CORRECT = 3;
@@ -923,15 +1098,17 @@
     let fdVertResult = { ok: false, shift: false, move: false, disappear: false };
     let fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
     const questions = [
-      { id: 'headache', text: 'Särkeekö Sinulla Päätä Vähintään Kerran Viikossa?' },
-      { id: 'eyeFatigue', text: 'Väsyvätkö Silmäsi Helposti?' },
-      { id: 'sportError', text: 'Tapahtuuko Urheilusuorituksessa Joskus Niin, Että Muistellessasi Virheellistä Suoritusta Teit Mielestäsi Kaikki Oikein Ja Silti Suoritus Epäonnistui?' }
+      { id: 'headache', text: 'SÄRKEEKÖ SINULLA PÄÄTÄ VÄHINTÄÄN KERRAN VIIKOSSA?' },
+      { id: 'eyeFatigue', text: 'VÄSYVÄTKÖ SILMÄSI HELPOSTI?' },
+      { id: 'sportError', text: 'TAPAHTUUKO URHEILUSUORITUKSESSA JOSKUS NIIN, ETTÄ MUISTELLESSASI VIRHEELLISTÄ SUORITUSTA TEIT MIELESTÄSI KAIKKI OIKEIN JA SILTI SUORITUS EPÄONNISTUI?' }
     ];
     let questionAnswers = {}, currentQuestionIdx = 0;
 
     const $ = id => document.getElementById(id);
-    const screenIds = ['calScreen','infoScreen','instructScreen','testScreen',
-      'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'];
+    const screenIds = [
+      'calScreen','infoScreen','instructScreen','testScreen',
+      'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'
+    ];
 
     function showScreen(id) {
       screenIds.forEach(s => $(s).classList.add('hidden'));
@@ -944,7 +1121,9 @@
         fdVertScreen: '.cal-line-fdv',
         fdHorizScreen: '.cal-line-fdh'
       };
+
       document.querySelectorAll('.cal-line-200').forEach(el => el.style.display = 'none');
+
       if (lineMap[id] && pxPerMm > 0) {
         const line = document.querySelector(lineMap[id]);
         if (line) {
@@ -958,10 +1137,17 @@
       $('topBar').style.display = (id === 'calScreen') ? 'none' : 'block';
     }
 
-    function setProgress(pct) { $('progressFill').style.width = pct + '%'; }
+    function setProgress(pct) {
+      $('progressFill').style.width = pct + '%';
+    }
 
-    function clampByte(v) { return Math.max(0, Math.min(255, Math.round(v))); }
-    function rgbHex(c) { return '#' + [c.r, c.g, c.b].map(n => n.toString(16).padStart(2,'0')).join(''); }
+    function clampByte(v) {
+      return Math.max(0, Math.min(255, Math.round(v)));
+    }
+
+    function rgbHex(c) {
+      return '#' + [c.r, c.g, c.b].map(n => n.toString(16).padStart(2, '0')).join('');
+    }
 
     function applyColors() {
       document.documentElement.style.setProperty('--bar-red', rgbHex(redColor));
@@ -972,36 +1158,54 @@
       try {
         const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
         if (d && d.pxPerMm > 0 && d.distanceM > 0) {
-          pxPerMm = d.pxPerMm; distanceM = d.distanceM;
+          pxPerMm = d.pxPerMm;
+          distanceM = d.distanceM;
           if (d.red) redColor = { r: clampByte(d.red.r), g: clampByte(d.red.g), b: clampByte(d.red.b) };
           if (d.green) greenColor = { r: clampByte(d.green.r), g: clampByte(d.green.g), b: clampByte(d.green.b) };
           applyColors();
           return true;
         }
-      } catch(e) {}
+      } catch (e) {}
       return false;
     }
+
     function saveCal() {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pxPerMm, distanceM, red: redColor, green: greenColor })); } catch(e) {}
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          pxPerMm,
+          distanceM,
+          red: redColor,
+          green: greenColor
+        }));
+      } catch (e) {}
     }
 
     function updateColorPreviews() {
-      const rr = parseInt($('calRedR').value) || 0, rg = parseInt($('calRedG').value) || 0, rb = parseInt($('calRedB').value) || 0;
-      const gr = parseInt($('calGreenR').value) || 0, gg = parseInt($('calGreenG').value) || 0, gb = parseInt($('calGreenB').value) || 0;
+      const rr = parseInt($('calRedR').value) || 0;
+      const rg = parseInt($('calRedG').value) || 0;
+      const rb = parseInt($('calRedB').value) || 0;
+      const gr = parseInt($('calGreenR').value) || 0;
+      const gg = parseInt($('calGreenG').value) || 0;
+      const gb = parseInt($('calGreenB').value) || 0;
       $('redPreview').style.background = rgbHex({ r: clampByte(rr), g: clampByte(rg), b: clampByte(rb) });
       $('greenPreview').style.background = rgbHex({ r: clampByte(gr), g: clampByte(gg), b: clampByte(gb) });
     }
+
     ['calRedR','calRedG','calRedB','calGreenR','calGreenG','calGreenB'].forEach(id => {
       $(id).addEventListener('input', updateColorPreviews);
     });
 
     $('calBtn').addEventListener('click', () => {
-      const pw = prompt('Syötä Salasana:');
+      const pw = prompt('SYÖTÄ SALASANA:');
       if (pw === CAL_PASSWORD) {
         $('pxPerMmInput').value = pxPerMm || '';
         $('distanceInput').value = distanceM || '';
-        $('calRedR').value = redColor.r; $('calRedG').value = redColor.g; $('calRedB').value = redColor.b;
-        $('calGreenR').value = greenColor.r; $('calGreenG').value = greenColor.g; $('calGreenB').value = greenColor.b;
+        $('calRedR').value = redColor.r;
+        $('calRedG').value = redColor.g;
+        $('calRedB').value = redColor.b;
+        $('calGreenR').value = greenColor.r;
+        $('calGreenG').value = greenColor.g;
+        $('calGreenB').value = greenColor.b;
         updateColorPreviews();
         $('calError').textContent = '';
         showScreen('calScreen');
@@ -1011,13 +1215,27 @@
     $('saveCalBtn').addEventListener('click', () => {
       const px = parseFloat($('pxPerMmInput').value);
       const dist = parseFloat($('distanceInput').value);
-      if (!px || px <= 0) { $('calError').textContent = 'Syötä Kelvollinen Px/Mm-Arvo.'; return; }
-      if (!dist || dist <= 0) { $('calError').textContent = 'Syötä Kelvollinen Etäisyys.'; return; }
-      $('calError').textContent = '';
-      pxPerMm = px; distanceM = dist;
 
-      const rr = $('calRedR').value.trim(), rg = $('calRedG').value.trim(), rb = $('calRedB').value.trim();
-      const gr = $('calGreenR').value.trim(), gg = $('calGreenG').value.trim(), gb = $('calGreenB').value.trim();
+      if (!px || px <= 0) {
+        $('calError').textContent = 'SYÖTÄ KELVOLLINEN PX/MM-ARVO.';
+        return;
+      }
+      if (!dist || dist <= 0) {
+        $('calError').textContent = 'SYÖTÄ KELVOLLINEN ETÄISYYS.';
+        return;
+      }
+
+      $('calError').textContent = '';
+      pxPerMm = px;
+      distanceM = dist;
+
+      const rr = $('calRedR').value.trim();
+      const rg = $('calRedG').value.trim();
+      const rb = $('calRedB').value.trim();
+      const gr = $('calGreenR').value.trim();
+      const gg = $('calGreenG').value.trim();
+      const gb = $('calGreenB').value.trim();
+
       if (rr !== '') redColor.r = clampByte(parseInt(rr));
       if (rg !== '') redColor.g = clampByte(parseInt(rg));
       if (rb !== '') redColor.b = clampByte(parseInt(rb));
@@ -1030,11 +1248,14 @@
       showScreen('infoScreen');
     });
 
+    /* NUMPAD */
     let ageString = '';
+
     function updateAgeDisplay() {
       $('ageDisplay').textContent = ageString;
       $('ageInput').value = ageString;
     }
+
     document.querySelectorAll('.numpad-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = btn.dataset.num;
@@ -1043,22 +1264,25 @@
         } else if (val === 'clearall') {
           ageString = '';
         } else {
-          if (ageString.length < 3) {
-            ageString += val;
-          }
+          if (ageString.length < 3) ageString += val;
         }
         updateAgeDisplay();
       });
     });
 
+    /* INFO -> VISUS */
     document.querySelectorAll('.gender-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         gender = btn.dataset.gender;
+
         const a = parseInt($('ageInput').value);
         if (a && a >= 5 && a <= 120) {
-          if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia Ei Ole Tehty. Pyydä Tutkijaa Kalibroimaan Laite Ensin (Kalibroi-Nappi Oikeasta Yläkulmasta).'; return; }
+          if (!pxPerMm || !distanceM) {
+            $('infoError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
+            return;
+          }
           $('infoError').textContent = '';
           age = a;
           setProgress(10);
@@ -1068,33 +1292,54 @@
     });
 
     $('infoNextBtn').addEventListener('click', () => {
-      if (!gender) { $('infoError').textContent = 'Valitse Sukupuoli.'; return; }
+      if (!gender) {
+        $('infoError').textContent = 'VALITSE SUKUPUOLI.';
+        return;
+      }
       const a = parseInt($('ageInput').value);
-      if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä Kelvollinen Ikä.'; return; }
-      if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia Ei Ole Tehty. Pyydä Tutkijaa Kalibroimaan Laite Ensin (Kalibroi-Nappi Oikeasta Yläkulmasta).'; return; }
+      if (!a || a < 5 || a > 120) {
+        $('infoError').textContent = 'SYÖTÄ KELVOLLINEN IKÄ.';
+        return;
+      }
+      if (!pxPerMm || !distanceM) {
+        $('infoError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
+        return;
+      }
       $('infoError').textContent = '';
       age = a;
       setProgress(10);
       prepareEyeTest('right');
     });
 
-    function optotypeDiameterMm(visus, distanceMm) { return 5 * TAN_1_ARCMIN * distanceMm / visus; }
+    /* LANDOLT C */
+    function optotypeDiameterMm(visus, distanceMm) {
+      return 5 * TAN_1_ARCMIN * distanceMm / visus;
+    }
 
     function createLandoltSVG(direction, sizePx, uid) {
       const rot = ROTATIONS[direction];
       const clipId = `c${uid}`;
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', sizePx); svg.setAttribute('height', sizePx);
+      svg.setAttribute('width', sizePx);
+      svg.setAttribute('height', sizePx);
       svg.setAttribute('viewBox', '0 0 120 120');
-      svg.innerHTML = `<defs><clipPath id="${clipId}"><path d="M0,0 H120 V50 H60 V70 H120 V120 H0 Z"/></clipPath></defs>
-        <g transform="rotate(${rot} 60 60)"><circle cx="60" cy="60" r="40" fill="none" stroke="#1A1A1A" stroke-width="20" clip-path="url(#${clipId})"/></g>`;
+      svg.innerHTML = `
+        <defs>
+          <clipPath id="${clipId}">
+            <path d="M0,0 H120 V50 H60 V70 H120 V120 H0 Z"/>
+          </clipPath>
+        </defs>
+        <g transform="rotate(${rot} 60 60)">
+          <circle cx="60" cy="60" r="40" fill="none" stroke="#1A1A1A" stroke-width="20" clip-path="url(#${clipId})"/>
+        </g>`;
       return svg;
     }
 
     function randomDirection() {
       const pool = DIRECTIONS.filter(d => d !== lastDirection);
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      lastDirection = pick; return pick;
+      lastDirection = pick;
+      return pick;
     }
 
     function showOptotype() {
@@ -1103,103 +1348,171 @@
       currentDirection = randomDirection();
       const svg = createLandoltSVG(currentDirection, diamPx, uidCounter++);
       const oc = $('optotypeContainer');
-      oc.innerHTML = ''; oc.classList.add('entering'); oc.appendChild(svg);
+      oc.innerHTML = '';
+      oc.classList.add('entering');
+      oc.appendChild(svg);
       requestAnimationFrame(() => requestAnimationFrame(() => oc.classList.remove('entering')));
     }
 
     function processAnswer(answer) {
       if (inputLocked) return;
       inputLocked = true;
+
       const isCorrect = answer === currentDirection;
       const oc = $('optotypeContainer');
+
       oc.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
-      if (isCorrect) correctCount++; else errorCount++;
+      if (isCorrect) correctCount++;
+      else errorCount++;
+
       setTimeout(() => {
         oc.classList.remove('flash-correct', 'flash-wrong');
+
         if (correctCount >= REQUIRED_CORRECT) {
-          levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: true, correct: correctCount, errors: errorCount });
-          if (currentLevelIdx >= VISUS_LEVELS.length - 1) { finishEyeTest(VISUS_LEVELS[currentLevelIdx]); return; }
-          currentLevelIdx++; correctCount = 0; errorCount = 0;
-          showOptotype(); inputLocked = false; return;
+          levelLog.push({
+            visus: VISUS_LEVELS[currentLevelIdx],
+            passed: true,
+            correct: correctCount,
+            errors: errorCount
+          });
+
+          if (currentLevelIdx >= VISUS_LEVELS.length - 1) {
+            finishEyeTest(VISUS_LEVELS[currentLevelIdx]);
+            return;
+          }
+
+          currentLevelIdx++;
+          correctCount = 0;
+          errorCount = 0;
+          showOptotype();
+          inputLocked = false;
+          return;
         }
+
         if (errorCount >= MAX_ERRORS) {
-          levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: false, correct: correctCount, errors: errorCount });
-          finishEyeTest(currentLevelIdx === 0 ? null : VISUS_LEVELS[currentLevelIdx - 1]); return;
+          levelLog.push({
+            visus: VISUS_LEVELS[currentLevelIdx],
+            passed: false,
+            correct: correctCount,
+            errors: errorCount
+          });
+          finishEyeTest(currentLevelIdx === 0 ? null : VISUS_LEVELS[currentLevelIdx - 1]);
+          return;
         }
-        showOptotype(); inputLocked = false;
+
+        showOptotype();
+        inputLocked = false;
       }, 350);
     }
 
     function prepareEyeTest(eye) {
       currentEye = eye;
-      $('eyeStepTag').textContent = 'Vaihe 2 / 5';
+      $('eyeStepTag').textContent = 'VAIHE 2 / 5';
+
       if (eye === 'right') {
-        $('instructTitle').textContent = 'Visustesti – Oikea Silmä';
-        $('instructText').textContent = 'Peitä Vasen Silmäsi Kädellä Tai Peittolapulla. Katsele Ruudulla Näkyviä Landolt C -Renkaita Oikealla Silmällä Ja Vastaa Nuolinäppäimillä Mihin Suuntaan Renkaan Aukko Osoittaa. Paina Välilyöntiä Tai "En Näe", Jos Et Erota Aukkoa.';
+        $('instructTitle').textContent = 'VISUSTESTI – OIKEA SILMÄ';
+        $('instructText').textContent = 'PEITÄ VASEN SILMÄSI KÄDELLÄ TAI PEITTOLAPULLA. KATSELE RUUDULLA NÄKYVIÄ LANDOLT C -RENKAITA OIKEALLA SILMÄLLÄ JA VASTAA NUOLINÄPPÄIMILLÄ MIHIN SUUNTAAN RENKAAN AUKKO OSOITTAA. PAINA VÄLILYÖNTIÄ TAI "EN NÄE", JOS ET EROTA AUKKOA.';
       } else {
-        $('instructTitle').textContent = 'Visustesti – Vasen Silmä';
-        $('instructText').textContent = 'Peitä Nyt Oikea Silmäsi. Katsele Renkaita Vasemmalla Silmällä Ja Vastaa Samalla Tavalla.';
+        $('instructTitle').textContent = 'VISUSTESTI – VASEN SILMÄ';
+        $('instructText').textContent = 'PEITÄ NYT OIKEA SILMÄSI. KATSELE RENKAITA VASEMMALLA SILMÄLLÄ JA VASTAA SAMALLA TAVALLA.';
       }
+
       showScreen('instructScreen');
     }
 
     $('instructStartBtn').addEventListener('click', () => {
-      currentLevelIdx = 0; correctCount = 0; errorCount = 0;
-      uidCounter = 0; inputLocked = false; levelLog = []; lastDirection = '';
-      $('eyeLabel').textContent = currentEye === 'right' ? 'Oikea Silmä' : 'Vasen Silmä';
+      currentLevelIdx = 0;
+      correctCount = 0;
+      errorCount = 0;
+      uidCounter = 0;
+      inputLocked = false;
+      levelLog = [];
+      lastDirection = '';
+
+      $('eyeLabel').textContent = currentEye === 'right' ? 'OIKEA SILMÄ' : 'VASEN SILMÄ';
       showScreen('testScreen');
       showOptotype();
     });
 
     function finishEyeTest(visus) {
-      if (currentEye === 'right') { visusRight = visus; setProgress(30); prepareEyeTest('left'); }
-      else { visusLeft = visus; setProgress(50); showScreen('fdInstructScreen'); }
+      if (currentEye === 'right') {
+        visusRight = visus;
+        setProgress(30);
+        prepareEyeTest('left');
+      } else {
+        visusLeft = visus;
+        setProgress(50);
+        showScreen('fdInstructScreen');
+      }
     }
 
     document.querySelectorAll('.arrow-btn').forEach(btn => {
       btn.addEventListener('click', () => processAnswer(btn.dataset.dir));
     });
+
     $('cantSeeBtn').addEventListener('click', () => processAnswer('__cant_see__'));
+
     document.addEventListener('keydown', e => {
       if ($('testScreen').classList.contains('hidden')) return;
-      const map = { ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down' };
-      if (map[e.key]) { e.preventDefault(); processAnswer(map[e.key]); }
-      else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); processAnswer('__cant_see__'); }
+
+      const map = {
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
+        ArrowUp: 'up',
+        ArrowDown: 'down'
+      };
+
+      if (map[e.key]) {
+        e.preventDefault();
+        processAnswer(map[e.key]);
+      } else if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        processAnswer('__cant_see__');
+      }
     });
 
-    function malletDiameterMm(dist) { return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M); }
+    /* FIXATION DISPARITY */
+    function malletDiameterMm(dist) {
+      return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M);
+    }
 
     function buildMalletSVG(rotation) {
       const sz = malletDiameterMm(distanceM) * pxPerMm * (512 / 480);
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', sz); svg.setAttribute('height', sz);
+      svg.setAttribute('width', sz);
+      svg.setAttribute('height', sz);
       svg.setAttribute('viewBox', '0 0 512 512');
       svg.classList.add('fd-svg');
+
       const green = rgbHex(greenColor);
       const red = rgbHex(redColor);
-      svg.innerHTML = `<g transform="rotate(${rotation}, 256, 256)">
-        <circle cx="256" cy="256" r="240" fill="#000"/>
-        <rect x="210" y="33" width="92" height="446" fill="#fff"/>
-        <rect x="250.5" y="224" width="11" height="64" fill="#000"/>
-        <rect x="224" y="250.5" width="64" height="11" fill="#000"/>
-        <rect x="228" y="100.5" width="56" height="56" fill="#000"/>
-        <rect x="239" y="111.5" width="34" height="34" fill="#fff"/>
-        <rect x="228" y="355.5" width="56" height="56" fill="#000"/>
-        <rect x="239" y="366.5" width="34" height="34" fill="#fff"/>
-        <g><rect x="42" y="237" width="152" height="38" fill="${green}"/></g>
-        <g><rect x="318" y="237" width="152" height="38" fill="${red}"/></g>
-      </g>`;
+
+      svg.innerHTML = `
+        <g transform="rotate(${rotation}, 256, 256)">
+          <circle cx="256" cy="256" r="240" fill="#000"/>
+          <rect x="210" y="33" width="92" height="446" fill="#fff"/>
+          <rect x="250.5" y="224" width="11" height="64" fill="#000"/>
+          <rect x="224" y="250.5" width="64" height="11" fill="#000"/>
+          <rect x="228" y="100.5" width="56" height="56" fill="#000"/>
+          <rect x="239" y="111.5" width="34" height="34" fill="#fff"/>
+          <rect x="228" y="355.5" width="56" height="56" fill="#000"/>
+          <rect x="239" y="366.5" width="34" height="34" fill="#fff"/>
+          <g><rect x="42" y="237" width="152" height="38" fill="${green}"/></g>
+          <g><rect x="318" y="237" width="152" height="38" fill="${red}"/></g>
+        </g>`;
       return svg;
     }
 
     $('fdInstructStartBtn').addEventListener('click', () => {
       $('fdVertStage').innerHTML = '';
       $('fdVertStage').appendChild(buildMalletSVG(-90));
+
       fdVertResult = { ok: false, shift: false, move: false, disappear: false };
-      $('fdVertOk').classList.remove('selected','disabled-opt');
+      $('fdVertOk').classList.remove('selected', 'disabled-opt');
       $('fdVertOk').disabled = false;
-      document.querySelectorAll('.fd-v-multi').forEach(b => { b.classList.remove('selected'); });
+      document.querySelectorAll('.fd-v-multi').forEach(b => b.classList.remove('selected'));
       $('fdVertConfirm').classList.remove('visible');
+
       setProgress(55);
       showScreen('fdVertScreen');
     });
@@ -1215,12 +1528,14 @@
         const val = btn.dataset.val;
         fdVertResult[val] = !fdVertResult[val];
         btn.classList.toggle('selected', fdVertResult[val]);
+
         const anySelected = fdVertResult.shift || fdVertResult.move || fdVertResult.disappear;
         $('fdVertOk').disabled = anySelected;
         $('fdVertOk').classList.toggle('disabled-opt', anySelected);
         $('fdVertConfirm').classList.toggle('visible', anySelected);
       });
     });
+
     $('fdVertConfirm').addEventListener('click', () => {
       fdVertResult.ok = false;
       goToFdHoriz();
@@ -1229,11 +1544,13 @@
     function goToFdHoriz() {
       $('fdHorizStage').innerHTML = '';
       $('fdHorizStage').appendChild(buildMalletSVG(0));
+
       fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
-      $('fdHorizOk').classList.remove('selected','disabled-opt');
+      $('fdHorizOk').classList.remove('selected', 'disabled-opt');
       $('fdHorizOk').disabled = false;
-      document.querySelectorAll('.fd-h-multi').forEach(b => { b.classList.remove('selected'); });
+      document.querySelectorAll('.fd-h-multi').forEach(b => b.classList.remove('selected'));
       $('fdHorizConfirm').classList.remove('visible');
+
       setProgress(65);
       showScreen('fdHorizScreen');
     }
@@ -1250,100 +1567,146 @@
         const val = btn.dataset.val;
         fdHorizResult[val] = !fdHorizResult[val];
         btn.classList.toggle('selected', fdHorizResult[val]);
+
         const anySelected = fdHorizResult.shift || fdHorizResult.move || fdHorizResult.disappear;
         $('fdHorizOk').disabled = anySelected;
         $('fdHorizOk').classList.toggle('disabled-opt', anySelected);
         $('fdHorizConfirm').classList.toggle('visible', anySelected);
       });
     });
+
     $('fdHorizConfirm').addEventListener('click', () => {
       fdHorizResult.ok = false;
       setProgress(75);
       startQuestions();
     });
 
-    function startQuestions() { currentQuestionIdx = 0; questionAnswers = {}; renderQuestion(); showScreen('questionScreen'); }
+    /* KYSYMYKSET */
+    function startQuestions() {
+      currentQuestionIdx = 0;
+      questionAnswers = {};
+      renderQuestion();
+      showScreen('questionScreen');
+    }
 
     function renderQuestion() {
       const q = questions[currentQuestionIdx];
       $('questionCard').innerHTML = `
-        <div class="step-tag">Vaihe 4 / 5 – Kysymys ${currentQuestionIdx+1}/${questions.length}</div>
-        <h1>Kysely</h1>
+        <div class="step-tag">VAIHE 4 / 5 – KYSYMYS ${currentQuestionIdx + 1}/${questions.length}</div>
+        <h1>KYSELY</h1>
         <p class="subtitle" style="margin-bottom:24px;">${q.text}</p>
         <div class="q-btn-row">
-          <button class="q-btn" id="qYes">Kyllä</button>
-          <button class="q-btn" id="qNo">Ei</button>
+          <button class="q-btn" id="qYes">KYLLÄ</button>
+          <button class="q-btn" id="qNo">EI</button>
         </div>`;
-      $('qYes').addEventListener('click', () => answerQuestion('Kyllä'));
-      $('qNo').addEventListener('click', () => answerQuestion('Ei'));
+
+      $('qYes').addEventListener('click', () => answerQuestion('KYLLÄ'));
+      $('qNo').addEventListener('click', () => answerQuestion('EI'));
     }
 
     function answerQuestion(answer) {
       questionAnswers[questions[currentQuestionIdx].id] = answer;
       currentQuestionIdx++;
-      if (currentQuestionIdx < questions.length) { setProgress(75 + (currentQuestionIdx / questions.length) * 15); renderQuestion(); }
-      else { setProgress(92); finishAll(); }
+
+      if (currentQuestionIdx < questions.length) {
+        setProgress(75 + (currentQuestionIdx / questions.length) * 15);
+        renderQuestion();
+      } else {
+        setProgress(92);
+        finishAll();
+      }
     }
 
+    /* TULOKSET */
     function fdLabel(res) {
-      if (res.ok) return 'Ok';
+      if (res.ok) return 'OK';
       const parts = [];
-      if (res.shift) parts.push('Ei Samassa Linjassa');
-      if (res.move) parts.push('Heiluivat / Liikkuivat');
-      if (res.disappear) parts.push('Palkki Katosi Välillä');
+      if (res.shift) parts.push('EI SAMASSA LINJASSA');
+      if (res.move) parts.push('HEILUIVAT / LIIKKUIVAT');
+      if (res.disappear) parts.push('PALKKI KATOSI VÄLILLÄ');
       return parts.join('; ') || '-';
     }
-    function yn(v) { return v ? 'Kyllä' : 'Ei'; }
-    function visusLabel(v) { return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, ''); }
+
+    function yn(v) {
+      return v ? 'KYLLÄ' : 'EI';
+    }
+
+    function visusLabel(v) {
+      return v === null ? 'ALLE 0.4' : v.toFixed(2).replace(/0$/, '');
+    }
 
     function shouldRecommend() {
       if (visusRight === null || visusRight <= 0.8) return true;
       if (visusLeft === null || visusLeft <= 0.8) return true;
       if (!fdVertResult.ok) return true;
       if (!fdHorizResult.ok) return true;
-      if (Object.values(questionAnswers).some(a => a === 'Kyllä')) return true;
+      if (Object.values(questionAnswers).some(a => a === 'KYLLÄ')) return true;
       return false;
     }
 
     function finishAll() {
       const rec = shouldRecommend();
-      let h = `
-        <h1>Tulokset</h1>
+
+      const h = `
+        <h1>TULOKSET</h1>
+
         <div class="result-main">
           <div class="result-left">
-            <div class="result-section"><h3>Perustiedot</h3><p>${gender}, ${age} V.</p></div>
-            <div class="result-section"><h3>Näöntarkkuus</h3><p>Oikea Silmä: ${visusLabel(visusRight)}<br>Vasen Silmä: ${visusLabel(visusLeft)}</p></div>
-            <div class="result-section"><h3>Fiksaatiodisparaatio – Pystypalkit</h3><p>${fdLabel(fdVertResult)}</p></div>
-            <div class="result-section"><h3>Fiksaatiodisparaatio – Vaakapalkit</h3><p>${fdLabel(fdHorizResult)}</p></div>
-            <div class="result-section"><h3>Kysely</h3><p>Päänsärky Viikoittain: ${questionAnswers.headache}<br>Silmien Väsyminen: ${questionAnswers.eyeFatigue}<br>Urheilusuorituksen Ongelma: ${questionAnswers.sportError}</p></div>
+            <div class="result-section">
+              <h3>PERUSTIEDOT</h3>
+              <p>${gender}, ${age} V.</p>
+            </div>
+
+            <div class="result-section">
+              <h3>NÄÖNTARKKUUS</h3>
+              <p>OIKEA SILMÄ: ${visusLabel(visusRight)}<br>VASEN SILMÄ: ${visusLabel(visusLeft)}</p>
+            </div>
+
+            <div class="result-section">
+              <h3>FIKSAATIODISPARAATIO – PYSTYPALKIT</h3>
+              <p>${fdLabel(fdVertResult)}</p>
+            </div>
+
+            <div class="result-section">
+              <h3>FIKSAATIODISPARAATIO – VAAKAPALKIT</h3>
+              <p>${fdLabel(fdHorizResult)}</p>
+            </div>
+
+            <div class="result-section">
+              <h3>KYSELY</h3>
+              <p>PÄÄNSÄRKY VIIKOITTAIN: ${questionAnswers.headache}<br>SILMIEN VÄSYMINEN: ${questionAnswers.eyeFatigue}<br>URHEILUSUORITUKSEN ONGELMA: ${questionAnswers.sportError}</p>
+            </div>
+
             ${
               rec
-                ? `<div class="recommendation warn"><strong>Suositus</strong>Tulosten Perusteella Suosittelemme Varaamaan Ajan Silmäasemalle Urheilijan Näöntutkimukseen. Tutkimuksessa Selvitetään Tarkemmin Näkemisen Laatua Ja Mahdollisia Häiriötekijöitä, Jotka Voivat Vaikuttaa Urheilusuoritukseen.</div>`
-                : `<div class="recommendation ok"><strong>Hyvä Tulos!</strong>Testien Perusteella Näkemisessäsi Ei Havaittu Poikkeamia. Säännöllinen Näöntarkastus On Silti Suositeltavaa.</div>`
+                ? `<div class="recommendation warn"><strong>SUOSITUS</strong>TULOSTEN PERUSTEELLA SUOSITTELEMME VARAAMAAN AJAN SILMÄASEMALLE URHEILIJAN NÄÖNTUTKIMUKSEEN. TUTKIMUKSESSA SELVITETÄÄN TARKEMMIN NÄKEMISEN LAATUA JA MAHDOLLISIA HÄIRIÖTEKIJÖITÄ, JOTKA VOIVAT VAIKUTTAA URHEILUSUORITUKSEEN.</div>`
+                : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</div>`
             }
           </div>
 
           <div class="result-right">
             <div class="qr-card">
-              <img src="${QR_CODE_DATA_URL}" alt="Qr Koodi Ajanvaraukseen" />
-              <div class="qr-title">Varaa Tästä Aika Silmäaseman Optikon Urheilunäöntutkimukseen</div>
+              <img src="${QR_CODE_DATA_URL}" alt="QR-KOODI AJANVARAUKSEEN" />
+              <div class="qr-title">VARAA TÄSTÄ AIKA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</div>
             </div>
 
             <div class="silmaasema-wrap">
               <svg width="280" height="50" viewBox="0 0 280 50" xmlns="http://www.w3.org/2000/svg">
                 <rect x="2" y="2" width="46" height="46" rx="8" fill="#1B4D8F"/>
                 <text x="25" y="33" text-anchor="middle" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#fff">S</text>
-                <text x="60" y="36" font-family="Inter,sans-serif" font-size="28" font-weight="700" fill="#1A1A1A">Silmäasema</text>
+                <text x="60" y="36" font-family="Inter,sans-serif" font-size="28" font-weight="700" fill="#1A1A1A">SILMÄASEMA</text>
               </svg>
             </div>
 
-            <div class="saving-status" id="savingStatus">Tallennetaan Tuloksia…</div>
+            <div class="saving-status" id="savingStatus">TALLENNETAAN TULOKSIA…</div>
           </div>
         </div>
 
         <div class="result-bottom">
           <div></div>
-          <div class="new-test-wrap"><button class="btn-primary" id="newTestBtn" style="margin-top:0; min-width:340px;">Aloita Uusi Mittaus</button></div>
+          <div class="new-test-wrap">
+            <button class="btn-primary" id="newTestBtn" style="margin-top:0; min-width:340px;">ALOITA UUSI MITTAUS</button>
+          </div>
         </div>
       `;
 
@@ -1355,24 +1718,30 @@
     }
 
     function resetAll() {
-      gender = ''; age = 0;
-      visusRight = null; visusLeft = null;
+      gender = '';
+      age = 0;
+      visusRight = null;
+      visusLeft = null;
       fdVertResult = { ok: false, shift: false, move: false, disappear: false };
       fdHorizResult = { ok: false, shift: false, move: false, disappear: false };
-      questionAnswers = {}; currentQuestionIdx = 0;
+      questionAnswers = {};
+      currentQuestionIdx = 0;
+
       document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
       $('ageInput').value = '';
       ageString = '';
       updateAgeDisplay();
       $('infoError').textContent = '';
+
       setProgress(0);
       showScreen('infoScreen');
     }
 
+    /* GOOGLE SHEETS */
     function saveToGoogleSheets() {
       const t = new Date();
       const payload = {
-        pvm: t.getDate() + '.' + (t.getMonth()+1) + '.' + t.getFullYear(),
+        pvm: t.getDate() + '.' + (t.getMonth() + 1) + '.' + t.getFullYear(),
         sukupuoli: gender,
         ika: String(age),
         visus_oikea: visusLabel(visusRight),
@@ -1388,7 +1757,7 @@
         paansarky: questionAnswers.headache || '',
         silmien_vasyminen: questionAnswers.eyeFatigue || '',
         urheilusuoritus: questionAnswers.sportError || '',
-        suositus: shouldRecommend() ? 'Kyllä' : 'Ei'
+        suositus: shouldRecommend() ? 'KYLLÄ' : 'EI'
       };
 
       const formBody = new URLSearchParams(payload).toString();
@@ -1399,10 +1768,17 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formBody
       })
-        .then(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tulokset Tallennettu ✓'; })
-        .catch(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tallennusvirhe – Tarkista Yhteys.'; });
+      .then(() => {
+        const el = $('savingStatus');
+        if (el) el.textContent = 'TULOKSET TALLENNETTU ✓';
+      })
+      .catch(() => {
+        const el = $('savingStatus');
+        if (el) el.textContent = 'TALLENNUSVIRHE – TARKISTA YHTEYS.';
+      });
     }
 
+    /* INIT */
     loadCal();
     showScreen('infoScreen');
     setProgress(0);
