@@ -329,6 +329,35 @@
     }
     .new-test-wrap { text-align: center; margin-top: 20px; }
 
+    /* Gender buttons */
+    .gender-btn-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .gender-btn {
+      flex: 1; padding: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      cursor: pointer; transition: all 0.15s;
+      text-align: center;
+    }
+    .gender-btn:hover { border-color: var(--accent); background: #EDF2FA; }
+    .gender-btn:active { transform: scale(0.985); }
+    .gender-btn.selected { border-color: var(--accent); background: #D9E4F5; }
+
+    /* Color preview in calibration */
+    .color-preview {
+      display: inline-block; width: 28px; height: 28px;
+      border-radius: 6px; border: 1px solid var(--border);
+      vertical-align: middle; margin-left: 10px;
+    }
+    .color-row { display: flex; gap: 8px; }
+    .color-row .field { flex: 1; }
+    .color-section-label {
+      font-size: 13px; font-weight: 700;
+      margin-bottom: 8px; margin-top: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
     @media (max-width: 600px) {
       .card, .fd-question-card, .result-card { padding: 28px 22px; }
       .arrow-btn { width: 54px; height: 54px; }
@@ -358,6 +387,21 @@
         <input id="distanceInput" type="number" step="any" min="0.1" placeholder="esim. 4" />
         <div class="hint">Tyypillisesti 4 tai 6 metriä</div>
       </div>
+
+      <div class="color-section-label">Punainen <span class="color-preview" id="redPreview" style="background:#e20000;"></span></div>
+      <div class="color-row">
+        <div class="field"><label for="calRedR">R</label><input id="calRedR" type="number" min="0" max="255" step="1" placeholder="226" /></div>
+        <div class="field"><label for="calRedG">G</label><input id="calRedG" type="number" min="0" max="255" step="1" placeholder="0" /></div>
+        <div class="field"><label for="calRedB">B</label><input id="calRedB" type="number" min="0" max="255" step="1" placeholder="0" /></div>
+      </div>
+
+      <div class="color-section-label">Vihreä <span class="color-preview" id="greenPreview" style="background:#009d00;"></span></div>
+      <div class="color-row">
+        <div class="field"><label for="calGreenR">R</label><input id="calGreenR" type="number" min="0" max="255" step="1" placeholder="0" /></div>
+        <div class="field"><label for="calGreenG">G</label><input id="calGreenG" type="number" min="0" max="255" step="1" placeholder="157" /></div>
+        <div class="field"><label for="calGreenB">B</label><input id="calGreenB" type="number" min="0" max="255" step="1" placeholder="0" /></div>
+      </div>
+
       <button class="btn-primary" id="saveCalBtn">Tallenna ja palaa</button>
       <div class="cal-error" id="calError"></div>
     </div>
@@ -370,13 +414,12 @@
       <h1>◔ Näöntutkimus</h1>
       <p class="subtitle">Urheilijanäön tutkimusohjelma. Syötä perustietosi ja seuraa ohjeita.</p>
       <div class="field">
-        <label for="genderSelect">Sukupuoli</label>
-        <select id="genderSelect">
-          <option value="" disabled selected>Valitse</option>
-          <option value="Nainen">Nainen</option>
-          <option value="Mies">Mies</option>
-          <option value="En halua vastata">En halua vastata</option>
-        </select>
+        <label>Sukupuoli</label>
+        <div class="gender-btn-row">
+          <button class="gender-btn" data-gender="Nainen">Nainen</button>
+          <button class="gender-btn" data-gender="Mies">Mies</button>
+          <button class="gender-btn" data-gender="En halua vastata">Muu</button>
+        </div>
       </div>
       <div class="field">
         <label for="ageInput">Ikä</label>
@@ -474,7 +517,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4PpZYiRdJd2_-DfKYby80xgifTeGO3r2BogmoLdMiKUmOo-Yw1Zh2007rwVUwCVX_/exec';
     const CAL_PASSWORD = 'Silmä';
     const STORAGE_KEY = 'naontutkimus_cal_v1';
 
@@ -489,6 +532,8 @@
 
     // ── State ──
     let pxPerMm = 0, distanceM = 0;
+    let redColor = { r: 226, g: 0, b: 0 };
+    let greenColor = { r: 0, g: 157, b: 0 };
     let gender = '', age = 0;
     let currentLevelIdx = 0, correctCount = 0, errorCount = 0;
     let currentDirection = '', lastDirection = '';
@@ -528,18 +573,41 @@
     function setProgress(pct) { $('progressFill').style.width = pct + '%'; }
 
     // ── Calibration persistence ──
+    function clampByte(v) { return Math.max(0, Math.min(255, Math.round(v))); }
+    function rgbHex(c) { return '#' + [c.r, c.g, c.b].map(n => n.toString(16).padStart(2,'0')).join(''); }
+
+    function applyColors() {
+      document.documentElement.style.setProperty('--bar-red', rgbHex(redColor));
+      document.documentElement.style.setProperty('--bar-green', rgbHex(greenColor));
+    }
+
     function loadCal() {
       try {
         const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
         if (d && d.pxPerMm > 0 && d.distanceM > 0) {
-          pxPerMm = d.pxPerMm; distanceM = d.distanceM; return true;
+          pxPerMm = d.pxPerMm; distanceM = d.distanceM;
+          if (d.red) redColor = { r: clampByte(d.red.r), g: clampByte(d.red.g), b: clampByte(d.red.b) };
+          if (d.green) greenColor = { r: clampByte(d.green.r), g: clampByte(d.green.g), b: clampByte(d.green.b) };
+          applyColors();
+          return true;
         }
       } catch(e) {}
       return false;
     }
     function saveCal() {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pxPerMm, distanceM })); } catch(e) {}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pxPerMm, distanceM, red: redColor, green: greenColor })); } catch(e) {}
     }
+
+    // Live color preview in calibration
+    function updateColorPreviews() {
+      const rr = parseInt($('calRedR').value) || 0, rg = parseInt($('calRedG').value) || 0, rb = parseInt($('calRedB').value) || 0;
+      const gr = parseInt($('calGreenR').value) || 0, gg = parseInt($('calGreenG').value) || 0, gb = parseInt($('calGreenB').value) || 0;
+      $('redPreview').style.background = rgbHex({ r: clampByte(rr), g: clampByte(rg), b: clampByte(rb) });
+      $('greenPreview').style.background = rgbHex({ r: clampByte(gr), g: clampByte(gg), b: clampByte(gb) });
+    }
+    ['calRedR','calRedG','calRedB','calGreenR','calGreenG','calGreenB'].forEach(id => {
+      $(id).addEventListener('input', updateColorPreviews);
+    });
 
     // Password-protected calibration button
     $('calBtn').addEventListener('click', () => {
@@ -547,6 +615,9 @@
       if (pw === CAL_PASSWORD) {
         $('pxPerMmInput').value = pxPerMm || '';
         $('distanceInput').value = distanceM || '';
+        $('calRedR').value = redColor.r; $('calRedG').value = redColor.g; $('calRedB').value = redColor.b;
+        $('calGreenR').value = greenColor.r; $('calGreenG').value = greenColor.g; $('calGreenB').value = greenColor.b;
+        updateColorPreviews();
         $('calError').textContent = '';
         showScreen('calScreen');
       }
@@ -559,15 +630,43 @@
       if (!dist || dist <= 0) { $('calError').textContent = 'Syötä kelvollinen etäisyys.'; return; }
       $('calError').textContent = '';
       pxPerMm = px; distanceM = dist;
+
+      const rr = $('calRedR').value.trim(), rg = $('calRedG').value.trim(), rb = $('calRedB').value.trim();
+      const gr = $('calGreenR').value.trim(), gg = $('calGreenG').value.trim(), gb = $('calGreenB').value.trim();
+      if (rr !== '') redColor.r = clampByte(parseInt(rr));
+      if (rg !== '') redColor.g = clampByte(parseInt(rg));
+      if (rb !== '') redColor.b = clampByte(parseInt(rb));
+      if (gr !== '') greenColor.r = clampByte(parseInt(gr));
+      if (gg !== '') greenColor.g = clampByte(parseInt(gg));
+      if (gb !== '') greenColor.b = clampByte(parseInt(gb));
+
+      applyColors();
       saveCal();
       showScreen('infoScreen');
     });
 
     // ── Info → Visus ──
+    // Gender buttons
+    document.querySelectorAll('.gender-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        gender = btn.dataset.gender;
+        // Auto-advance if age is already filled
+        const a = parseInt($('ageInput').value);
+        if (a && a >= 5 && a <= 120) {
+          if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia ei ole tehty. Pyydä tutkijaa kalibroimaan laite ensin (Kalibroi-nappi oikeasta yläkulmasta).'; return; }
+          $('infoError').textContent = '';
+          age = a;
+          setProgress(10);
+          prepareEyeTest('right');
+        }
+      });
+    });
+
     $('infoNextBtn').addEventListener('click', () => {
-      gender = $('genderSelect').value;
-      const a = parseInt($('ageInput').value);
       if (!gender) { $('infoError').textContent = 'Valitse sukupuoli.'; return; }
+      const a = parseInt($('ageInput').value);
       if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä kelvollinen ikä.'; return; }
       if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia ei ole tehty. Pyydä tutkijaa kalibroimaan laite ensin (Kalibroi-nappi oikeasta yläkulmasta).'; return; }
       $('infoError').textContent = '';
@@ -675,9 +774,8 @@
       svg.setAttribute('width', sz); svg.setAttribute('height', sz);
       svg.setAttribute('viewBox', '0 0 512 512');
       svg.classList.add('fd-svg');
-      const gc = getComputedStyle(document.documentElement);
-      const green = gc.getPropertyValue('--bar-green').trim() || '#009d00';
-      const red = gc.getPropertyValue('--bar-red').trim() || '#e20000';
+      const green = rgbHex(greenColor);
+      const red = rgbHex(redColor);
       svg.innerHTML = `<g transform="rotate(${rotation}, 256, 256)">
         <circle cx="256" cy="256" r="240" fill="#000"/>
         <rect x="210" y="33" width="92" height="446" fill="#fff"/>
@@ -812,8 +910,9 @@
       fdVertResult = ''; fdHorizResult = '';
       questionAnswers = {}; currentQuestionIdx = 0;
       fdVertSelections.clear(); fdHorizSelections.clear();
-      $('genderSelect').value = '';
+      document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
       $('ageInput').value = '';
+      $('infoError').textContent = '';
       setProgress(0);
       showScreen('infoScreen');
     }
