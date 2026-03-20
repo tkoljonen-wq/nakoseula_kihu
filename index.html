@@ -988,8 +988,8 @@
     </div>
   </div>
 
-  <!-- ALOITUS -->
-  <div class="screen" id="infoScreen">
+  <!-- ALOITUS – SUKUPUOLI -->
+  <div class="screen" id="genderScreen">
     <div class="card">
       <div class="step-tag">VAIHE 1 / 5</div>
       <h1>◔ NÄÖNTUTKIMUS</h1>
@@ -1000,9 +1000,20 @@
         <div class="gender-btn-row">
           <button class="gender-btn" data-gender="NAINEN">NAINEN</button>
           <button class="gender-btn" data-gender="MIES">MIES</button>
-          <button class="gender-btn" data-gender="EN HALUA VASTATA">MUU</button>
+          <button class="gender-btn" data-gender="EN HALUA VASTATA">MUU/EN HALUA VASTATA</button>
         </div>
       </div>
+
+      <div class="cal-error" id="genderError"></div>
+    </div>
+  </div>
+
+  <!-- ALOITUS – IKÄ -->
+  <div class="screen hidden" id="ageScreen">
+    <div class="card">
+      <div class="step-tag">VAIHE 1 / 5</div>
+      <h1>◔ NÄÖNTUTKIMUS</h1>
+      <p class="subtitle">SYÖTÄ IKÄSI JA JATKA VISUSTESTIIN.</p>
 
       <div class="field">
         <label>IKÄ</label>
@@ -1024,8 +1035,8 @@
         </div>
       </div>
 
-      <button class="btn-primary" id="infoNextBtn">JATKA VISUSTESTIIN →</button>
-      <div class="cal-error" id="infoError"></div>
+      <button class="btn-primary" id="ageNextBtn">JATKA VISUSTESTIIN →</button>
+      <div class="cal-error" id="ageError"></div>
     </div>
   </div>
 
@@ -1082,8 +1093,6 @@
         <div class="fd-stage" id="fdVertStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">VAIHE 3 / 5 – PYSTYPALKIT</div>
-        <h2>PYSTYPALKIT</h2>
         <p>KATSO TESTIYMPYRÄN KESKELLE. PUNAINEN JA VIHREÄ PYSTYPALKKI — OVATKO NE SAMALLA PYSTYLINJALLA?</p>
         <button class="option-btn" id="fdVertOk">PALKIT OVAT SAMASSA LINJASSA, EIVÄT LIIKU TAI KATOA</button>
         <div class="fd-multi-hint">JOS YLLÄ OLEVA EI PIDÄ PAIKKAANSA, VALITSE YKSI TAI USEAMPI SYY:</div>
@@ -1103,8 +1112,6 @@
         <div class="fd-stage" id="fdHorizStage"></div>
       </div>
       <div class="fd-layout-right">
-        <div class="step-tag">VAIHE 3 / 5 – VAAKAPALKIT</div>
-        <h2>VAAKAPALKIT</h2>
         <p>KATSO TESTIYMPYRÄN KESKELLE. PUNAINEN JA VIHREÄ VAAKAPALKKI — PYSYVÄTKÖ NE SAMALLA KORKEUDELLA?</p>
         <button class="option-btn" id="fdHorizOk">PALKIT OVAT SAMALLA KORKEUDELLA, EIVÄT LIIKU TAI KATOA</button>
         <div class="fd-multi-hint">JOS YLLÄ OLEVA EI PIDÄ PAIKKAANSA, VALITSE YKSI TAI USEAMPI SYY:</div>
@@ -1131,7 +1138,7 @@
     const CAL_PASSWORD = 'Silmä';
     const STORAGE_KEY = 'naontutkimus_cal_v1';
 
-    const QR_CODE_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhwAAAIcCAIAAAAynOArAAALr0lEQVR4nO3cQZLjyhEFQVHW979yaz+LrzJNKJkFuK/H2CCAYVht3uf39/dfAFD497cvAIDnEBUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGR+vn0Bf/p8Pt++hK/5/f39r/+muj9v/lsntl1P5cb/X5Pvz422vWNOKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQWbf9dWLb1s2Jp+5o3biRte3+3Pg+n9j2vbZdz4kbN82cVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgc+X214nJzZxtm0KTm10nbty/mryH1f2ZvM83blKdePPvRsVJBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyj93+eqpq32lyA2pyR6v67jduQG3b9Zp8puzhpAJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGdtfLzW5y/TmDagbd8a2bYhxFycVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMg8dvvrxp2oSe7P82zb7LrxHbvxmrdxUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzJXbX9U20Zud3MOTHaTJzzlRXc+JN9+fbddT/S3+npMKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGTWbX9VOz/8s8ndqsrk3tTk51S2Pa9JT/1eN3JSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMuu2vbftF1fVM7kRtu4cntl2Pe7jnb23bWDtR3Z8b30MnFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIfLbtxkya3PXyOX9v8ppPTH6vEzduZJ14887Yjb/PTioAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkPn59gX86cbdqm2fs82277Vti+zEm3fGJvfcbtza2sZJBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAynzdv3Tx1T2lyi+xGNz73bc9i2ybeiW1/68S2537CSQWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMuu2v566KTTpxmdamXw3bnzu23bGbryHlafugzmpAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkDmyu2vEzfuIE3a9t2fugG1bYPuxm20G9/Dp/5unHBSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMz7cv4E+TO0jV52zbGZvc0dq2IXbC89rjxi2yE2/eEHNSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMZ9u2zLadn23bRNs2jk5MbmRte59PbHvu296xbRtrT70/FScVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMhcuf1VuXGPa/KaT0x+rxPb9sG2PYs3/38/Ydfr7zmpAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkDm59sX8BY3bvhMbhxVu1Vv3jSb/JxtbtxPe+qzcFIBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgMxn2yZVtb0zueFzYtv1VCY3srbdw23v6uSW1I3f68Z37EZOKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQ+fn2BXzTjdtNT/2cat9pcv/qxLbrObFtZ6wyec2Te2XbOKkAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQGbd9tfk1s22/asbN5cmr2fy/lTv4eSm2bb358bdqm2/PzdyUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzGfb/syNW1s33sMT2+7Pm7/Xtnd+0o3vz5s5qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5ufbF/C/qDZ8JjeOnrohtm1Ha9v1nNj23Lftg217XjbE/pmTCgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkrtz+OjG5ATW5TTS5uXTjNtGNu3CTW1vbdthOnFyz57WHkwoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZD7bdmNOPHXnZ/JZ3Lh7NmnbM912PdtM3p9tvz/bOKkAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQGbd9teNG0eT+1eTm12VyQ2xbc+ism2DbvK7n9j2/+vNnFQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBILNu+2vStv0i/tm2TSp7XH/vzbtwT/3tdVIBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgMzPty/g/2Xb5tKN20SVN29kbbueE5ObVG/eyDpx4/1xUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzLrtr227TNXnVN9rcguo+l43bqNt2+zatg82adt93ra1tY2TCgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkPnZs7jK5TbRts+vGXbhJ23arque17ZpvfDcmOakAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQObn2xfwp8l9p20mN7tOPHXjaHKv7MTkOz/5vSb33Gx27eGkAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgCZddtfJ27c8Nm2x7VtY23bdtPkbtWJG/fKtj2vyrb/y9s4qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5srtrxPbdpkq1eaSDbG/t22Pa9K2d549nFQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBIPPY7a+nmtyb2vY5J7Ztmm27nqdu4lWq97ly43ackwoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZGx/PdC2Ha3Ktg2xp+5xPfU+b3ufT9x4zU4qAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJB57PbXjZs5N5rcrTqxbSdq8npO/la16/XUfbDJ+zN5Dyc5qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5srtr217U5O2bUlNbmRNbkCdePP1TL4/2z5n0o3X7KQCQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKAJnPtt0YAO7lpAJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJD5D/RYymNaO9TWAAAAAElFTkSuQmCC';
+    const QR_CODE_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhwAAAIcCAIAAAAynOArAAALr0lEQVR4nO3cQZLjyhEFQVHW/a9yaz+LrzJNKJkFuK/H2CCAYVht3uf39/dfAFD497cvAIDnEBUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGR+vn0Bf/p8Pt++hK/5/f39r/+muj9v/lsntl1P5cb/X5Pvz422vWNOKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQWbf9dWLb1s2Jp+5o3biRte3+3Pg+n9j2vbZdz4kbN82cVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgc+X214nJzZxtm0KTm10nbty/mryH1f2ZvM83blKdePPvRsVJBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyj93+eqpq32lyA2pyR6v67jduQG3b9Zp8puzhpAJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGdtfLzW5y/TmDagbd8a2bYhxFycVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMg8dvvrxp2oSe7P82zb7LrxHbvxmrdxUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzJXbX9U20Zud3MOTHaTJzzlRXc+JN9+fbddT/S3+npMKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGTWbX9VOz/8s8ndqsrk3tTk51S2Pa9JT/1eN3JSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMuu2vbftF1fVM7kRtu4cntl2Pe7jnb23bWDtR3Z8b30MnFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIfLbtxkya3PXyOX9v8ppPTH6vEzduZJ14887Yjb/PTioAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkPn59gX86cbdqm2fs82277Vti+zEm3fGJvfcbtza2sZJBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAynzdv3Tx1T2lyi+xGNz73bc9i2ybeiW1/68S2537CSQWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMuu2v566KTTpxmdamXw3bnzu23bGbryHlafugzmpAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkDmyu2vEzfuIE3a9t2fugG1bYPuxm20G9/Dp/5unHBSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMz7cv4E+TO0jV52zbGZvc0dq2IXbC89rjxi2yE2/eEHNSASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYDMZ9u2zLadn23bRNs2jk5MbmRte59PbHvu296xbRtrT70/FScVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMhcuf1VuXGPa/KaT0x+rxPb9sG2PYs3/38/Ydfr7zmpAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkDm59sX8BY3bvhMbhxVu1Vv3jSb/JxtbtxPe+qzcFIBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgMxn2yZVtb0zueFzYtv1VCY3srbdw23v6uSW1I3f68Z37EZOKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQ+fn2BXzTjdtNT/2cat9pcv/qxLbrObFtZ6wyec2Te2XbOKkAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQGbd9tfk1s22/asbN5cmr2fy/lTv4eSm2bb358bdqm2/PzdyUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzGfb/syNW1s33sMT2+7Pm7/Xtnd+0o3vz5s5qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5ufbF/C/qDZ8JjeOnrohtm1Ha9v1nNj23Lftg217XjbE/pmTCgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkrtz+OjG5ATW5TTS5uXTjNtGNu3CTW1vbdthOnFyz57WHkwoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZD7bdmNOPHXnZ/JZ3Lh7NmnbM912PdtM3p9tvz/bOKkAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQGbd9teNG0eT+1eTm12VyQ2xbc+ism2DbvK7n9j2/+vNnFQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBILNu+2vStv0i/tm2TSp7XH/vzbtwT/3tdVIBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgMzPty/g/2Xb5tKN20SVN29kbbueE5ObVG/eyDpx4/1xUgEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAzLrtr227TNXnVN9rcguo+l43bqNt2+zatg82adt93ra1tY2TCgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkPnZs7jK5TbRts+vGXbhJ23arque17ZpvfDcmOakAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQObn2xfwp8l9p20mN7tOPHXjaHKv7MTkOz/5vSb33Gx27eGkAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgCZddtfJ27c8Nm2x7VtY23bdtPkbtWJG/fKtj2vyrb/y9s4qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5srtrxPbdpkq1eaSDbG/t22Pa9K2d549nFQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBIPPY7a+nmtyb2vY5J7Ztmm27nqdu4lWq97ly43ackwoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZGx/PdC2Ha3Ktg2xp+5xPfU+b3ufT9x4zU4qAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJB57PbXjZs5N5rcrTqxbSdq8npO/la16/XUfbDJ+zN5Dyc5qQCQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJA5srtr217U5O2bUlNbmRNbkCdePP1TL4/2z5n0o3X7KQCQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKAJnPtt0YAO7lpAJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJARFQAyogJARlQAyIgKABlRASAjKgBkRAWAjKgAkBEVADKiAkBGVADIiAoAGVEBICMqAGREBYCMqACQERUAMqICQEZUAMiICgAZUQEgIyoAZEQFgIyoAJD5D/RYymNaO9TWAAAAAElFTkSuQmCC';
 
     const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
     const REQUIRED_CORRECT = 3;
@@ -1162,7 +1169,7 @@
 
     const $ = id => document.getElementById(id);
     const screenIds = [
-      'calScreen','infoScreen','instructScreen','testScreen',
+      'calScreen','genderScreen','ageScreen','instructScreen','testScreen',
       'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'
     ];
 
@@ -1301,7 +1308,7 @@
 
       applyColors();
       saveCal();
-      showScreen('infoScreen');
+      showScreen('genderScreen');
     });
 
     let ageString = '';
@@ -1325,41 +1332,30 @@
       });
     });
 
+    /* Gender buttons -> go to age screen */
     document.querySelectorAll('.gender-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         gender = btn.dataset.gender;
-
-        const a = parseInt($('ageInput').value);
-        if (a && a >= 5 && a <= 120) {
-          if (!pxPerMm || !distanceM) {
-            $('infoError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
-            return;
-          }
-          $('infoError').textContent = '';
-          age = a;
-          setProgress(10);
-          prepareEyeTest('right');
-        }
+        $('genderError').textContent = '';
+        setProgress(3);
+        showScreen('ageScreen');
       });
     });
 
-    $('infoNextBtn').addEventListener('click', () => {
-      if (!gender) {
-        $('infoError').textContent = 'VALITSE SUKUPUOLI.';
-        return;
-      }
+    /* Age screen next button */
+    $('ageNextBtn').addEventListener('click', () => {
       const a = parseInt($('ageInput').value);
       if (!a || a < 5 || a > 120) {
-        $('infoError').textContent = 'SYÖTÄ KELVOLLINEN IKÄ.';
+        $('ageError').textContent = 'SYÖTÄ KELVOLLINEN IKÄ.';
         return;
       }
       if (!pxPerMm || !distanceM) {
-        $('infoError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
+        $('ageError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
         return;
       }
-      $('infoError').textContent = '';
+      $('ageError').textContent = '';
       age = a;
       setProgress(10);
       prepareEyeTest('right');
@@ -1781,10 +1777,11 @@
       $('ageInput').value = '';
       ageString = '';
       updateAgeDisplay();
-      $('infoError').textContent = '';
+      $('genderError').textContent = '';
+      $('ageError').textContent = '';
 
       setProgress(0);
-      showScreen('infoScreen');
+      showScreen('genderScreen');
     }
 
     function saveToGoogleSheets() {
@@ -1828,7 +1825,7 @@
     }
 
     loadCal();
-    showScreen('infoScreen');
+    showScreen('genderScreen');
     setProgress(0);
   </script>
 </body>
