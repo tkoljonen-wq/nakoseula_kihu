@@ -43,7 +43,6 @@
       opacity: 0; pointer-events: none; transform: scale(0.97);
     }
 
-    /* ─── Cards ─── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -114,7 +113,6 @@
 
     .cal-error { color: var(--wrong); font-size: 12.5px; margin-top: 10px; min-height: 18px; }
 
-    /* ─── Progress bar ─── */
     .progress-wrap {
       position: fixed; top: 0; left: 0; right: 0;
       height: 4px; background: var(--border); z-index: 100;
@@ -124,7 +122,6 @@
       transition: width 0.4s ease; width: 0%;
     }
 
-    /* ─── Step indicator ─── */
     .step-tag {
       display: inline-block;
       font-family: 'DM Mono', monospace;
@@ -134,15 +131,37 @@
       margin-bottom: 14px; letter-spacing: 0.04em;
     }
 
-    /* ─── Test screen (Landolt) ─── */
+    /* 20 cm calibration line */
+    .cal-line-200 {
+      position: fixed; z-index: 50;
+      left: 50%; transform: translateX(-50%);
+      height: 2px; background: #1A1A1A;
+      border-radius: 1px; pointer-events: none;
+    }
+
+    /* Top bar */
+    .top-bar {
+      position: fixed; top: 8px; right: 12px; z-index: 60;
+    }
+    .top-bar-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--text-dim);
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 14px; cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .top-bar-btn:hover { color: var(--text); border-color: var(--accent); }
+
+    /* Landolt test */
     #testScreen { flex-direction: column; gap: 0; background: #fff; }
     .optotype-area {
       flex: 1; display: grid; place-items: center;
       width: 100%; position: relative;
     }
-    .optotype-container {
-      transition: opacity 0.15s ease, transform 0.15s ease;
-    }
+    .optotype-container { transition: opacity 0.15s ease, transform 0.15s ease; }
     .optotype-container.flash-correct { filter: drop-shadow(0 0 24px rgba(34,168,103,0.45)); }
     .optotype-container.flash-wrong { filter: drop-shadow(0 0 24px rgba(224,60,60,0.45)); }
     .optotype-container.entering { opacity: 0; transform: scale(0.92); }
@@ -191,7 +210,7 @@
       letter-spacing: 0.03em; opacity: 0.6; pointer-events: none;
     }
 
-    /* ─── Fixation disparity screen ─── */
+    /* FD screens */
     .fd-stage {
       width: 100%; min-height: 60vh;
       display: grid; place-items: center;
@@ -199,7 +218,6 @@
       border: 1px solid var(--border);
       margin-bottom: 16px;
     }
-
     .fd-svg { user-select: none; -webkit-user-drag: none; }
 
     .fd-question-card {
@@ -230,12 +248,31 @@
       background: var(--surface); color: var(--text);
       cursor: pointer; transition: all 0.15s;
     }
-    .option-btn:hover {
-      border-color: var(--accent); background: #EDF2FA;
-    }
+    .option-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .option-btn:active { transform: scale(0.985); }
+    .option-btn.selected {
+      border-color: var(--accent); background: #D9E4F5; font-weight: 600;
+    }
 
-    /* ─── Questions screen ─── */
+    .fd-multi-hint {
+      margin-top: 4px; margin-bottom: 6px;
+      font-size: 12px; color: var(--text-dim);
+    }
+
+    .fd-confirm-btn {
+      display: none; width: 100%;
+      padding: 13px 24px; margin-top: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 600;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 12px;
+      cursor: pointer; transition: background 0.2s, transform 0.1s;
+    }
+    .fd-confirm-btn:hover { background: var(--accent-hover); }
+    .fd-confirm-btn:active { transform: scale(0.985); }
+    .fd-confirm-btn.visible { display: block; }
+
+    /* Questions */
     .q-btn-row { display: flex; gap: 10px; margin-top: 8px; }
     .q-btn {
       flex: 1; padding: 14px;
@@ -248,7 +285,7 @@
     .q-btn:hover { border-color: var(--accent); background: #EDF2FA; }
     .q-btn:active { transform: scale(0.985); }
 
-    /* ─── Result ─── */
+    /* Result */
     .result-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 20px; padding: 44px 48px;
@@ -278,12 +315,10 @@
       margin-top: 24px; font-size: 14px; line-height: 1.65;
     }
     .recommendation.warn {
-      background: #FFF5EB; border: 1.5px solid #F0B060;
-      color: #8B5E1A;
+      background: #FFF5EB; border: 1.5px solid #F0B060; color: #8B5E1A;
     }
     .recommendation.ok {
-      background: #EEFBF3; border: 1.5px solid #6DD09A;
-      color: #1A6B3E;
+      background: #EEFBF3; border: 1.5px solid #6DD09A; color: #1A6B3E;
     }
     .recommendation strong { display: block; margin-bottom: 4px; }
 
@@ -292,6 +327,7 @@
       margin-top: 14px; text-align: center;
       font-family: 'DM Mono', monospace;
     }
+    .new-test-wrap { text-align: center; margin-top: 20px; }
 
     @media (max-width: 600px) {
       .card, .fd-question-card, .result-card { padding: 28px 22px; }
@@ -302,13 +338,16 @@
 <body>
 
   <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="cal-line-200" id="calLine200" style="display:none;"></div>
+  <div class="top-bar" id="topBar" style="display:none;">
+    <button class="top-bar-btn" id="calBtn">Kalibroi</button>
+  </div>
 
-  <!-- ═══ 1. Calibration ═══ -->
-  <div class="screen" id="calScreen">
+  <!-- ═══ Calibration (password-protected) ═══ -->
+  <div class="screen hidden" id="calScreen">
     <div class="card">
-      <div class="step-tag">VAIHE 0 / 5</div>
-      <h1>◔ Näöntutkimus</h1>
-      <p class="subtitle">Urheilijanäön tutkimusohjelma. Syötä ensin kalibrointitiedot, sen jälkeen ohjelma ohjaa sinut testien läpi.</p>
+      <h1>Kalibrointi</h1>
+      <p class="subtitle">Syötä kalibrointitiedot. Nämä asetukset säilyvät selaimen muistissa.</p>
       <div class="field">
         <label for="pxPerMmInput">px / mm</label>
         <input id="pxPerMmInput" type="number" step="any" min="0.1" placeholder="esim. 3.7795" />
@@ -319,17 +358,17 @@
         <input id="distanceInput" type="number" step="any" min="0.1" placeholder="esim. 4" />
         <div class="hint">Tyypillisesti 4 tai 6 metriä</div>
       </div>
-      <button class="btn-primary" id="startBtn">Jatka →</button>
+      <button class="btn-primary" id="saveCalBtn">Tallenna ja palaa</button>
       <div class="cal-error" id="calError"></div>
     </div>
   </div>
 
-  <!-- ═══ 2. Basic info ═══ -->
-  <div class="screen hidden" id="infoScreen">
+  <!-- ═══ Start / Info ═══ -->
+  <div class="screen" id="infoScreen">
     <div class="card">
       <div class="step-tag">VAIHE 1 / 5</div>
-      <h1>Perustiedot</h1>
-      <p class="subtitle">Nämä tiedot tallennetaan tutkimustulosten yhteyteen.</p>
+      <h1>◔ Näöntutkimus</h1>
+      <p class="subtitle">Urheilijanäön tutkimusohjelma. Syötä perustietosi ja seuraa ohjeita.</p>
       <div class="field">
         <label for="genderSelect">Sukupuoli</label>
         <select id="genderSelect">
@@ -348,17 +387,17 @@
     </div>
   </div>
 
-  <!-- ═══ 3. Instruction before Landolt ═══ -->
+  <!-- ═══ Instruction before Landolt ═══ -->
   <div class="screen hidden" id="instructScreen">
     <div class="card">
       <div class="step-tag" id="eyeStepTag">VAIHE 2 / 5</div>
       <h1 id="instructTitle">Visustesti – oikea silmä</h1>
-      <p class="subtitle" id="instructText">Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä (tai painikkeilla) mihin suuntaan renkaan aukko osoittaa. Paina välilyöntiä tai "En näe" -painiketta, jos et erota aukkoa.</p>
+      <p class="subtitle" id="instructText"></p>
       <button class="btn-primary" id="instructStartBtn">Aloita</button>
     </div>
   </div>
 
-  <!-- ═══ 4. Landolt test ═══ -->
+  <!-- ═══ Landolt test ═══ -->
   <div class="screen hidden" id="testScreen">
     <div class="eye-label" id="eyeLabel">Oikea silmä</div>
     <div class="optotype-area">
@@ -382,7 +421,7 @@
     <div class="key-hint">Käytä nuolinäppäimiä tai välilyöntiä</div>
   </div>
 
-  <!-- ═══ 5. Fixation disparity instruction ═══ -->
+  <!-- ═══ FD instruction ═══ -->
   <div class="screen hidden" id="fdInstructScreen">
     <div class="card">
       <div class="step-tag">VAIHE 3 / 5</div>
@@ -392,53 +431,52 @@
     </div>
   </div>
 
-  <!-- ═══ 6. Fixation disparity – vertical bars (horiz. disparity) ═══ -->
+  <!-- ═══ FD vertical bars ═══ -->
   <div class="screen hidden" id="fdVertScreen">
     <div class="fd-question-card">
       <div class="step-tag">VAIHE 3 / 5 – Pystypalkit</div>
       <h2>Pystypalkit</h2>
       <p>Katso testiympyrän keskelle. Punainen ja vihreä pystypalkki — ovatko ne samalla pystylinjalla? Tarkkaile hetki ja vastaa.</p>
       <div class="fd-stage" id="fdVertStage"></div>
-      <button class="option-btn" data-fd-v="ok">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
-      <button class="option-btn" data-fd-v="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
-      <button class="option-btn" data-fd-v="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
-      <button class="option-btn" data-fd-v="disappear">Jompikumpi palkki katoaa välillä</button>
+      <button class="option-btn" id="fdVertOk">Palkit ovat samassa linjassa, eivät liiku tai katoa</button>
+      <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
+      <button class="option-btn fd-v-multi" data-val="shift">Palkit eivät ole täysin samalla pystylinjalla</button>
+      <button class="option-btn fd-v-multi" data-val="move">Palkit heiluvat / liikkuvat sivusuunnassa</button>
+      <button class="option-btn fd-v-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
+      <button class="fd-confirm-btn" id="fdVertConfirm">Vahvista valinnat →</button>
     </div>
   </div>
 
-  <!-- ═══ 7. Fixation disparity – horizontal bars (vert. disparity) ═══ -->
+  <!-- ═══ FD horizontal bars ═══ -->
   <div class="screen hidden" id="fdHorizScreen">
     <div class="fd-question-card">
       <div class="step-tag">VAIHE 3 / 5 – Vaakapalkit</div>
       <h2>Vaakapalkit</h2>
       <p>Katso testiympyrän keskelle. Punainen ja vihreä vaakapalkki — pysyvätkö ne samalla korkeudella? Tarkkaile hetki ja vastaa.</p>
       <div class="fd-stage" id="fdHorizStage"></div>
-      <button class="option-btn" data-fd-h="ok">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
-      <button class="option-btn" data-fd-h="shift">Palkit eivät ole samalla korkeudella</button>
-      <button class="option-btn" data-fd-h="move">Palkit heiluvat korkeussuunnassa</button>
-      <button class="option-btn" data-fd-h="disappear">Jompikumpi palkki katoaa välillä</button>
+      <button class="option-btn" id="fdHorizOk">Palkit ovat samalla korkeudella, eivät liiku tai katoa</button>
+      <div class="fd-multi-hint">Jos yllä oleva ei pidä paikkaansa, valitse yksi tai useampi syy:</div>
+      <button class="option-btn fd-h-multi" data-val="shift">Palkit eivät ole samalla korkeudella</button>
+      <button class="option-btn fd-h-multi" data-val="move">Palkit heiluvat korkeussuunnassa</button>
+      <button class="option-btn fd-h-multi" data-val="disappear">Jompikumpi palkki katoaa välillä</button>
+      <button class="fd-confirm-btn" id="fdHorizConfirm">Vahvista valinnat →</button>
     </div>
   </div>
 
-  <!-- ═══ 8. Questionnaire ═══ -->
+  <!-- ═══ Questionnaire ═══ -->
   <div class="screen hidden" id="questionScreen">
-    <div class="card" id="questionCard">
-      <!-- filled dynamically -->
-    </div>
+    <div class="card" id="questionCard"></div>
   </div>
 
-  <!-- ═══ 9. Result ═══ -->
+  <!-- ═══ Result ═══ -->
   <div class="screen hidden" id="resultScreen">
-    <div class="result-card" id="resultCard">
-      <!-- filled dynamically -->
-    </div>
+    <div class="result-card" id="resultCard"></div>
   </div>
 
   <script>
-    // ════════════════════════════════════════════════════════════
-    //  CONFIG
-    // ════════════════════════════════════════════════════════════
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGlpIB-vr3GvkiT_iAKeTum9e5SoduAMMEpr9apn6cBtJWFlMd3D9ZsXA81WA-qtOa/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+    const CAL_PASSWORD = 'Silmä';
+    const STORAGE_KEY = 'naontutkimus_cal_v1';
 
     const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
     const REQUIRED_CORRECT = 3;
@@ -446,124 +484,125 @@
     const DIRECTIONS = ['right', 'up', 'left', 'down'];
     const ROTATIONS = { right: 0, down: 90, left: 180, up: 270 };
     const TAN_1_ARCMIN = Math.tan(Math.PI / 10800);
-
     const MALLET_DIAMETER_MM = 108;
     const REFERENCE_DISTANCE_M = 5.75;
 
-    // ════════════════════════════════════════════════════════════
-    //  STATE
-    // ════════════════════════════════════════════════════════════
+    // ── State ──
     let pxPerMm = 0, distanceM = 0;
     let gender = '', age = 0;
-
-    // Landolt state
     let currentLevelIdx = 0, correctCount = 0, errorCount = 0;
     let currentDirection = '', lastDirection = '';
     let uidCounter = 0, inputLocked = false, levelLog = [];
-    let currentEye = 'right'; // 'right' first, then 'left'
+    let currentEye = 'right';
     let visusRight = null, visusLeft = null;
-
-    // FD state
     let fdVertResult = '', fdHorizResult = '';
-
-    // Questions
+    let fdVertSelections = new Set(), fdHorizSelections = new Set();
     const questions = [
       { id: 'headache', text: 'Särkeekö sinulla päätä vähintään kerran viikossa?' },
       { id: 'eyeFatigue', text: 'Väsyvätkö silmäsi helposti?' },
       { id: 'sportError', text: 'Tapahtuuko urheilusuorituksessa joskus niin, että muistellessasi virheellistä suoritusta teit mielestäsi kaikki oikein ja silti suoritus epäonnistui?' }
     ];
-    let questionAnswers = {};
-    let currentQuestionIdx = 0;
+    let questionAnswers = {}, currentQuestionIdx = 0;
 
-    // ════════════════════════════════════════════════════════════
-    //  DOM
-    // ════════════════════════════════════════════════════════════
+    // ── DOM helpers ──
     const $ = id => document.getElementById(id);
-    const screens = ['calScreen','infoScreen','instructScreen','testScreen',
-                     'fdInstructScreen','fdVertScreen','fdHorizScreen',
-                     'questionScreen','resultScreen'];
+    const screenIds = ['calScreen','infoScreen','instructScreen','testScreen',
+      'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'];
 
     function showScreen(id) {
-      screens.forEach(s => $(s).classList.add('hidden'));
+      screenIds.forEach(s => $(s).classList.add('hidden'));
       $(id).classList.remove('hidden');
       $(id).scrollTop = 0;
       window.scrollTo(0, 0);
+      // Calibration line on test + FD screens
+      const showLine = ['testScreen','fdVertScreen','fdHorizScreen'].includes(id) && pxPerMm > 0;
+      const line = $('calLine200');
+      line.style.display = showLine ? 'block' : 'none';
+      if (showLine) {
+        line.style.width = (200 * pxPerMm) + 'px';
+        line.style.top = (10 * pxPerMm) + 'px';
+      }
+      $('topBar').style.display = (id === 'calScreen') ? 'none' : 'block';
     }
 
-    function setProgress(pct) {
-      $('progressFill').style.width = pct + '%';
+    function setProgress(pct) { $('progressFill').style.width = pct + '%'; }
+
+    // ── Calibration persistence ──
+    function loadCal() {
+      try {
+        const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (d && d.pxPerMm > 0 && d.distanceM > 0) {
+          pxPerMm = d.pxPerMm; distanceM = d.distanceM; return true;
+        }
+      } catch(e) {}
+      return false;
+    }
+    function saveCal() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pxPerMm, distanceM })); } catch(e) {}
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  CALIBRATION
-    // ════════════════════════════════════════════════════════════
-    $('startBtn').addEventListener('click', () => {
+    // Password-protected calibration button
+    $('calBtn').addEventListener('click', () => {
+      const pw = prompt('Syötä salasana:');
+      if (pw === CAL_PASSWORD) {
+        $('pxPerMmInput').value = pxPerMm || '';
+        $('distanceInput').value = distanceM || '';
+        $('calError').textContent = '';
+        showScreen('calScreen');
+      }
+    });
+
+    $('saveCalBtn').addEventListener('click', () => {
       const px = parseFloat($('pxPerMmInput').value);
       const dist = parseFloat($('distanceInput').value);
       if (!px || px <= 0) { $('calError').textContent = 'Syötä kelvollinen px/mm-arvo.'; return; }
       if (!dist || dist <= 0) { $('calError').textContent = 'Syötä kelvollinen etäisyys.'; return; }
       $('calError').textContent = '';
       pxPerMm = px; distanceM = dist;
-      setProgress(5);
+      saveCal();
       showScreen('infoScreen');
     });
 
-    // ════════════════════════════════════════════════════════════
-    //  BASIC INFO
-    // ════════════════════════════════════════════════════════════
+    // ── Info → Visus ──
     $('infoNextBtn').addEventListener('click', () => {
       gender = $('genderSelect').value;
       const a = parseInt($('ageInput').value);
       if (!gender) { $('infoError').textContent = 'Valitse sukupuoli.'; return; }
       if (!a || a < 5 || a > 120) { $('infoError').textContent = 'Syötä kelvollinen ikä.'; return; }
+      if (!pxPerMm || !distanceM) { $('infoError').textContent = 'Kalibrointia ei ole tehty. Pyydä tutkijaa kalibroimaan laite ensin (Kalibroi-nappi oikeasta yläkulmasta).'; return; }
       $('infoError').textContent = '';
       age = a;
       setProgress(10);
       prepareEyeTest('right');
     });
 
-    // ════════════════════════════════════════════════════════════
-    //  LANDOLT C  HELPERS
-    // ════════════════════════════════════════════════════════════
-    function optotypeDiameterMm(visus, distanceMm) {
-      return 5 * TAN_1_ARCMIN * distanceMm / visus;
-    }
+    // ── Landolt C ──
+    function optotypeDiameterMm(visus, distanceMm) { return 5 * TAN_1_ARCMIN * distanceMm / visus; }
 
     function createLandoltSVG(direction, sizePx, uid) {
       const rot = ROTATIONS[direction];
       const clipId = `c${uid}`;
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', sizePx);
-      svg.setAttribute('height', sizePx);
+      svg.setAttribute('width', sizePx); svg.setAttribute('height', sizePx);
       svg.setAttribute('viewBox', '0 0 120 120');
-      svg.innerHTML = `
-        <defs><clipPath id="${clipId}">
-          <path d="M0,0 H120 V50 H60 V70 H120 V120 H0 Z"/>
-        </clipPath></defs>
-        <g transform="rotate(${rot} 60 60)">
-          <circle cx="60" cy="60" r="40" fill="none" stroke="#1A1A1A" stroke-width="20" clip-path="url(#${clipId})"/>
-        </g>`;
+      svg.innerHTML = `<defs><clipPath id="${clipId}"><path d="M0,0 H120 V50 H60 V70 H120 V120 H0 Z"/></clipPath></defs>
+        <g transform="rotate(${rot} 60 60)"><circle cx="60" cy="60" r="40" fill="none" stroke="#1A1A1A" stroke-width="20" clip-path="url(#${clipId})"/></g>`;
       return svg;
     }
 
     function randomDirection() {
       const pool = DIRECTIONS.filter(d => d !== lastDirection);
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      lastDirection = pick;
-      return pick;
+      lastDirection = pick; return pick;
     }
 
     function showOptotype() {
       const visus = VISUS_LEVELS[currentLevelIdx];
-      const distanceMm = distanceM * 1000;
-      const diamMm = optotypeDiameterMm(visus, distanceMm);
-      const diamPx = diamMm * pxPerMm;
+      const diamPx = optotypeDiameterMm(visus, distanceM * 1000) * pxPerMm;
       currentDirection = randomDirection();
       const svg = createLandoltSVG(currentDirection, diamPx, uidCounter++);
       const oc = $('optotypeContainer');
-      oc.innerHTML = '';
-      oc.classList.add('entering');
-      oc.appendChild(svg);
+      oc.innerHTML = ''; oc.classList.add('entering'); oc.appendChild(svg);
       requestAnimationFrame(() => requestAnimationFrame(() => oc.classList.remove('entering')));
     }
 
@@ -571,13 +610,11 @@
       if (inputLocked) return;
       inputLocked = true;
       const isCorrect = answer === currentDirection;
-      const flashClass = isCorrect ? 'flash-correct' : 'flash-wrong';
       const oc = $('optotypeContainer');
-      oc.classList.add(flashClass);
+      oc.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
       if (isCorrect) correctCount++; else errorCount++;
-
       setTimeout(() => {
-        oc.classList.remove(flashClass);
+        oc.classList.remove('flash-correct', 'flash-wrong');
         if (correctCount >= REQUIRED_CORRECT) {
           levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: true, correct: correctCount, errors: errorCount });
           if (currentLevelIdx >= VISUS_LEVELS.length - 1) { finishEyeTest(VISUS_LEVELS[currentLevelIdx]); return; }
@@ -586,24 +623,19 @@
         }
         if (errorCount >= MAX_ERRORS) {
           levelLog.push({ visus: VISUS_LEVELS[currentLevelIdx], passed: false, correct: correctCount, errors: errorCount });
-          finishEyeTest(currentLevelIdx === 0 ? null : VISUS_LEVELS[currentLevelIdx - 1]);
-          return;
+          finishEyeTest(currentLevelIdx === 0 ? null : VISUS_LEVELS[currentLevelIdx - 1]); return;
         }
         showOptotype(); inputLocked = false;
       }, 350);
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  EYE TEST FLOW
-    // ════════════════════════════════════════════════════════════
     function prepareEyeTest(eye) {
       currentEye = eye;
+      $('eyeStepTag').textContent = 'VAIHE 2 / 5';
       if (eye === 'right') {
-        $('eyeStepTag').textContent = 'VAIHE 2 / 5';
         $('instructTitle').textContent = 'Visustesti – oikea silmä';
-        $('instructText').textContent = 'Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä mihin suuntaan renkaan aukko osoittaa.';
+        $('instructText').textContent = 'Peitä vasen silmäsi kädellä tai peittolapulla. Katsele ruudulla näkyviä Landolt C -renkaita oikealla silmällä ja vastaa nuolinäppäimillä mihin suuntaan renkaan aukko osoittaa. Paina välilyöntiä tai "En näe", jos et erota aukkoa.';
       } else {
-        $('eyeStepTag').textContent = 'VAIHE 2 / 5';
         $('instructTitle').textContent = 'Visustesti – vasen silmä';
         $('instructText').textContent = 'Peitä nyt oikea silmäsi. Katsele renkaita vasemmalla silmällä ja vastaa samalla tavalla.';
       }
@@ -619,23 +651,14 @@
     });
 
     function finishEyeTest(visus) {
-      if (currentEye === 'right') {
-        visusRight = visus;
-        setProgress(30);
-        prepareEyeTest('left');
-      } else {
-        visusLeft = visus;
-        setProgress(50);
-        showScreen('fdInstructScreen');
-      }
+      if (currentEye === 'right') { visusRight = visus; setProgress(30); prepareEyeTest('left'); }
+      else { visusLeft = visus; setProgress(50); showScreen('fdInstructScreen'); }
     }
 
-    // Landolt controls
     document.querySelectorAll('.arrow-btn').forEach(btn => {
       btn.addEventListener('click', () => processAnswer(btn.dataset.dir));
     });
     $('cantSeeBtn').addEventListener('click', () => processAnswer('__cant_see__'));
-
     document.addEventListener('keydown', e => {
       if ($('testScreen').classList.contains('hidden')) return;
       const map = { ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down' };
@@ -643,90 +666,94 @@
       else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); processAnswer('__cant_see__'); }
     });
 
-    // ════════════════════════════════════════════════════════════
-    //  FIXATION DISPARITY SVGs
-    // ════════════════════════════════════════════════════════════
-    function malletDiameterMm(dist) {
-      return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M);
-    }
+    // ── Fixation Disparity ──
+    function malletDiameterMm(dist) { return MALLET_DIAMETER_MM * (dist / REFERENCE_DISTANCE_M); }
 
     function buildMalletSVG(rotation) {
-      const malletPhysMm = malletDiameterMm(distanceM);
-      const malletPhysPx = malletPhysMm * pxPerMm;
-      const svgSizePx = malletPhysPx * (512 / 480);
-
+      const sz = malletDiameterMm(distanceM) * pxPerMm * (512 / 480);
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', svgSizePx);
-      svg.setAttribute('height', svgSizePx);
+      svg.setAttribute('width', sz); svg.setAttribute('height', sz);
       svg.setAttribute('viewBox', '0 0 512 512');
       svg.classList.add('fd-svg');
-      svg.innerHTML = `
-        <g transform="rotate(${rotation}, 256, 256)">
-          <circle cx="256" cy="256" r="240" fill="#000000"/>
-          <rect x="210" y="33" width="92" height="446" fill="#ffffff"/>
-          <rect x="250.5" y="224" width="11" height="64" fill="#000000"/>
-          <rect x="224" y="250.5" width="64" height="11" fill="#000000"/>
-          <rect x="228" y="100.5" width="56" height="56" fill="#000000"/>
-          <rect x="239" y="111.5" width="34" height="34" fill="#ffffff"/>
-          <rect x="228" y="355.5" width="56" height="56" fill="#000000"/>
-          <rect x="239" y="366.5" width="34" height="34" fill="#ffffff"/>
-          <g><rect x="42" y="237" width="152" height="38" fill="${getComputedStyle(document.documentElement).getPropertyValue('--bar-green').trim() || '#009d00'}"/></g>
-          <g><rect x="318" y="237" width="152" height="38" fill="${getComputedStyle(document.documentElement).getPropertyValue('--bar-red').trim() || '#e20000'}"/></g>
-        </g>`;
+      const gc = getComputedStyle(document.documentElement);
+      const green = gc.getPropertyValue('--bar-green').trim() || '#009d00';
+      const red = gc.getPropertyValue('--bar-red').trim() || '#e20000';
+      svg.innerHTML = `<g transform="rotate(${rotation}, 256, 256)">
+        <circle cx="256" cy="256" r="240" fill="#000"/>
+        <rect x="210" y="33" width="92" height="446" fill="#fff"/>
+        <rect x="250.5" y="224" width="11" height="64" fill="#000"/>
+        <rect x="224" y="250.5" width="64" height="11" fill="#000"/>
+        <rect x="228" y="100.5" width="56" height="56" fill="#000"/>
+        <rect x="239" y="111.5" width="34" height="34" fill="#fff"/>
+        <rect x="228" y="355.5" width="56" height="56" fill="#000"/>
+        <rect x="239" y="366.5" width="34" height="34" fill="#fff"/>
+        <g><rect x="42" y="237" width="152" height="38" fill="${green}"/></g>
+        <g><rect x="318" y="237" width="152" height="38" fill="${red}"/></g>
+      </g>`;
       return svg;
     }
 
     $('fdInstructStartBtn').addEventListener('click', () => {
-      // Build vertical bars view (rotation -90 → bars appear vertical)
       $('fdVertStage').innerHTML = '';
       $('fdVertStage').appendChild(buildMalletSVG(-90));
+      fdVertSelections.clear();
+      document.querySelectorAll('.fd-v-multi').forEach(b => b.classList.remove('selected'));
+      $('fdVertConfirm').classList.remove('visible');
       setProgress(55);
       showScreen('fdVertScreen');
     });
 
-    // FD vertical bar answers
-    document.querySelectorAll('[data-fd-v]').forEach(btn => {
+    // FD Vert – OK instant
+    $('fdVertOk').addEventListener('click', () => { fdVertResult = 'ok'; goToFdHoriz(); });
+
+    // FD Vert – multi-select toggles
+    document.querySelectorAll('.fd-v-multi').forEach(btn => {
       btn.addEventListener('click', () => {
-        fdVertResult = btn.dataset.fdV;
-        // Build horizontal bars view (rotation 0 → bars appear horizontal)
-        $('fdHorizStage').innerHTML = '';
-        $('fdHorizStage').appendChild(buildMalletSVG(0));
-        setProgress(65);
-        showScreen('fdHorizScreen');
+        const val = btn.dataset.val;
+        if (fdVertSelections.has(val)) { fdVertSelections.delete(val); btn.classList.remove('selected'); }
+        else { fdVertSelections.add(val); btn.classList.add('selected'); }
+        $('fdVertConfirm').classList.toggle('visible', fdVertSelections.size > 0);
       });
     });
+    $('fdVertConfirm').addEventListener('click', () => { fdVertResult = Array.from(fdVertSelections).join(','); goToFdHoriz(); });
 
-    // FD horizontal bar answers
-    document.querySelectorAll('[data-fd-h]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        fdHorizResult = btn.dataset.fdH;
-        setProgress(75);
-        startQuestions();
-      });
-    });
-
-    // ════════════════════════════════════════════════════════════
-    //  QUESTIONNAIRE
-    // ════════════════════════════════════════════════════════════
-    function startQuestions() {
-      currentQuestionIdx = 0;
-      questionAnswers = {};
-      renderQuestion();
-      showScreen('questionScreen');
+    function goToFdHoriz() {
+      $('fdHorizStage').innerHTML = '';
+      $('fdHorizStage').appendChild(buildMalletSVG(0));
+      fdHorizSelections.clear();
+      document.querySelectorAll('.fd-h-multi').forEach(b => b.classList.remove('selected'));
+      $('fdHorizConfirm').classList.remove('visible');
+      setProgress(65);
+      showScreen('fdHorizScreen');
     }
+
+    // FD Horiz – OK instant
+    $('fdHorizOk').addEventListener('click', () => { fdHorizResult = 'ok'; setProgress(75); startQuestions(); });
+
+    // FD Horiz – multi-select toggles
+    document.querySelectorAll('.fd-h-multi').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val;
+        if (fdHorizSelections.has(val)) { fdHorizSelections.delete(val); btn.classList.remove('selected'); }
+        else { fdHorizSelections.add(val); btn.classList.add('selected'); }
+        $('fdHorizConfirm').classList.toggle('visible', fdHorizSelections.size > 0);
+      });
+    });
+    $('fdHorizConfirm').addEventListener('click', () => { fdHorizResult = Array.from(fdHorizSelections).join(','); setProgress(75); startQuestions(); });
+
+    // ── Questionnaire ──
+    function startQuestions() { currentQuestionIdx = 0; questionAnswers = {}; renderQuestion(); showScreen('questionScreen'); }
 
     function renderQuestion() {
       const q = questions[currentQuestionIdx];
-      const num = currentQuestionIdx + 1;
       $('questionCard').innerHTML = `
-        <div class="step-tag">VAIHE 4 / 5 – Kysymys ${num}/${questions.length}</div>
+        <div class="step-tag">VAIHE 4 / 5 – Kysymys ${currentQuestionIdx+1}/${questions.length}</div>
         <h1>Kysely</h1>
         <p class="subtitle" style="margin-bottom:24px;">${q.text}</p>
         <div class="q-btn-row">
           <button class="q-btn" id="qYes">Kyllä</button>
           <button class="q-btn" id="qNo">Ei</button>
-        </div>
-      `;
+        </div>`;
       $('qYes').addEventListener('click', () => answerQuestion('Kyllä'));
       $('qNo').addEventListener('click', () => answerQuestion('Ei'));
     }
@@ -734,140 +761,83 @@
     function answerQuestion(answer) {
       questionAnswers[questions[currentQuestionIdx].id] = answer;
       currentQuestionIdx++;
-      if (currentQuestionIdx < questions.length) {
-        setProgress(75 + (currentQuestionIdx / questions.length) * 15);
-        renderQuestion();
-      } else {
-        setProgress(92);
-        finishAll();
-      }
+      if (currentQuestionIdx < questions.length) { setProgress(75 + (currentQuestionIdx / questions.length) * 15); renderQuestion(); }
+      else { setProgress(92); finishAll(); }
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  FINISH & RESULT
-    // ════════════════════════════════════════════════════════════
-    function fdLabel(code) {
-      const map = {
-        ok: 'OK – palkit linjassa, ei liikettä eikä katoamista',
-        shift: 'Palkit eivät olleet samassa linjassa',
-        move: 'Palkit heiluivat / liikkuivat',
-        disappear: 'Palkki katosi välillä näkyvistä'
-      };
-      return map[code] || code;
+    // ── Result ──
+    function fdLabelMulti(code) {
+      if (code === 'ok') return 'OK – palkit linjassa, ei liikettä eikä katoamista';
+      const map = { shift: 'Ei samassa linjassa', move: 'Heiluivat / liikkuivat', disappear: 'Palkki katosi välillä' };
+      return code.split(',').map(c => map[c] || c).join('; ');
     }
 
-    function visusLabel(v) {
-      return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, '');
-    }
+    function visusLabel(v) { return v === null ? 'Alle 0.4' : v.toFixed(2).replace(/0$/, ''); }
 
     function shouldRecommend() {
-      // Visus ≤ 0.8 in either eye
-      if (visusRight !== null && visusRight <= 0.8) return true;
-      if (visusRight === null) return true;
-      if (visusLeft !== null && visusLeft <= 0.8) return true;
-      if (visusLeft === null) return true;
-      // FD issues
+      if (visusRight === null || visusRight <= 0.8) return true;
+      if (visusLeft === null || visusLeft <= 0.8) return true;
       if (fdVertResult !== 'ok') return true;
       if (fdHorizResult !== 'ok') return true;
-      // Any yes answer
       if (Object.values(questionAnswers).some(a => a === 'Kyllä')) return true;
       return false;
     }
 
     function finishAll() {
-      const recommend = shouldRecommend();
+      const rec = shouldRecommend();
+      let h = `<h1>Tulokset</h1>
+        <div class="result-section"><h3>Perustiedot</h3><p>${gender}, ${age} v.</p></div>
+        <div class="result-section"><h3>Näöntarkkuus</h3><p>Oikea silmä: ${visusLabel(visusRight)}<br>Vasen silmä: ${visusLabel(visusLeft)}</p></div>
+        <div class="result-section"><h3>Fiksaatiodisparaatio – pystypalkit</h3><p>${fdLabelMulti(fdVertResult)}</p></div>
+        <div class="result-section"><h3>Fiksaatiodisparaatio – vaakapalkit</h3><p>${fdLabelMulti(fdHorizResult)}</p></div>
+        <div class="result-section"><h3>Kysely</h3><p>Päänsärky viikoittain: ${questionAnswers.headache}<br>Silmien väsyminen: ${questionAnswers.eyeFatigue}<br>Urheilusuorituksen ongelma: ${questionAnswers.sportError}</p></div>`;
 
-      let html = `
-        <h1>Tulokset</h1>
-        <div class="result-section">
-          <h3>Perustiedot</h3>
-          <p>${gender}, ${age} v.</p>
-        </div>
-        <div class="result-section">
-          <h3>Näöntarkkuus</h3>
-          <p>Oikea silmä: ${visusLabel(visusRight)}<br>Vasen silmä: ${visusLabel(visusLeft)}</p>
-        </div>
-        <div class="result-section">
-          <h3>Fiksaatiodisparaatio – pystypalkit</h3>
-          <p>${fdLabel(fdVertResult)}</p>
-        </div>
-        <div class="result-section">
-          <h3>Fiksaatiodisparaatio – vaakapalkit</h3>
-          <p>${fdLabel(fdHorizResult)}</p>
-        </div>
-        <div class="result-section">
-          <h3>Kysely</h3>
-          <p>Päänsärky viikoittain: ${questionAnswers.headache}<br>
-             Silmien väsyminen: ${questionAnswers.eyeFatigue}<br>
-             Urheilusuorituksen ongelma: ${questionAnswers.sportError}</p>
-        </div>
-      `;
+      h += rec
+        ? `<div class="recommendation warn"><strong>Suositus</strong>Tulosten perusteella suosittelemme varaamaan ajan Silmäasemalle urheilijan näöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.</div>`
+        : `<div class="recommendation ok"><strong>Hyvä tulos!</strong>Testien perusteella näkemisessäsi ei havaittu poikkeamia. Säännöllinen näöntarkastus on silti suositeltavaa.</div>`;
 
-      if (recommend) {
-        html += `
-          <div class="recommendation warn">
-            <strong>Suositus</strong>
-            Tulosten perusteella suosittelemme varaamaan ajan Silmäasemalle urheilijan näöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.
-          </div>`;
-      } else {
-        html += `
-          <div class="recommendation ok">
-            <strong>Hyvä tulos!</strong>
-            Testien perusteella näkemisessäsi ei havaittu poikkeamia. Säännöllinen näöntarkastus on silti suositeltavaa.
-          </div>`;
-      }
+      h += `<div class="saving-status" id="savingStatus">Tallennetaan tuloksia…</div>`;
+      h += `<div class="new-test-wrap"><button class="btn-primary" id="newTestBtn" style="margin-top:18px;">Aloita uusi mittaus</button></div>`;
 
-      html += `<div class="saving-status" id="savingStatus">Tallennetaan tuloksia…</div>`;
-
-      $('resultCard').innerHTML = html;
+      $('resultCard').innerHTML = h;
       setProgress(100);
       showScreen('resultScreen');
-
+      $('newTestBtn').addEventListener('click', resetAll);
       saveToGoogleSheets();
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  GOOGLE SHEETS SAVE
-    // ════════════════════════════════════════════════════════════
-    function saveToGoogleSheets() {
-      const today = new Date();
-      const dateStr = today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear();
+    function resetAll() {
+      gender = ''; age = 0;
+      visusRight = null; visusLeft = null;
+      fdVertResult = ''; fdHorizResult = '';
+      questionAnswers = {}; currentQuestionIdx = 0;
+      fdVertSelections.clear(); fdHorizSelections.clear();
+      $('genderSelect').value = '';
+      $('ageInput').value = '';
+      setProgress(0);
+      showScreen('infoScreen');
+    }
 
+    // ── Google Sheets ──
+    function saveToGoogleSheets() {
+      const t = new Date();
       const payload = {
-        pvm: dateStr,
-        sukupuoli: gender,
-        ika: age,
-        visus_oikea: visusLabel(visusRight),
-        visus_vasen: visusLabel(visusLeft),
-        fd_pysty: fdLabel(fdVertResult),
-        fd_vaaka: fdLabel(fdHorizResult),
-        paansarky: questionAnswers.headache,
-        silmien_vasyminen: questionAnswers.eyeFatigue,
+        pvm: t.getDate() + '.' + (t.getMonth()+1) + '.' + t.getFullYear(),
+        sukupuoli: gender, ika: age,
+        visus_oikea: visusLabel(visusRight), visus_vasen: visusLabel(visusLeft),
+        fd_pysty: fdLabelMulti(fdVertResult), fd_vaaka: fdLabelMulti(fdHorizResult),
+        paansarky: questionAnswers.headache, silmien_vasyminen: questionAnswers.eyeFatigue,
         urheilusuoritus: questionAnswers.sportError,
         suositus: shouldRecommend() ? 'Kyllä' : 'Ei'
       };
-
-      fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(() => {
-        const el = $('savingStatus');
-        if (el) el.textContent = 'Tulokset tallennettu ✓';
-      })
-      .catch(err => {
-        const el = $('savingStatus');
-        if (el) el.textContent = 'Tallennusvirhe – tarkista yhteys.';
-        console.error(err);
-      });
+      fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tulokset tallennettu ✓'; })
+        .catch(() => { const el = $('savingStatus'); if (el) el.textContent = 'Tallennusvirhe – tarkista yhteys.'; });
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  INIT
-    // ════════════════════════════════════════════════════════════
-    showScreen('calScreen');
+    // ── Init ──
+    loadCal();
+    showScreen('infoScreen');
     setProgress(0);
   </script>
 </body>
