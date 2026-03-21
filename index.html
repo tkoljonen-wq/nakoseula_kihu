@@ -1301,8 +1301,35 @@
     </div>
   </div>
 
+  <!-- OHJEET / TERVETULOA -->
+  <div class="screen" id="welcomeScreen">
+    <div class="card" style="max-width:1000px;">
+      <h1>◔ NÄÖNTUTKIMUS</h1>
+      <p class="subtitle">URHEILIJANÄÖN TUTKIMUSOHJELMA</p>
+
+      <div style="background:#F7F6F3; border-radius:16px; padding:28px 32px; margin-bottom:28px;">
+        <p class="subtitle" style="font-size:24px; margin-bottom:18px; color:var(--text);">OHJEET ENNEN ALOITUSTA</p>
+
+        <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
+          ISTU TUOLILLE NÄYTÖN ETEEN.
+        </p>
+        <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
+          JOS KÄYTÄT PIILOLASEJA TAI KAUKONÄÖN KORJAAMISEEN TARKOITETTUJA SILMÄLASEJA, PIDÄ NE KÄYTÖSSÄ TUTKIMUKSEN AJAN.
+        </p>
+        <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
+          KÄYTÄ HIIRTÄ VASTAUSTEN TALLENTAMISEEN. NÄPPÄIMISTÖÄ EI TARVITA.
+        </p>
+        <p class="subtitle" style="font-size:22px; margin-bottom:0; font-weight:700; color:var(--text-dim); line-height:1.55;">
+          LOPUKSI SAAT TULOKSET RUUDULLE JA MAHDOLLISUUDEN TULOSTAA NE MUKAASI.
+        </p>
+      </div>
+
+      <button class="btn-primary" id="welcomeStartBtn">ALOITA →</button>
+    </div>
+  </div>
+
   <!-- ALOITUS – SUKUPUOLI -->
-  <div class="screen" id="genderScreen">
+  <div class="screen hidden" id="genderScreen">
     <div class="card">
       <div class="step-tag">VAIHE 1 / 5</div>
       <h1>◔ NÄÖNTUTKIMUS</h1>
@@ -1488,7 +1515,7 @@
 
     const $ = id => document.getElementById(id);
     const screenIds = [
-      'calScreen','genderScreen','ageScreen','instructScreen','testScreen',
+      'calScreen','welcomeScreen','genderScreen','ageScreen','instructScreen','testScreen',
       'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'
     ];
 
@@ -1627,7 +1654,7 @@
 
       applyColors();
       saveCal();
-      showScreen('genderScreen');
+      showScreen('welcomeScreen');
     });
 
     let ageString = '';
@@ -1649,6 +1676,12 @@
         }
         updateAgeDisplay();
       });
+    });
+
+    /* Welcome screen -> go to gender screen */
+    $('welcomeStartBtn').addEventListener('click', () => {
+      setProgress(1);
+      showScreen('genderScreen');
     });
 
     /* Gender buttons -> go to age screen */
@@ -2093,9 +2126,6 @@
         <div class="ref-header">
           <div class="ref-header-top">
             <h1>LÄHETE OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</h1>
-            <div class="ref-logo-area">
-              <img src="${logoSrc}" alt="Silmäasema" />
-            </div>
           </div>
           <div class="ref-date">PVM: ${dateStr}</div>
         </div>
@@ -2169,7 +2199,7 @@
       $('ageError').textContent = '';
 
       setProgress(0);
-      showScreen('genderScreen');
+      showScreen('welcomeScreen');
     }
 
     function saveToGoogleSheets() {
@@ -2213,7 +2243,7 @@
     }
 
     loadCal();
-    showScreen('genderScreen');
+    showScreen('welcomeScreen');
     setProgress(0);
   </script>
 
