@@ -342,6 +342,19 @@
       margin-top: 10px;
       letter-spacing: 0.02em;
       line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .footer-qr .qr-label:hover {
+      text-decoration: underline;
+    }
+
+    .footer-qr a img {
+      transition: opacity 0.15s;
+    }
+
+    .footer-qr a:hover img {
+      opacity: 0.85;
     }
 
     /* BOTTOM BAR */
@@ -512,12 +525,16 @@
     </div>
     <div class="footer-qr-row">
       <div class="footer-qr">
-        <img src="qr.png" alt="QR-koodi ajanvaraukseen" />
-        <span class="qr-label">Skannaa ja varaa aika</span>
+        <a href="https://ajanvaraus.silmaasema.fi/" target="_blank" rel="noopener">
+          <img src="qr.png" alt="QR-koodi ajanvaraukseen" />
+        </a>
+        <a href="https://ajanvaraus.silmaasema.fi/" target="_blank" rel="noopener" class="qr-label">Skannaa ja varaa aika</a>
       </div>
       <div class="footer-qr">
-        <img src="qr-info.svg" alt="QR-koodi lisätietoa" />
-        <span class="qr-label">Lisätietoa Silmäaseman optikon urheilunäöntutkimuksesta</span>
+        <a href="https://www.silmaasema.fi/palvelu/urheilu-naontutkimus.html" target="_blank" rel="noopener">
+          <img src="qr-info.svg" alt="QR-koodi lisätietoa" />
+        </a>
+        <a href="https://www.silmaasema.fi/palvelu/urheilu-naontutkimus.html" target="_blank" rel="noopener" class="qr-label">Lisätietoa Silmäaseman optikon urheilunäöntutkimuksesta</a>
       </div>
     </div>
   </div>
