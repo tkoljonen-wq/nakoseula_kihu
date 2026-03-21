@@ -283,12 +283,13 @@
       padding: 32px 36px;
       box-shadow: var(--shadow);
       display: flex;
-      align-items: center;
-      gap: 32px;
+      align-items: flex-start;
+      gap: 28px;
     }
 
     .footer-cta-text {
       flex: 1;
+      min-width: 0;
     }
 
     .footer-cta-text h2 {
@@ -311,9 +312,16 @@
       margin-bottom: 0;
     }
 
-    .footer-qr {
+    .footer-qr-row {
+      display: flex;
+      gap: 24px;
       flex-shrink: 0;
+      align-items: flex-start;
+    }
+
+    .footer-qr {
       text-align: center;
+      width: 140px;
     }
 
     .footer-qr img {
@@ -322,18 +330,18 @@
       border-radius: 10px;
       border: 1px solid #ddd;
       background: #fff;
+      display: block;
     }
 
     .footer-qr .qr-label {
       display: block;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--accent);
       margin-top: 10px;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
       line-height: 1.35;
-      max-width: 160px;
     }
 
     /* BOTTOM BAR */
@@ -502,13 +510,15 @@
       <h2>Varaa aika urheilunäöntutkimukseen</h2>
       <p>Skannaa QR-koodi varataksesi ajan Silmäaseman optikon urheilunäöntutkimukseen. Tutkimuksessa selvitetään tarkemmin näkemisen laatua ja mahdollisia häiriötekijöitä, jotka voivat vaikuttaa urheilusuoritukseen.</p>
     </div>
-    <div class="footer-qr">
-      <img src="qr.png" alt="QR-koodi ajanvaraukseen" />
-      <span class="qr-label">Skannaa ja varaa aika</span>
-    </div>
-    <div class="footer-qr">
-      <img src="qr-info.svg" alt="QR-koodi lisätietoa" />
-      <span class="qr-label">Lisätietoa Silmäaseman optikon urheilunäöntutkimuksesta</span>
+    <div class="footer-qr-row">
+      <div class="footer-qr">
+        <img src="qr.png" alt="QR-koodi ajanvaraukseen" />
+        <span class="qr-label">Skannaa ja varaa aika</span>
+      </div>
+      <div class="footer-qr">
+        <img src="qr-info.svg" alt="QR-koodi lisätietoa" />
+        <span class="qr-label">Lisätietoa Silmäaseman optikon urheilunäöntutkimuksesta</span>
+      </div>
     </div>
   </div>
 
