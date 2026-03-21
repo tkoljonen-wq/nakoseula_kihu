@@ -1456,6 +1456,7 @@
     // Kuvat ladataan ulkoisista tiedostoista base64-merkkijonojen sijaan.
     // Tämä estää kuvien korruptoitumisen koodimuokkausten yhteydessä.
     const QR_CODE_DATA_URL = 'qr.png';
+    const QR_INFO_URL = 'qr-info.svg';
     const LOGO_URL = 'logo.jpg';
 
     const VISUS_LEVELS = [0.4, 0.5, 0.63, 0.8, 1.0, 1.25];
@@ -2135,6 +2136,8 @@
           <div class="ref-right">
             <img src="${QR_CODE_DATA_URL}" alt="QR" />
             <div class="ref-qr-text">VARAA TÄSTÄ AIKA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</div>
+            <img src="${QR_INFO_URL}" alt="QR" style="margin-top:3mm;" />
+            <div class="ref-qr-text">LISÄTIETOA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSESTA</div>
           </div>
         </div>
 
