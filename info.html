@@ -405,10 +405,75 @@
     /* PRINT */
     @media print {
       body { background: #fff; }
-      .page { padding: 10mm 12mm; max-width: none; }
-      .section-card, .section-full, .intro, .footer-cta {
+      .page { padding: 8mm 12mm; max-width: none; }
+
+      /* Estä osioiden katkeaminen keskeltä */
+      .section-card, .section-full, .intro, .footer-cta, .section-grid {
         box-shadow: none;
         break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Header pysyy aina ensimmäisellä sivulla */
+      .header {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      /* Intro pysyy headerin kanssa */
+      .intro {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+
+      /* Kaksipalstainen grid: pidä yhdessä */
+      .section-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Tietosuojaosio: salli sivunvaihto ennen tätä */
+      .section-full[style*="border-left"] {
+        page-break-before: auto;
+        break-before: auto;
+      }
+
+      /* Footer-alue: pidä yhdessä, salli sivunvaihto edelle */
+      .footer-cta {
+        page-break-before: auto;
+        break-before: auto;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Alatunniste: pidä footer-cta:n kanssa */
+      .bottom-bar {
+        break-before: avoid;
+        page-break-before: avoid;
+      }
+
+      /* Pienennetään välejä tulostuksessa */
+      .section-full, .intro {
+        margin-bottom: 5mm;
+        padding: 4mm 5mm;
+      }
+
+      .section-grid {
+        gap: 4mm;
+        margin-bottom: 5mm;
+      }
+
+      .section-card {
+        padding: 4mm 5mm;
+      }
+
+      .footer-cta {
+        padding: 5mm 6mm;
+      }
+
+      /* Reunukset näkyviin tulostuksessa */
+      .section-card, .section-full, .intro, .footer-cta {
+        border-color: #ccc;
       }
     }
   </style>
@@ -525,10 +590,10 @@
     </div>
     <div class="footer-qr-row">
       <div class="footer-qr">
-        <a href="https://ajanvaraus.silmaasema.fi/" target="_blank" rel="noopener">
+        <a href="https://ajanvaraus.silmaasema.fi/Reservation/Calendar?serviceid=528" target="_blank" rel="noopener">
           <img src="qr.png" alt="QR-koodi ajanvaraukseen" />
         </a>
-        <a href="https://ajanvaraus.silmaasema.fi/" target="_blank" rel="noopener" class="qr-label">Skannaa ja varaa aika</a>
+        <a href="https://ajanvaraus.silmaasema.fi/Reservation/Calendar?serviceid=528" target="_blank" rel="noopener" class="qr-label">Skannaa ja varaa aika</a>
       </div>
       <div class="footer-qr">
         <a href="https://www.silmaasema.fi/palvelu/urheilu-naontutkimus.html" target="_blank" rel="noopener">
@@ -541,7 +606,7 @@
 
   <!-- BOTTOM BAR -->
   <div class="bottom-bar">
-    <span class="bottom-note">Urheilijanäön tutkimusohjelma — Näköseula</span>
+    <span class="bottom-note">URHEILUNÄÖN TUTKIMUSOHJELMA – NÄKÖSEULA</span>
     <img src="logo.jpg" alt="Silmäasema" />
   </div>
 
