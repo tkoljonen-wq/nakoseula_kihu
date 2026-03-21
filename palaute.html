@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Testipalaute</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F1EC;
+    --card: #FFFFFF;
+    --primary: #1A5C3A;
+    --primary-light: #E8F0EB;
+    --primary-hover: #14472D;
+    --accent: #D4A843;
+    --text: #1E1E1E;
+    --text-muted: #6B6B6B;
+    --border: #DDD8D0;
+    --star-empty: #D4CFC6;
+    --star-fill: #D4A843;
+    --error: #C0392B;
+    --success-bg: #E8F0EB;
+    --success-text: #1A5C3A;
+    --radius: 14px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 12px;
+  }
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .header-icon svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .card.active {
+    box-shadow: 0 2px 12px rgba(26,92,58,0.1), 0 0 0 2px var(--primary);
+  }
+
+  .card-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .card label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .required::after {
+    content: ' *';
+    color: var(--error);
+    font-weight: 400;
+  }
+
+  /* Star rating */
+  .stars {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 4px 0;
+  }
+
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 6px;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease;
+  }
+
+  .star-btn:active {
+    transform: scale(1.2);
+  }
+
+  .star-btn svg {
+    width: 36px;
+    height: 36px;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.06));
+  }
+
+  .star-btn .star-path {
+    fill: var(--star-empty);
+    stroke: none;
+    transition: fill 0.2s ease;
+  }
+
+  .star-btn.active .star-path {
+    fill: var(--star-fill);
+  }
+
+  .rating-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+
+  .rating-labels span {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .rating-value {
+    text-align: center;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    min-height: 20px;
+    transition: opacity 0.2s;
+  }
+
+  /* Textarea */
+  .textarea-wrap {
+    position: relative;
+  }
+
+  .textarea-wrap textarea {
+    width: 100%;
+    min-height: 110px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    outline: none;
+  }
+
+  .textarea-wrap textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .textarea-wrap textarea:focus {
+    border-color: var(--primary);
+    background: #fff;
+  }
+
+  .char-count {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* Submit */
+  .submit-wrap {
+    margin-top: 24px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.2px;
+  }
+
+  .submit-btn:active {
+    transform: scale(0.98);
+    background: var(--primary-hover);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .submit-btn.loading {
+    pointer-events: none;
+    position: relative;
+    color: transparent;
+  }
+
+  .submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 22px; height: 22px;
+    margin: -11px 0 0 -11px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Validation */
+  .card.error {
+    box-shadow: 0 0 0 2px var(--error);
+  }
+
+  .error-msg {
+    color: var(--error);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 8px;
+    display: none;
+  }
+
+  .card.error .error-msg {
+    display: block;
+  }
+
+  /* Success */
+  .success-view {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .success-view.show {
+    display: block;
+    animation: fadeUp 0.5s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--success-bg);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .success-icon svg {
+    width: 36px;
+    height: 36px;
+    stroke: var(--success-text);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .success-view h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .success-view p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Form entrance animation */
+  .form-view .card {
+    animation: cardIn 0.4s ease both;
+  }
+  .form-view .card:nth-child(1) { animation-delay: 0.05s; }
+  .form-view .card:nth-child(2) { animation-delay: 0.1s; }
+  .form-view .card:nth-child(3) { animation-delay: 0.15s; }
+  .form-view .card:nth-child(4) { animation-delay: 0.2s; }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </div>
+    <h1>Testipalaute</h1>
+    <p>Arvioi testin osa-alueet ja auta meitä kehittämään.</p>
+  </div>
+
+  <form id="feedbackForm" class="form-view" novalidate>
+
+    <!-- Q1 -->
+    <div class="card" data-question="q1">
+      <div class="card-number">1</div>
+      <label class="required">Testin ohjeiden ymmärrettävyys</label>
+      <div class="stars" data-rating="q1">
+        <button type="button" class="star-btn" data-value="1"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="2"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="3"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="4"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="5"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+      </div>
+      <div class="rating-labels"><span>Huono</span><span>Erinomainen</span></div>
+      <div class="rating-value" id="q1-value"></div>
+      <div class="error-msg">Valitse arvosana</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card" data-question="q2">
+      <div class="card-number">2</div>
+      <label class="required">Testin suorittamisen helppous</label>
+      <div class="stars" data-rating="q2">
+        <button type="button" class="star-btn" data-value="1"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="2"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="3"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="4"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="5"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+      </div>
+      <div class="rating-labels"><span>Huono</span><span>Erinomainen</span></div>
+      <div class="rating-value" id="q2-value"></div>
+      <div class="error-msg">Valitse arvosana</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card" data-question="q3">
+      <div class="card-number">3</div>
+      <label class="required">Lisäinfon laatu ja laajuus</label>
+      <div class="stars" data-rating="q3">
+        <button type="button" class="star-btn" data-value="1"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="2"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="3"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="4"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+        <button type="button" class="star-btn" data-value="5"><svg viewBox="0 0 24 24"><path class="star-path" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></button>
+      </div>
+      <div class="rating-labels"><span>Huono</span><span>Erinomainen</span></div>
+      <div class="rating-value" id="q3-value"></div>
+      <div class="error-msg">Valitse arvosana</div>
+    </div>
+
+    <!-- Q4 Free text -->
+    <div class="card" data-question="q4">
+      <div class="card-number">4</div>
+      <label>Vapaa palaute <span style="font-weight:400;color:var(--text-muted);font-size:13px;">(valinnainen)</span></label>
+      <div class="textarea-wrap">
+        <textarea id="freeText" placeholder="Kerro vapaasti kokemuksistasi..." maxlength="1000"></textarea>
+        <div class="char-count"><span id="charCount">0</span> / 1000</div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn" id="submitBtn">Lähetä palaute</button>
+    </div>
+  </form>
+
+  <div class="success-view" id="successView">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Kiitos palautteestasi!</h2>
+    <p>Vastauksesi on tallennettu onnistuneesti. Palautteesi auttaa meitä kehittämään testiä paremmaksi.</p>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // ASETUKSET — Vaihda tähän oma Apps Script Web App -URL:
+  // ============================================================
+  const APPS_SCRIPT_URL = 'KORVAA_TÄMÄ_APPS_SCRIPT_WEB_APP_URLLLA';
+
+  // Ratings state
+  const ratings = { q1: 0, q2: 0, q3: 0 };
+  const valueLabels = ['', 'Huono', 'Välttävä', 'Tyydyttävä', 'Hyvä', 'Erinomainen'];
+
+  // Star click handlers
+  document.querySelectorAll('.stars').forEach(group => {
+    const key = group.dataset.rating;
+    group.querySelectorAll('.star-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.value);
+        ratings[key] = val;
+        // Update stars
+        group.querySelectorAll('.star-btn').forEach(b => {
+          b.classList.toggle('active', parseInt(b.dataset.value) <= val);
+        });
+        // Update label
+        document.getElementById(key + '-value').textContent = val + ' / 5 — ' + valueLabels[val];
+        // Clear error
+        btn.closest('.card').classList.remove('error');
+      });
+    });
+  });
+
+  // Char count
+  const freeText = document.getElementById('freeText');
+  const charCount = document.getElementById('charCount');
+  freeText.addEventListener('input', () => {
+    charCount.textContent = freeText.value.length;
+  });
+
+  // Submit
+  document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    // Validate required ratings
+    ['q1', 'q2', 'q3'].forEach(key => {
+      const card = document.querySelector(`[data-question="${key}"]`);
+      if (ratings[key] === 0) {
+        card.classList.add('error');
+        valid = false;
+      } else {
+        card.classList.remove('error');
+      }
+    });
+
+    if (!valid) {
+      document.querySelector('.card.error').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    const payload = {
+      ohjeidenYmmarrettavyys: ratings.q1,
+      suorittamisenHelppous: ratings.q2,
+      lisainfonLaatu: ratings.q3,
+      vapaaPalaute: freeText.value.trim()
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('feedbackForm').style.display = 'none';
+      document.getElementById('successView').classList.add('show');
+    } catch (err) {
+      alert('Virhe lähetyksessä. Yritä uudelleen.');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
