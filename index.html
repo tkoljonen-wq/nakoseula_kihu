@@ -1520,6 +1520,15 @@
     let questionAnswers = {}, currentQuestionIdx = 0;
 
     const $ = id => document.getElementById(id);
+
+    function goFullscreen() {
+      const el = document.documentElement;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      }
+    }
+
     const screenIds = [
       'calScreen','welcomeScreen','genderScreen','ageScreen','instructScreen','testScreen',
       'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'
@@ -1614,6 +1623,7 @@
     });
 
     $('restartBtn').addEventListener('click', () => {
+      goFullscreen();
       resetAll();
     });
 
@@ -1693,6 +1703,7 @@
 
     /* Welcome screen -> go to gender screen */
     $('welcomeStartBtn').addEventListener('click', () => {
+      goFullscreen();
       setProgress(1);
       showScreen('genderScreen');
     });
@@ -2122,7 +2133,10 @@
       $('resultCard').innerHTML = h;
       setProgress(100);
       showScreen('resultScreen');
-      $('newTestBtn').addEventListener('click', resetAll);
+      $('newTestBtn').addEventListener('click', () => {
+        goFullscreen();
+        resetAll();
+      });
       $('printBtn').addEventListener('click', printReferral);
       saveToGoogleSheets();
     }
