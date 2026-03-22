@@ -223,6 +223,10 @@
       top: 12px;
       right: 16px;
       z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
     }
 
     .top-bar-btn {
@@ -1263,6 +1267,7 @@
 
   <div class="top-bar" id="topBar" style="display:none;">
     <button class="top-bar-btn" id="calBtn">KALIBROI</button>
+    <button class="top-bar-btn" id="restartBtn" style="display:none;">ALOITA ALUSTA</button>
   </div>
 
   <!-- KALIBROINTI -->
@@ -1545,6 +1550,9 @@
       }
 
       $('topBar').style.display = (id === 'calScreen') ? 'none' : 'block';
+
+      const hideRestart = ['calScreen', 'welcomeScreen', 'resultScreen'];
+      $('restartBtn').style.display = hideRestart.includes(id) ? 'none' : 'inline-block';
     }
 
     function setProgress(pct) {
@@ -1603,6 +1611,10 @@
 
     ['calRedR','calRedG','calRedB','calGreenR','calGreenG','calGreenB'].forEach(id => {
       $(id).addEventListener('input', updateColorPreviews);
+    });
+
+    $('restartBtn').addEventListener('click', () => {
+      resetAll();
     });
 
     $('calBtn').addEventListener('click', () => {
