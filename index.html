@@ -216,7 +216,6 @@
       background: #1A1A1A;
       border-radius: 2px;
       pointer-events: none;
-      max-width: calc(100% - 280px);
     }
 
     .top-bar {
@@ -1550,10 +1549,10 @@
         }
       }
 
-      $('topBar').style.display = (id === 'calScreen') ? 'none' : 'block';
+      $('topBar').style.display = (id === 'calScreen') ? 'none' : 'flex';
 
       const hideRestart = ['calScreen', 'welcomeScreen', 'resultScreen'];
-      $('restartBtn').style.display = hideRestart.includes(id) ? 'none' : 'inline-block';
+      $('restartBtn').style.display = hideRestart.includes(id) ? 'none' : 'block';
     }
 
     function setProgress(pct) {
