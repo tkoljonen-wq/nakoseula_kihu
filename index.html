@@ -2065,6 +2065,20 @@
       return v === null ? 'ALLE 0.4' : v.toFixed(2).replace(/0$/, '');
     }
 
+    function getVisusResultText() {
+      const bothGood =
+        visusRight !== null &&
+        visusLeft !== null &&
+        visusRight >= 1.0 &&
+        visusLeft >= 1.0;
+
+      if (bothGood) {
+        return 'TARKKUUSHAVAINTOTESTIN TULOS ON HYVÄ, MUTTA JOS SINULLA SIITÄ HUOLIMATTA ON NÄKEMISEEN TAI SILMIIN LIITTYVÄÄ VAIVAA NIIN VARAA AIKA OPTIKOLLE TARKEMPAA TUTKIMUSTA VARTEN.';
+      }
+
+      return 'SUOSITELLAAN OPTIKON TEKEMÄÄ URHEILUNÄÖNTUTKIMUSTA NÄKÖKYKYSI TARKKAA KARTOITUSTA VARTEN.';
+    }
+
     function shouldRecommend() {
       if (visusRight === null || visusRight <= 0.8) return true;
       if (visusLeft === null || visusLeft <= 0.8) return true;
@@ -2089,7 +2103,7 @@
 
             <div class="result-section">
               <h3>TARKKUUSHAVAINTOTEHTÄVÄ</h3>
-              <p>OIKEA SILMÄ: ${visusLabel(visusRight)}<br>VASEN SILMÄ: ${visusLabel(visusLeft)}</p>
+              <p>${getVisusResultText()}</p>
             </div>
 
             <div class="result-section">
@@ -2174,7 +2188,7 @@
 
             <div class="ref-section">
               <h3>TARKKUUSHAVAINTOTEHTÄVÄ</h3>
-              <p>OIKEA SILMÄ: ${visusLabel(visusRight)}<br>VASEN SILMÄ: ${visusLabel(visusLeft)}</p>
+              <p>${getVisusResultText()}</p>
             </div>
 
             <div class="ref-section">
