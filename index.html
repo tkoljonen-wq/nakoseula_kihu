@@ -1556,10 +1556,20 @@
         }
       }
 
-      $('topBar').style.display = (id === 'calScreen') ? 'none' : 'flex';
-
-      const hideRestart = ['calScreen', 'welcomeScreen', 'resultScreen'];
-      $('restartBtn').style.display = hideRestart.includes(id) ? 'none' : 'block';
+      // Kalibroi-nappi näkyy vain aloitussivulla, Aloita alusta muilla sivuilla
+      if (id === 'calScreen') {
+        $('topBar').style.display = 'none';
+      } else if (id === 'welcomeScreen') {
+        $('topBar').style.display = 'flex';
+        $('calBtn').style.display = 'block';
+        $('restartBtn').style.display = 'none';
+      } else if (id === 'resultScreen') {
+        $('topBar').style.display = 'none';
+      } else {
+        $('topBar').style.display = 'flex';
+        $('calBtn').style.display = 'none';
+        $('restartBtn').style.display = 'block';
+      }
     }
 
     function setProgress(pct) {
