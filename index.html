@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NÄÖNTUTKIMUS – URHEILIJANÄKÖ</title>
+  <title>NÄKÖHAVAINTOJEN ITSEARVIOINTI URHEILUTILANTEISSA</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1326,7 +1326,7 @@
           KÄYTÄ HIIRTÄ VALINTOJEN TEKEMISEEN. NÄPPÄIMISTÖÄ EI TARVITA.
         </p>
         <p class="subtitle" style="font-size:22px; margin-bottom:0; font-weight:700; color:var(--text-dim); line-height:1.55;">
-          TEHTÄVÄKOKONAISUUS KESTÄÄ NOIN 3–5 MINUUTTIA. LOPUKSI SAAT LISÄTIETOA NÄKÖKOKEMUKSESTASI JA VOIT HALUTESSASI TULOSTAA SEN MUKAASI.
+          TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.
         </p>
       </div>
 
@@ -2049,7 +2049,7 @@
     }
 
     function fdLabel(res) {
-      if (res.ok) return 'OK';
+      if (res.ok) return 'EI SELVÄÄ POIKKEAVAA HAVAINTOA TÄSSÄ TEHTÄVÄSSÄ.';
       const parts = [];
       if (res.shift) parts.push('EI SAMASSA LINJASSA');
       if (res.move) parts.push('HEILUIVAT / LIIKKUIVAT');
@@ -2073,10 +2073,10 @@
         visusLeft >= 1.0;
 
       if (bothGood) {
-        return 'TARKKUUSHAVAINTOTESTIN TULOS ON HYVÄ, MUTTA JOS SINULLA SIITÄ HUOLIMATTA ON NÄKEMISEEN TAI SILMIIN LIITTYVÄÄ VAIVAA NIIN VARAA AIKA OPTIKOLLE TARKEMPAA TUTKIMUSTA VARTEN.';
+        return 'TEHTÄVÄ EI ANTANUT VIITTEITÄ SELVÄSTÄ HAASTEESTA TARKKUUSHAVAINNOINNISSA. JOS KOET SILTI NÄKEMISEEN LIITTYVIÄ ONGELMIA, VARAA AIKA OPTIKOLLE.';
       }
 
-      return 'SUOSITELLAAN OPTIKON TEKEMÄÄ URHEILUNÄÖNTUTKIMUSTA NÄKÖKYKYSI TARKKAA KARTOITUSTA VARTEN.';
+      return 'TEHTÄVÄN PERUSTEELLA VOI OLLA HYÖDYLLISTÄ VARATA AIKA OPTIKOLLE TARKEMPAA ARVIOTA VARTEN.';
     }
 
     function shouldRecommend() {
@@ -2123,8 +2123,8 @@
 
             ${
               rec
-                ? `<div class="recommendation warn"><strong>SUOSITUS</strong>TULOSTEN PERUSTEELLA SUOSITTELEMME VARAAMAAN AJAN SILMÄASEMALLE URHEILIJAN NÄÖNTUTKIMUKSEEN. TUTKIMUKSESSA SELVITETÄÄN TARKEMMIN NÄKEMISEN LAATUA JA MAHDOLLISIA HÄIRIÖTEKIJÖITÄ, JOTKA VOIVAT VAIKUTTAA URHEILUSUORITUKSEEN.</div>`
-                : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTITULOKSESSA EI HAVAITTU SELVIÄ POIKKEAMIA. TÄMÄ TESTI EI KUITENKAAN KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN TEKEMÄÄN TUTKIMUSTA JA SIKSI SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</div>`
+                ? `<div class="recommendation warn"><strong>SUOSITUS</strong>TEHTÄVÄKOKONAISUUS ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.</div>`
+                : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</div>`
             }
           </div>
 
@@ -2144,7 +2144,7 @@
 
         <div class="result-bottom">
           <div>
-            <button class="btn-secondary" id="printBtn" style="font-size:24px; padding:16px 28px;">TULOSTA LÄHETE OPTIKOLLE</button>
+            <button class="btn-secondary" id="printBtn" style="font-size:24px; padding:16px 28px;">TULOSTA YHTEENVETO</button>
           </div>
           <div class="new-test-wrap">
             <button class="btn-primary" id="newTestBtn" style="margin-top:0; min-width:340px;">ALOITA UUSI MITTAUS</button>
@@ -2174,7 +2174,7 @@
       const referralHTML = `
         <div class="ref-header">
           <div class="ref-header-top">
-            <h1>LÄHETE OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</h1>
+            <h1>YHTEENVETO NÄKÖHAVAINTOJEN ITSEARVIOINNISTA</h1>
           </div>
           <div class="ref-date">PVM: ${dateStr}</div>
         </div>
@@ -2207,7 +2207,7 @@
             </div>
 
             ${rec
-              ? '<div class="ref-recommendation warn"><strong>SUOSITUS</strong><span>TULOSTEN PERUSTEELLA SUOSITTELEMME VARAAMAAN AJAN SILMÄASEMALLE URHEILIJAN NÄÖNTUTKIMUKSEEN. TUTKIMUKSESSA SELVITETÄÄN TARKEMMIN NÄKEMISEN LAATUA JA MAHDOLLISIA HÄIRIÖTEKIJÖITÄ, JOTKA VOIVAT VAIKUTTAA URHEILUSUORITUKSEEN.</span></div>'
+              ? '<div class="ref-recommendation warn"><strong>SUOSITUS</strong><span>TEHTÄVÄKOKONAISUUS ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.</span></div>'
               : '<div class="ref-recommendation ok"><strong>HYVÄ TULOS!</strong><span>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</span></div>'
             }
           </div>
