@@ -261,12 +261,9 @@
       padding-top: 0;
     }
 
-    #testScreen .cal-line-200 {
-      position: relative;
-      left: auto;
-      transform: none;
-      margin: 0 auto;
-      flex-shrink: 0;
+    #genderScreen .cal-line-200,
+    #ageScreen .cal-line-200 {
+      top: 16px;
     }
 
     .optotype-area {
@@ -380,15 +377,6 @@
       align-items: stretch;
       justify-content: flex-start;
       padding: 0 18px 18px;
-    }
-
-    #fdVertScreen .cal-line-200,
-    #fdHorizScreen .cal-line-200 {
-      position: relative;
-      left: auto;
-      transform: none;
-      margin: 0 auto;
-      flex-shrink: 0;
     }
 
     .fd-layout {
@@ -1336,6 +1324,7 @@
 
   <!-- ALOITUS – SUKUPUOLI -->
   <div class="screen hidden" id="genderScreen">
+    <div class="cal-line-200 cal-line-gender" style="display:none;"></div>
     <div class="card">
       <div class="step-tag">VAIHE 1 / 5</div>
       <p class="subtitle">SYÖTÄ PERUSTIETOSI JA ETENE OHJEIDEN MUKAAN.</p>
@@ -1355,6 +1344,7 @@
 
   <!-- ALOITUS – IKÄ (HORIZONTAL LAYOUT) -->
   <div class="screen hidden" id="ageScreen">
+    <div class="cal-line-200 cal-line-age" style="display:none;"></div>
     <div class="card">
       <div class="age-layout">
         <div class="age-left">
@@ -1398,7 +1388,6 @@
 
   <!-- LANDOLT TEST -->
   <div class="screen hidden" id="testScreen">
-    <div class="cal-line-200 cal-line-test" style="display:none;"></div>
     <div class="eye-label" id="eyeLabel">OIKEA SILMÄ</div>
     <div class="optotype-area">
       <div class="optotype-container" id="optotypeContainer"></div>
@@ -1433,7 +1422,6 @@
 
   <!-- FD PYSTY -->
   <div class="screen hidden" id="fdVertScreen">
-    <div class="cal-line-200 cal-line-fdv" style="display:none;"></div>
     <div class="fd-layout">
       <div class="fd-layout-left">
         <div class="fd-stage" id="fdVertStage"></div>
@@ -1452,7 +1440,6 @@
 
   <!-- FD VAAKA -->
   <div class="screen hidden" id="fdHorizScreen">
-    <div class="cal-line-200 cal-line-fdh" style="display:none;"></div>
     <div class="fd-layout">
       <div class="fd-layout-left">
         <div class="fd-stage" id="fdHorizStage"></div>
@@ -1513,7 +1500,7 @@
     const questions = [
       { id: 'headache', text: 'SÄRKEEKÖ SINULLA PÄÄTÄ VÄHINTÄÄN KERRAN VIIKOSSA?' },
       { id: 'eyeFatigue', text: 'VÄSYVÄTKÖ SILMÄSI HELPOSTI?' },
-      { id: 'sportError', text: 'TAPAHTUUKO URHEILUSUORITUKSESSA JOSKUS NIIN, ETTÄ NÄKÖMUISTOSI JOSTAIN TILANTEESTA POIKKEAA SIITÄ MITÄ OIKEASTI TAPAHTUI (ESIM. PALLO EI OLLUTKAAN SIELLÄ MISSÄ SE NÄYTTI OLEVAN)?' }
+      { id: 'sportError', text: 'TAPAHTUUKO URHEILUSUORITUKSESSA JOSKUS NIIN, ETTÄ NÄKÖMUISTISI JOSTAIN TILANTEESTA POIKKEAA SIITÄ MITÄ OIKEASTI TAPAHTUI (ESIM. PALLO EI OLLUTKAAN SIELLÄ MISSÄ SE NÄYTTI OLEVAN)?' }
     ];
     let questionAnswers = {}, currentQuestionIdx = 0;
 
@@ -1539,9 +1526,8 @@
       window.scrollTo(0, 0);
 
       const lineMap = {
-        testScreen: '.cal-line-test',
-        fdVertScreen: '.cal-line-fdv',
-        fdHorizScreen: '.cal-line-fdh'
+        genderScreen: '.cal-line-gender',
+        ageScreen: '.cal-line-age'
       };
 
       document.querySelectorAll('.cal-line-200').forEach(el => el.style.display = 'none');
