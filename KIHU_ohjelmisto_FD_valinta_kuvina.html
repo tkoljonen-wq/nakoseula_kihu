@@ -754,6 +754,30 @@
       text-transform: uppercase;
     }
 
+    .result-example {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: #FFFFFF;
+    }
+
+    .result-example svg {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 160px;
+      max-height: 160px;
+    }
+
+    .result-example.landolt svg {
+      max-width: 90px;
+      max-height: 90px;
+    }
+
     .recommendation {
       padding: 18px 20px;
       border-radius: 18px;
@@ -761,18 +785,16 @@
       line-height: 1.4;
       font-weight: 700;
       text-transform: uppercase;
+      background: #9a5ea3;
+      border: 2px solid #7d4a87;
+      color: #111111;
     }
 
-    .recommendation.warn {
-      background: #FFF4E8;
-      border: 2px solid #E7AD57;
-      color: #7A4C09;
-    }
-
+    .recommendation.warn,
     .recommendation.ok {
-      background: #ECFBF2;
-      border: 2px solid #61C78B;
-      color: #155B35;
+      background: #9a5ea3;
+      border: 2px solid #7d4a87;
+      color: #111111;
     }
 
     .recommendation strong {
@@ -1335,24 +1357,49 @@
       line-height: 1.5;
     }
 
-    .ref-recommendation {
-      padding: 4mm 5mm;
+    .ref-example {
+      margin-top: 3mm;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.2mm;
+      border: 1pt solid #D8D4CD;
       border-radius: 2mm;
-      margin-top: 4mm;
+      background: #FFFFFF;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
 
-    .ref-recommendation.warn {
-      background: #FFF4E8;
-      border: 1.5pt solid #E7AD57;
-      color: #7A4C09;
+    .ref-example svg {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 28mm;
+      max-height: 28mm;
     }
 
+    .ref-example.landolt svg {
+      max-width: 18mm;
+      max-height: 18mm;
+    }
+
+    .ref-recommendation {
+      padding: 4mm 5mm;
+      border-radius: 2mm;
+      margin-top: 0;
+      margin-bottom: 4mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background: #9a5ea3;
+      border: 1.5pt solid #7d4a87;
+      color: #111111;
+    }
+
+    .ref-recommendation.warn,
     .ref-recommendation.ok {
-      background: #ECFBF2;
-      border: 1.5pt solid #61C78B;
-      color: #155B35;
+      background: #9a5ea3;
+      border: 1.5pt solid #7d4a87;
+      color: #111111;
     }
 
     .ref-recommendation strong {
@@ -2343,6 +2390,22 @@
       return '-';
     }
 
+    function landoltExampleHTML() {
+      return `<div class="result-example landolt">${createLandoltSVG('right', 96, 'result-landolt').outerHTML}</div>`;
+    }
+
+    function printLandoltExampleHTML() {
+      return `<div class="ref-example landolt">${createLandoltSVG('right', 96, 'print-landolt').outerHTML}</div>`;
+    }
+
+    function malletExampleHTML(rotation) {
+      return `<div class="result-example">${buildMalletSVG(rotation).outerHTML}</div>`;
+    }
+
+    function printMalletExampleHTML(rotation) {
+      return `<div class="ref-example">${buildMalletSVG(rotation).outerHTML}</div>`;
+    }
+
     function yn(v) {
       return v ? 'KYLLÄ' : 'EI';
     }
@@ -2378,11 +2441,17 @@
     function finishAll() {
       const rec = shouldRecommend();
 
+      const summaryHtml = rec
+        ? `<div class="recommendation warn"><strong>YHTEENVETO</strong>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`
+        : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`;
+
       const h = `
         <h1>TULOKSET</h1>
 
         <div class="result-main">
           <div class="result-left">
+            ${summaryHtml}
+
             <div class="result-section">
               <h3>PERUSTIEDOT</h3>
               <p>${gender}, ${age} V.</p>
@@ -2391,28 +2460,25 @@
             <div class="result-section">
               <h3>TARKKUUSHAVAINTOTEHTÄVÄ</h3>
               <p>${getVisusResultText()}</p>
+              ${landoltExampleHTML()}
             </div>
 
             <div class="result-section">
               <h3>NÄKÖHAVAINTOTEHTÄVÄ – PYSTYPALKIT</h3>
               <p>${fdVertLabel(fdVertSelection)}</p>
+              ${malletExampleHTML(-90)}
             </div>
 
             <div class="result-section">
               <h3>NÄKÖHAVAINTOTEHTÄVÄ – VAAKAPALKIT</h3>
               <p>${fdHorizLabel(fdHorizSelection)}</p>
+              ${malletExampleHTML(0)}
             </div>
 
             <div class="result-section">
               <h3>KYSELY</h3>
               <p>PÄÄNSÄRKY VIIKOITTAIN: ${questionAnswers.headache}<br>SILMIEN VÄSYMINEN: ${questionAnswers.eyeFatigue}<br>URHEILUSUORITUKSEN ONGELMA: ${questionAnswers.sportError}</p>
             </div>
-
-            ${
-              rec
-                ? `<div class="recommendation warn"><strong>YHTEENVETO</strong>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`
-                : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`
-            }
           </div>
 
           <div class="result-right">
@@ -2458,6 +2524,10 @@
 
       const logoSrc = LOGO_URL;
 
+      const summaryHtml = rec
+        ? '<div class="ref-recommendation warn"><strong>YHTEENVETO</strong><span>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>'
+        : '<div class="ref-recommendation ok"><strong>HYVÄ TULOS!</strong><span>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>';
+
       const referralHTML = `
         <div class="ref-header">
           <div class="ref-header-top">
@@ -2468,6 +2538,8 @@
 
         <div class="ref-body">
           <div class="ref-left">
+            ${summaryHtml}
+
             <div class="ref-section">
               <h3>PERUSTIEDOT</h3>
               <p>${gender}, ${age} V.</p>
@@ -2476,32 +2548,30 @@
             <div class="ref-section">
               <h3>TARKKUUSHAVAINTOTEHTÄVÄ</h3>
               <p>${getVisusResultText()}</p>
+              ${printLandoltExampleHTML()}
             </div>
 
             <div class="ref-section">
               <h3>NÄKÖHAVAINTOTEHTÄVÄ — PYSTYPALKIT</h3>
               <p>${fdVertLabel(fdVertSelection)}</p>
+              ${printMalletExampleHTML(-90)}
             </div>
 
             <div class="ref-section">
               <h3>NÄKÖHAVAINTOTEHTÄVÄ — VAAKAPALKIT</h3>
               <p>${fdHorizLabel(fdHorizSelection)}</p>
+              ${printMalletExampleHTML(0)}
             </div>
 
             <div class="ref-section">
               <h3>KYSELY</h3>
               <p>PÄÄNSÄRKY VIIKOITTAIN: ${questionAnswers.headache}<br>SILMIEN VÄSYMINEN: ${questionAnswers.eyeFatigue}<br>URHEILUSUORITUKSEN ONGELMA: ${questionAnswers.sportError}</p>
             </div>
-
-            ${rec
-              ? '<div class="ref-recommendation warn"><strong>YHTEENVETO</strong><span>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>'
-              : '<div class="ref-recommendation ok"><strong>HYVÄ TULOS!</strong><span>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>'
-            }
           </div>
 
           <div class="ref-right">
             <img src="${QR_CODE_DATA_URL}" alt="QR" />
-            <div class="ref-qr-text">VARAA TÄSTÄ AIKA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSEEN</div>
+            <div class="ref-qr-text">AJANVARAUSLINKKI: SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUS</div>
             <img src="${QR_INFO_URL}" alt="QR" style="margin-top:3mm;" />
             <div class="ref-qr-text">LISÄTIETOA SILMÄASEMAN OPTIKON URHEILUNÄÖNTUTKIMUKSESTA</div>
           </div>
