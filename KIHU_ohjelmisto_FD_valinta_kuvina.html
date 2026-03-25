@@ -2031,20 +2031,26 @@
     });
 
     $('ageNextBtn').addEventListener('click', () => {
-      const a = parseInt($('ageInput').value);
-      if (!a || a < 5 || a > 120) {
+      const rawAge = $('ageInput').value.trim();
+      const a = Number.parseInt(rawAge, 10);
+
+      if (rawAge === '' || Number.isNaN(a) || a < 1 || a > 120) {
         $('ageError').textContent = 'SYÖTÄ KELVOLLINEN IKÄ.';
         return;
       }
+
+      $('ageError').textContent = '';
+
       if (a < 8) {
         showScreen('underageScreen');
         return;
       }
+
       if (!pxPerMm || !distanceM) {
         $('ageError').textContent = 'KALIBROINTIA EI OLE TEHTY. PYYDÄ TUTKIJAA KALIBROIMAAN LAITE ENSIN (KALIBROI-NAPPI OIKEASTA YLÄKULMASTA).';
         return;
       }
-      $('ageError').textContent = '';
+
       age = a;
       setProgress(10);
       prepareEyeTest('right');
