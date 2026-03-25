@@ -766,6 +766,30 @@
       min-width: 0;
     }
 
+    .section-top-example {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 16px;
+      row-gap: 10px;
+      align-items: start;
+    }
+
+    .section-top-example h3 {
+      margin: 0;
+    }
+
+    .section-top-example .result-example {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: start;
+      justify-self: end;
+    }
+
+    .section-top-example p {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
     .result-example {
       margin-top: 0;
       align-self: start;
@@ -782,8 +806,8 @@
       display: block;
       width: auto;
       height: auto;
-      max-width: 86px;
-      max-height: 86px;
+      max-width: 69px;
+      max-height: 69px;
     }
 
     .result-example.landolt svg {
@@ -1381,6 +1405,30 @@
       min-width: 0;
     }
 
+    .ref-section-top-example {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 3mm;
+      row-gap: 1.8mm;
+      align-items: start;
+    }
+
+    .ref-section-top-example h3 {
+      margin: 0;
+    }
+
+    .ref-section-top-example .ref-example {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: start;
+      justify-self: end;
+    }
+
+    .ref-section-top-example p {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
     .ref-example {
       margin-top: 0;
       align-self: start;
@@ -1399,8 +1447,8 @@
       display: block;
       width: auto;
       height: auto;
-      max-width: 18.5mm;
-      max-height: 18.5mm;
+      max-width: 15mm;
+      max-height: 15mm;
     }
 
     .ref-example.landolt svg {
@@ -2491,18 +2539,18 @@
             </div>
 
             <div class="result-section">
-              <h3>NÄKÖHAVAINTOTEHTÄVÄ – PYSTYPALKIT</h3>
-              <div class="section-with-example">
-                <div><p>${fdVertLabel(fdVertSelection)}</p></div>
+              <div class="section-top-example">
+                <h3>NÄKÖHAVAINTOTEHTÄVÄ – PYSTYPALKIT</h3>
                 ${malletExampleHTML(-90)}
+                <p>${fdVertLabel(fdVertSelection)}</p>
               </div>
             </div>
 
             <div class="result-section">
-              <h3>NÄKÖHAVAINTOTEHTÄVÄ – VAAKAPALKIT</h3>
-              <div class="section-with-example">
-                <div><p>${fdHorizLabel(fdHorizSelection)}</p></div>
+              <div class="section-top-example">
+                <h3>NÄKÖHAVAINTOTEHTÄVÄ – VAAKAPALKIT</h3>
                 ${malletExampleHTML(0)}
+                <p>${fdHorizLabel(fdHorizSelection)}</p>
               </div>
             </div>
 
@@ -2585,18 +2633,18 @@
             </div>
 
             <div class="ref-section">
-              <h3>NÄKÖHAVAINTOTEHTÄVÄ — PYSTYPALKIT</h3>
-              <div class="ref-section-with-example">
-                <div><p>${fdVertLabel(fdVertSelection)}</p></div>
+              <div class="ref-section-top-example">
+                <h3>NÄKÖHAVAINTOTEHTÄVÄ — PYSTYPALKIT</h3>
                 ${printMalletExampleHTML(-90)}
+                <p>${fdVertLabel(fdVertSelection)}</p>
               </div>
             </div>
 
             <div class="ref-section">
-              <h3>NÄKÖHAVAINTOTEHTÄVÄ — VAAKAPALKIT</h3>
-              <div class="ref-section-with-example">
-                <div><p>${fdHorizLabel(fdHorizSelection)}</p></div>
+              <div class="ref-section-top-example">
+                <h3>NÄKÖHAVAINTOTEHTÄVÄ — VAAKAPALKIT</h3>
                 ${printMalletExampleHTML(0)}
+                <p>${fdHorizLabel(fdHorizSelection)}</p>
               </div>
             </div>
 
