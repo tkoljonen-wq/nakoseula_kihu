@@ -371,6 +371,34 @@
     }
 
     /* FD SCREENS */
+
+    .underage-overlay {
+      position: fixed;
+      inset: 0;
+      background: #111111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      z-index: 200;
+    }
+
+    .underage-message {
+      font-size: 52px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.2;
+      max-width: 800px;
+      margin-bottom: 50px;
+    }
+
+    .underage-back-btn {
+      max-width: 400px;
+      font-size: 30px !important;
+    }
     #fdVertScreen, #fdHorizScreen {
       display: flex;
       flex-direction: column;
@@ -1491,6 +1519,14 @@
     </div>
   </div>
 
+  <!-- IKÄRAJOITUS-NÄYTTÖ -->
+  <div class="screen hidden" id="underageScreen">
+    <div class="underage-overlay">
+      <div class="underage-message">TEHTÄVÄÄ EI OLE SUUNNITELTU ALLE 8 VUOTIAILLE.</div>
+      <button class="btn-primary underage-back-btn" id="underageBackBtn">PALAA ALKUUN</button>
+    </div>
+  </div>
+
   <!-- OHJE ENNEN VISUSTESTIÄ -->
   <div class="screen hidden" id="instructScreen">
     <div class="card">
@@ -1794,7 +1830,7 @@
     }
 
     const screenIds = [
-      'calScreen','welcomeScreen','genderScreen','ageScreen','instructScreen','testScreen',
+      'calScreen','welcomeScreen','genderScreen','ageScreen','underageScreen','instructScreen','testScreen',
       'fdInstructScreen','fdVertScreen','fdHorizScreen','questionScreen','resultScreen'
     ];
 
@@ -1899,6 +1935,10 @@
       resetAll();
     });
 
+    $('underageBackBtn').addEventListener('click', () => {
+      resetAll();
+    });
+
     $('calBtn').addEventListener('click', () => {
       const pw = prompt('SYÖTÄ SALASANA:');
       if (pw === CAL_PASSWORD) {
@@ -1994,6 +2034,10 @@
       const a = parseInt($('ageInput').value);
       if (!a || a < 5 || a > 120) {
         $('ageError').textContent = 'SYÖTÄ KELVOLLINEN IKÄ.';
+        return;
+      }
+      if (a < 8) {
+        showScreen('underageScreen');
         return;
       }
       if (!pxPerMm || !distanceM) {
