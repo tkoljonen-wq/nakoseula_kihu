@@ -2465,7 +2465,7 @@
       const rec = shouldRecommend();
 
       const summaryHtml = rec
-        ? `<div class="recommendation warn"><strong>YHTEENVETO</strong>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`
+        ? `<div class="recommendation warn"><strong>YHTEENVETO</strong>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE TAI SILMÄLÄÄKÄRILLE.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`
         : `<div class="recommendation ok"><strong>HYVÄ TULOS!</strong>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.<div style="margin-top:12px; font-size:18px; line-height:1.45; font-weight:700;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>`;
 
       const h = `
@@ -2554,7 +2554,7 @@
       const logoSrc = LOGO_URL;
 
       const summaryHtml = rec
-        ? '<div class="ref-recommendation warn"><strong>YHTEENVETO</strong><span>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>'
+        ? '<div class="ref-recommendation warn"><strong>YHTEENVETO</strong><span>TEHTÄVÄKOKONAISUUS SAATTAA ANTAA AIHETTA TARKEMPAAN ARVIOON. JOS HALUAT SELVITTÄÄ NÄKEMISTÄSI TARKEMMIN, VARAA AIKA OPTIKOLLE TAI SILMÄLÄÄKÄRILLE.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>'
         : '<div class="ref-recommendation ok"><strong>HYVÄ TULOS!</strong><span>TESTIEN PERUSTEELLA NÄKEMISESSÄSI EI HAVAITTU POIKKEAMIA. SÄÄNNÖLLINEN NÄÖNTARKASTUS ON SILTI SUOSITELTAVAA.</span><div style="margin-top:3mm; font-size:9pt; line-height:1.45; font-weight:700; text-transform:uppercase;">TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.</div></div>';
 
       const referralHTML = `
