@@ -1568,13 +1568,13 @@
         <p class="subtitle" style="font-size:24px; margin-bottom:18px; color:var(--text);">OHJEET ENNEN ALOITUSTA</p>
 
         <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
-          ISTU TUOLILLE NÄYTÖN ETEEN.
+          1. ISTU TUOLILLE NÄYTÖN ETEEN.
         </p>
         <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
-          JOS KÄYTÄT PIILOLASEJA TAI KAUKONÄKÖÖN TARKOITETTUJA SILMÄLASEJA, PIDÄ NE KÄYTÖSSÄ TEHTÄVIEN AJAN.
+          2. JOS KÄYTÄT PIILOLASEJA TAI KAUKONÄKÖÖN TARKOITETTUJA SILMÄLASEJA, PIDÄ NE KÄYTÖSSÄ TEHTÄVIEN AJAN.
         </p>
         <p class="subtitle" style="font-size:22px; margin-bottom:14px; font-weight:700; color:var(--text-dim); line-height:1.55;">
-          KÄYTÄ HIIRTÄ VALINTOJEN TEKEMISEEN. NÄPPÄIMISTÖÄ EI TARVITA.
+          3. KÄYTÄ HIIRTÄ VALINTOJEN TEKEMISEEN. NÄPPÄIMISTÖÄ EI TARVITA.
         </p>
         <p class="subtitle" style="font-size:22px; margin-bottom:0; font-weight:700; color:var(--text-dim); line-height:1.55;">
           TEHTÄVÄKOKONAISUUS ON SUUNTAA ANTAVA ITSEARVIOINTI. SE EI OLE NÄÖNTUTKIMUS, EI ANNA DIAGNOOSIA EIKÄ KORVAA OPTIKON TAI SILMÄLÄÄKÄRIN ARVIOTA.
@@ -1686,7 +1686,7 @@
     <div class="card">
       <div class="step-tag">VAIHE 3 / 5</div>
       <h1>NÄKÖHAVAINTOTEHTÄVÄ</h1>
-      <p class="subtitle">ASETA PUNA-VIHERSUODATTIMET SILMIESI ETEEN SITEN, ETTÄ PUNAINEN SUODATIN ON OIKEAN SILMÄN EDESSÄ JA VIHREÄ VASEMMAN SILMÄN EDESSÄ. KATSELE TESTIYMPYRÄN KESKELLE JA TARKKAILE PUNAISTA JA VIHREÄÄ PALKKIA. VASTAA NÄKEMÄSI MUKAAN.</p>
+      <p class="subtitle">1. ASETA PUNA-VIHERSUODATTIMET SILMIESI ETEEN SITEN, ETTÄ PUNAINEN SUODATIN ON OIKEAN SILMÄN EDESSÄ JA VIHREÄ VASEMMAN SILMÄN EDESSÄ.<br>2. KATSELE TESTIYMPYRÄN KESKELLE JA TARKKAILE PUNAISTA JA VIHREÄÄ PALKKIA.<br>3. VASTAA NÄKEMÄSI MUKAAN.</p>
       <button class="btn-primary" id="fdInstructStartBtn">ALOITA →</button>
     </div>
   </div>
@@ -1695,7 +1695,7 @@
   <div class="screen hidden" id="fdVertScreen">
     <div class="fd-vert-layout">
       <div class="fd-vert-left">
-        <div class="fd-vert-instruction">KATSO VASEMMALLA OLEVAA KUVAA, JOSSA ON PUNAINEN JA VIHREÄ PALKKI. VALITSE OIKEASTA REUNASTA KUVA, JOKA VASTAA PARHAITEN NÄKEMÄÄSI. JOS PALKIT EIVÄT OLE TÄYSIN SAMASSA LINJASSA, VALITSE JOMPIKUMPI KAHDESTA ALIMMASTA VAIHTOEHDOSTA.</div>
+        <div class="fd-vert-instruction">1. KATSO VASEMMALLA OLEVAA KUVAA, JOSSA ON PUNAINEN JA VIHREÄ PALKKI.<br>2. VALITSE OIKEASTA REUNASTA KUVA, JOKA VASTAA PARHAITEN NÄKEMÄÄSI.<br>3. JOS PALKIT EIVÄT OLE TÄYSIN SAMASSA LINJASSA, VALITSE JOMPIKUMPI KAHDESTA ALIMMASTA VAIHTOEHDOSTA.</div>
         <div class="fd-stage" id="fdVertStage"></div>
       </div>
       <div class="fd-vert-right">
@@ -1819,7 +1819,7 @@
   <div class="screen hidden" id="fdHorizScreen">
     <div class="fd-vert-layout">
       <div class="fd-vert-left">
-        <div class="fd-vert-instruction">KATSO VASEMMALLA OLEVAA KUVAA, JOSSA ON PUNAINEN JA VIHREÄ PALKKI. VALITSE OIKEASTA REUNASTA KUVA, JOKA VASTAA PARHAITEN NÄKEMÄÄSI. JOS PALKIT EIVÄT OLE TÄYSIN SAMASSA LINJASSA, VALITSE JOMPIKUMPI KAHDESTA ALIMMASTA VAIHTOEHDOSTA.</div>
+        <div class="fd-vert-instruction">1. KATSO VASEMMALLA OLEVAA KUVAA, JOSSA ON PUNAINEN JA VIHREÄ PALKKI.<br>2. VALITSE OIKEASTA REUNASTA KUVA, JOKA VASTAA PARHAITEN NÄKEMÄÄSI.<br>3. JOS PALKIT EIVÄT OLE TÄYSIN SAMASSA LINJASSA, VALITSE JOMPIKUMPI KAHDESTA ALIMMASTA VAIHTOEHDOSTA.</div>
         <div class="fd-stage" id="fdHorizStage"></div>
       </div>
       <div class="fd-vert-right">
@@ -2222,7 +2222,8 @@
       if (inputLocked) return;
       inputLocked = true;
 
-      const isCorrect = answer === currentDirection;
+      const isCantSee = answer === '__cant_see__';
+      const isCorrect = !isCantSee && answer === currentDirection;
       const oc = $('optotypeContainer');
 
       oc.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
@@ -2253,7 +2254,9 @@
           return;
         }
 
-        if (errorCount >= MAX_ERRORS) {
+        // "En näe" advances immediately (1 press), wrong arrows need 2
+        const errorThreshold = isCantSee ? 1 : MAX_ERRORS;
+        if (errorCount >= errorThreshold) {
           levelLog.push({
             visus: VISUS_LEVELS[currentLevelIdx],
             passed: false,
@@ -2275,10 +2278,10 @@
 
       if (eye === 'right') {
         $('instructTitle').textContent = 'TARKKUUSHAVAINTOTEHTÄVÄ – OIKEA SILMÄ';
-        $('instructText').textContent = 'PEITÄ VASEN SILMÄSI KÄDELLÄ TAI PEITTOLAPULLA. KATSO RUUDULLA NÄKYVIÄ RENGASKUVIOITA OIKEALLA SILMÄLLÄ JA VASTAA NUOLINÄPPÄIMILLÄ MIHIN SUUNTAAN AUKKO OSOITTAA. JOS ET EROTA AUKON SUUNTAA, PAINA VÄLILYÖNTIÄ TAI VALITSE "EN NÄE".';
+        $('instructText').innerHTML = '1. PEITÄ VASEN SILMÄSI KÄDELLÄ TAI PEITTOLAPULLA.<br>2. KATSO RUUDULLA NÄKYVIÄ RENGASKUVIOITA OIKEALLA SILMÄLLÄ JA VASTAA NUOLINÄPPÄIMILLÄ MIHIN SUUNTAAN AUKKO OSOITTAA.<br>3. JOS ET EROTA AUKON SUUNTAA, PAINA VÄLILYÖNTIÄ TAI VALITSE "EN NÄE".';
       } else {
         $('instructTitle').textContent = 'TARKKUUSHAVAINTOTEHTÄVÄ – VASEN SILMÄ';
-        $('instructText').textContent = 'PEITÄ NYT OIKEA SILMÄSI KÄDELLÄ TAI PEITTOLAPULLA. KATSO RUUDULLA NÄKYVIÄ RENGASKUVIOITA VASEMMALLA SILMÄLLÄ JA VASTAA NUOLINÄPPÄIMILLÄ, MIHIN SUUNTAAN AUKKO OSOITTAA. JOS ET EROTA AUKON SUUNTAA, PAINA VÄLILYÖNTIÄ TAI VALITSE "EN NÄE"';
+        $('instructText').innerHTML = '1. PEITÄ NYT OIKEA SILMÄSI KÄDELLÄ TAI PEITTOLAPULLA.<br>2. KATSO RUUDULLA NÄKYVIÄ RENGASKUVIOITA VASEMMALLA SILMÄLLÄ JA VASTAA NUOLINÄPPÄIMILLÄ, MIHIN SUUNTAAN AUKKO OSOITTAA.<br>3. JOS ET EROTA AUKON SUUNTAA, PAINA VÄLILYÖNTIÄ TAI VALITSE "EN NÄE".';
       }
 
       showScreen('instructScreen');
